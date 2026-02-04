@@ -2,13 +2,12 @@
 
 import { useState } from 'react';
 import { Link } from '@/navigation';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Send } from 'lucide-react';
 
 export function Footer() {
   const [email, setEmail] = useState('');
   const t = useTranslations('footer');
-  const locale = useLocale();
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,13 +112,9 @@ export function Footer() {
             <Link href="/mentions-legales" className="hover:text-primary transition-colors">{t('legalLinks.legal')}</Link>
             <Link href="/cgu" className="hover:text-primary transition-colors">{t('legalLinks.terms')}</Link>
             <Link href="/confidentialite" className="hover:text-primary transition-colors">{t('legalLinks.privacy')}</Link>
-            <span className="text-gray-400">|</span>
-            <a href="/fr/" className={`hover:text-primary transition-colors ${locale === 'fr' ? 'font-bold text-primary' : ''}`}>FR</a>
-            <a href="/nl/" className={`hover:text-primary transition-colors ${locale === 'nl' ? 'font-bold text-primary' : ''}`}>NL</a>
-            <a href="/en/" className={`hover:text-primary transition-colors ${locale === 'en' ? 'font-bold text-primary' : ''}`}>EN</a>
           </div>
         </div>
-        <p className="text-left text-sm text-gray-500 mt-4">{t('madeBy')} <a href="https://virtuease.be" className="hover:text-primary transition-colors">VirtuEase</a></p>
+        <p className="text-center text-sm text-gray-500 mt-4">{t('madeBy')} <a href="https://virtuease.be" className="hover:text-primary transition-colors">VirtuEase</a></p>
       </div>
     </footer>
   );

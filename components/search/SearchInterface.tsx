@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { Search, MapPin, Calendar as CalendarIcon, X, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, MapPin, Calendar as CalendarIcon, X, SlidersHorizontal, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { ANIMAL_TYPES } from '@/types/sitterProfileForm';
 import type { ServiceType } from '@/types/sitterProfileForm';
@@ -17,6 +17,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
+
+interface NominatimResult {
+  display_name: string;
+  lat: string;
+  lon: string;
+  address?: {
+    city?: string;
+    town?: string;
+    village?: string;
+    municipality?: string;
+    postcode?: string;
+  };
+}
 
 interface SearchInterfaceProps {
   defaultVille: string | null;
@@ -33,7 +46,29 @@ export interface SitterCardData {
   services: string[];
   priceFrom?: number;
   animals: string[];
+  animalIds: string[];
   activeServiceKeys?: ServiceType[];
+  coordinates?: { latitude: number; longitude: number } | null;
+}
+
+// Calcul de distance entre deux points GPS (formule Haversine)
+function calculateDistance(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number {
+  const R = 6371; // Rayon de la Terre en km
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
 const SERVICE_KEY_TO_OPTION: Record<string, string> = {
@@ -48,6 +83,30 @@ const SERVICE_TYPES: ServiceType[] = ['hebergement', 'garde', 'visite', 'promena
 
 const RESULTS_PER_PAGE = 10;
 
+function parseCoordinates(coords: unknown): { latitude: number; longitude: number } | null {
+  if (!coords) return null;
+  if (typeof coords === 'object' && coords !== null) {
+    const c = coords as { latitude?: number; longitude?: number; x?: number; y?: number };
+    if (c.latitude != null && c.longitude != null) {
+      return { latitude: c.latitude, longitude: c.longitude };
+    }
+    if (c.y != null && c.x != null) {
+      return { latitude: c.y, longitude: c.x };
+    }
+  }
+  if (typeof coords === 'string') {
+    const match = coords.match(/^\s*\(\s*([-\d.]+)\s*,\s*([-\d.]+)\s*\)\s*$/);
+    if (match) {
+      const lon = parseFloat(match[1]);
+      const lat = parseFloat(match[2]);
+      if (!Number.isNaN(lon) && !Number.isNaN(lat)) {
+        return { latitude: lat, longitude: lon };
+      }
+    }
+  }
+  return null;
+}
+
 function mapRowToSitterCard(
   row: {
     id: string;
@@ -58,6 +117,7 @@ function mapRowToSitterCard(
     avatar?: string | null;
     animals?: string[] | null;
     services?: { services?: Record<string, { active?: boolean; price?: string }> } | null;
+    coordinates?: unknown;
   },
   tServices: (key: string) => string
 ): SitterCardData {
@@ -67,9 +127,8 @@ function mapRowToSitterCard(
     'Petsitter';
   const city = row.address?.trim() || 'Ville non précisée';
   const animalLabels = new Map<string, string>(ANIMAL_TYPES.map((a) => [a.id, a.label]));
-  const animals: string[] = Array.isArray(row.animals)
-    ? row.animals.map((id) => animalLabels.get(id) || id)
-    : [];
+  const animalIds: string[] = Array.isArray(row.animals) ? row.animals : [];
+  const animals: string[] = animalIds.map((id) => animalLabels.get(id) || id);
   const svc = row.services?.services ?? {};
   const activeServiceKeys = SERVICE_TYPES.filter((key) => svc[key]?.active) as ServiceType[];
   const services = activeServiceKeys.map((key) =>
@@ -92,25 +151,35 @@ function mapRowToSitterCard(
     services,
     priceFrom,
     animals,
+    animalIds,
     activeServiceKeys,
+    coordinates: parseCoordinates(row.coordinates),
   };
 }
 
 export function SearchInterface({ defaultVille, defaultService }: SearchInterfaceProps) {
-  const [ville, setVille] = useState(defaultVille || 'all');
+  const [ville, setVille] = useState(defaultVille || '');
+  const [villeQuery, setVilleQuery] = useState(defaultVille || '');
+  const [villeCoordinates, setVilleCoordinates] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [villeSuggestions, setVilleSuggestions] = useState<NominatimResult[]>([]);
+  const [villeLoading, setVilleLoading] = useState(false);
+  const [showVilleSuggestions, setShowVilleSuggestions] = useState(false);
+  const villeDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const villeWrapperRef = useRef<HTMLDivElement>(null);
+
   const [service, setService] = useState(defaultService || 'all');
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
   const [hasSearched, setHasSearched] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   // Filtres supplémentaires
   const [selectedAnimals, setSelectedAnimals] = useState<string[]>([]);
   const [radius, setRadius] = useState([50]);
   const [priceRange, setPriceRange] = useState([0, 150]);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
-  
+
   const [sitters, setSitters] = useState<SitterCardData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -118,6 +187,68 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
   const t = useTranslations('search');
   const tServices = useTranslations('services');
   const tCities = useTranslations('cities');
+
+  // Fermer les suggestions quand on clique en dehors
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (villeWrapperRef.current && !villeWrapperRef.current.contains(e.target as Node)) {
+        setShowVilleSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Recherche d'adresses avec debounce
+  useEffect(() => {
+    if (!villeQuery || villeQuery.length < 3) {
+      setVilleSuggestions([]);
+      return;
+    }
+    if (villeDebounceRef.current) clearTimeout(villeDebounceRef.current);
+    villeDebounceRef.current = setTimeout(async () => {
+      setVilleLoading(true);
+      try {
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(villeQuery)}&countrycodes=be&limit=5&addressdetails=1`,
+          { headers: { Accept: 'application/json' } }
+        );
+        const data: NominatimResult[] = await res.json();
+        setVilleSuggestions(data);
+        setShowVilleSuggestions(true);
+      } catch {
+        setVilleSuggestions([]);
+      } finally {
+        setVilleLoading(false);
+      }
+    }, 400);
+    return () => {
+      if (villeDebounceRef.current) clearTimeout(villeDebounceRef.current);
+    };
+  }, [villeQuery]);
+
+  const selectVille = useCallback((item: NominatimResult) => {
+    // Extraire la ville ou le code postal de l'adresse
+    const city = item.address?.city || item.address?.town || item.address?.village || item.address?.municipality || '';
+    const postcode = item.address?.postcode || '';
+    const displayValue = city ? `${city}${postcode ? ` (${postcode})` : ''}` : item.display_name.split(',')[0];
+
+    setVille(displayValue);
+    setVilleQuery(displayValue);
+    setVilleCoordinates({
+      latitude: parseFloat(item.lat),
+      longitude: parseFloat(item.lon),
+    });
+    setShowVilleSuggestions(false);
+    setVilleSuggestions([]);
+  }, []);
+
+  const clearVille = useCallback(() => {
+    setVille('');
+    setVilleQuery('');
+    setVilleCoordinates(null);
+    setVilleSuggestions([]);
+  }, []);
 
   // Charger les petsitters au montage
   useEffect(() => {
@@ -127,7 +258,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
       const supabase = createClient();
       const { data, error: err } = await supabase
         .from('sitter_profiles')
-        .select('id, name, first_name, last_name, address, avatar, animals, services')
+        .select('id, name, first_name, last_name, address, avatar, animals, services, coordinates')
         .eq('is_visible', true);
       if (err) {
         setError(err.message);
@@ -143,39 +274,55 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
 
   const filteredSitters = useMemo(() => {
     return sitters.filter((s) => {
-      // Filtre ville
-      if (ville && ville !== 'all' && !s.city.toLowerCase().includes(ville.toLowerCase())) return false;
-      
-      // Filtre service
+      // Filtre par rayon de distance (si coordonnées disponibles)
+      if (villeCoordinates && s.coordinates) {
+        const distance = calculateDistance(
+          villeCoordinates.latitude,
+          villeCoordinates.longitude,
+          s.coordinates.latitude,
+          s.coordinates.longitude
+        );
+        if (distance > radius[0]) return false;
+      }
+
+      // Filtre ville/adresse - comparaison flexible par mots-clés (fallback si pas de coordonnées)
+      if (ville && ville.trim() !== '' && !villeCoordinates) {
+        const searchTerms = ville.toLowerCase().split(/[\s,()-]+/).filter(term => term.length > 1);
+        const sitterLocation = s.city.toLowerCase();
+        const hasMatch = searchTerms.some(term => sitterLocation.includes(term));
+        if (!hasMatch) return false;
+      }
+
+      // Filtre service principal
       if (service && service !== 'all') {
         const serviceKey = service === 'visite-domicile' ? 'visite' : service;
         if (!s.activeServiceKeys?.includes(serviceKey as ServiceType)) return false;
       }
-      
-      // Filtre animaux
+
+      // Filtre animaux - compare les IDs
       if (selectedAnimals.length > 0) {
-        const hasMatchingAnimal = selectedAnimals.some(animal => 
-          s.animals.some(a => a.toLowerCase().includes(animal.toLowerCase()))
+        const hasMatchingAnimal = selectedAnimals.some(animalId =>
+          s.animalIds.includes(animalId)
         );
         if (!hasMatchingAnimal) return false;
       }
-      
+
       // Filtre services supplémentaires
       if (selectedServices.length > 0) {
-        const hasMatchingService = selectedServices.some(svc => 
+        const hasMatchingService = selectedServices.some(svc =>
           s.activeServiceKeys?.includes(svc as ServiceType)
         );
         if (!hasMatchingService) return false;
       }
-      
+
       // Filtre prix
       if (s.priceFrom !== undefined && (s.priceFrom < priceRange[0] || s.priceFrom > priceRange[1])) {
         return false;
       }
-      
+
       return true;
     });
-  }, [sitters, ville, service, selectedAnimals, selectedServices, priceRange]);
+  }, [sitters, ville, villeCoordinates, radius, service, selectedAnimals, selectedServices, priceRange]);
 
   // Pagination
   const totalPages = Math.ceil(filteredSitters.length / RESULTS_PER_PAGE);
@@ -206,6 +353,10 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
   };
 
   const resetFilters = () => {
+    setVille('');
+    setVilleQuery('');
+    setVilleCoordinates(null);
+    setVilleSuggestions([]);
     setSelectedAnimals([]);
     setRadius([50]);
     setPriceRange([0, 150]);
@@ -248,20 +399,28 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
     return pages;
   };
   
+  // Types d'animaux correspondant aux options du profil petsitter
   const animalTypes = [
-    { id: 'chien', label: 'Chiens' },
-    { id: 'chat', label: 'Chats' },
-    { id: 'lapin', label: 'Lapins' },
-    { id: 'oiseau', label: 'Oiseaux' },
-    { id: 'rongeur', label: 'Rongeurs' },
-    { id: 'reptile', label: 'Reptiles' }
+    { id: 'petit-chien', label: 'Petit chien (-10kg)' },
+    { id: 'moyen-chien', label: 'Moyen chien (10-20kg)' },
+    { id: 'grand-chien', label: 'Grand chien (+20kg)' },
+    { id: 'chien-attaque', label: 'Chien d\'attaque (Cat. 1)' },
+    { id: 'chien-garde', label: 'Chien de garde (Cat. 2)' },
+    { id: 'chat', label: 'Chat' },
+    { id: 'lapin', label: 'Lapin' },
+    { id: 'rongeur', label: 'Petit rongeur' },
+    { id: 'oiseau', label: 'Oiseau' },
+    { id: 'volaille', label: 'Volaille' },
+    { id: 'nac', label: 'NAC' },
   ];
-  
+
+  // Services correspondant aux options du profil petsitter
   const servicesList = [
-    { key: 'hebergement', label: 'Hébergement' },
-    { key: 'garde', label: 'Garde de jour' },
-    { key: 'promenade', label: 'Promenade' },
+    { key: 'hebergement', label: 'Hébergement (+12h)' },
+    { key: 'garde', label: 'Garde (-12h)' },
     { key: 'visite', label: 'Visite à domicile' },
+    { key: 'promenade', label: 'Promenade' },
+    { key: 'excursion', label: 'Excursion' },
   ];
   
   return (
@@ -271,27 +430,46 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
         <div className="container mx-auto px-4 py-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
             {/* Localité */}
-            <div>
+            <div ref={villeWrapperRef} className="relative">
               <label className="block text-sm font-medium mb-1.5 text-gray-700">
                 <MapPin className="w-4 h-4 inline mr-1" />
-                Localité
+                Localité (Belgique)
               </label>
-              <Select value={ville} onValueChange={setVille}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Choisir une ville" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Toutes les villes</SelectItem>
-                  <SelectItem value="bruxelles">Bruxelles</SelectItem>
-                  <SelectItem value="anvers">Anvers</SelectItem>
-                  <SelectItem value="liege">Liège</SelectItem>
-                  <SelectItem value="gand">Gand</SelectItem>
-                  <SelectItem value="charleroi">Charleroi</SelectItem>
-                  <SelectItem value="bruges">Bruges</SelectItem>
-                  <SelectItem value="namur">Namur</SelectItem>
-                  <SelectItem value="louvain">Louvain</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={villeQuery}
+                  onChange={(e) => setVilleQuery(e.target.value)}
+                  onFocus={() => villeSuggestions.length > 0 && setShowVilleSuggestions(true)}
+                  placeholder="Ville ou code postal..."
+                  className="w-full h-9 px-3 pr-8 border border-input bg-white rounded-md text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                />
+                {villeLoading && (
+                  <Loader2 className="absolute right-8 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 animate-spin" />
+                )}
+                {villeQuery && (
+                  <button
+                    type="button"
+                    onClick={clearVille}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+              {showVilleSuggestions && villeSuggestions.length > 0 && (
+                <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-auto">
+                  {villeSuggestions.map((item, i) => (
+                    <li
+                      key={i}
+                      className="px-3 py-2.5 hover:bg-primary-light cursor-pointer text-sm border-b border-gray-100 last:border-0"
+                      onClick={() => selectVille(item)}
+                    >
+                      {item.display_name}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             
             {/* Service */}

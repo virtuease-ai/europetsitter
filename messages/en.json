@@ -904,7 +904,7 @@
       "visibility": {
         "title": "Maximum visibility",
         "text": "Take advantage of our SEO to be easily found by clients near you. No need to search, they come to you.",
-        "stat": "Thousands of visitors/month"
+        "stat": ""
       }
     },
     "howTo": {
@@ -922,7 +922,8 @@
       "dayCare": { "title": "Day care", "text": "Take care of animals during the day", "price": "Average rate: €20-35/day" },
       "homeVisit": { "title": "Home visit", "text": "Visit animals at their owner's home", "price": "Average rate: €15-25/visit" },
       "walking": { "title": "Walking", "text": "Walk dogs in your neighborhood", "price": "Average rate: €10-20/walk" },
-      "transport": { "title": "Transport", "text": "Transport animals (vet, etc.)", "price": "Average rate: €20-40/trip" }
+      "transport": { "title": "Transport", "text": "Transport animals (vet, etc.)", "price": "Average rate: €20-40/trip" },
+      "excursion": { "title": "Excursion", "text": "Outings to the countryside, forest or beach with pets", "price": "Average rate: €25-45/excursion" }
     },
     "testimonials": {
       "subtitle": "Testimonials",

@@ -1,6 +1,6 @@
 'use client';
 
-import { Euro, Calendar, Users, TrendingUp, CheckCircle, Star } from 'lucide-react';
+import { Euro, Calendar, Users, TrendingUp, CheckCircle } from 'lucide-react';
 import { Link } from '@/navigation';
 import { useTranslations } from 'next-intl';
 
@@ -48,37 +48,20 @@ export default function BecomeSitterPage() {
   const steps = [
     { title: t('howTo.step1.title'), text: t('howTo.step1.text') },
     { title: t('howTo.step2.title'), text: t('howTo.step2.text') },
-    { title: t('howTo.step3.title'), text: t('howTo.step3.text') },
     { title: t('howTo.step4.title'), text: t('howTo.step4.text') },
   ];
 
   const services = [
-    { emoji: '🏠', title: t('services.boarding.title'), text: t('services.boarding.text'), price: t('services.boarding.price') },
-    { emoji: '☀️', title: t('services.dayCare.title'), text: t('services.dayCare.text'), price: t('services.dayCare.price') },
-    { emoji: '🏡', title: t('services.homeVisit.title'), text: t('services.homeVisit.text'), price: t('services.homeVisit.price') },
-    { emoji: '🐕', title: t('services.walking.title'), text: t('services.walking.text'), price: t('services.walking.price') },
-    { emoji: '🚗', title: t('services.transport.title'), text: t('services.transport.text'), price: t('services.transport.price') },
-  ];
-
-  const testimonials = [
-    {
-      text: t('testimonials.testimonial1.text'),
-      name: t('testimonials.testimonial1.name'),
-      info: t('testimonials.testimonial1.role'),
-      emoji: '👩'
-    },
-    {
-      text: t('testimonials.testimonial2.text'),
-      name: t('testimonials.testimonial2.name'),
-      info: t('testimonials.testimonial2.role'),
-      emoji: '👨'
-    }
+    { emoji: '🏠', title: t('services.boarding.title'), text: t('services.boarding.text') },
+    { emoji: '☀️', title: t('services.dayCare.title'), text: t('services.dayCare.text') },
+    { emoji: '🏡', title: t('services.homeVisit.title'), text: t('services.homeVisit.text') },
+    { emoji: '🐕', title: t('services.walking.title'), text: t('services.walking.text') },
+    { emoji: '🏞️', title: t('services.excursion.title'), text: t('services.excursion.text') },
   ];
 
   const requirements = [
     t('requirements.age'),
     t('requirements.experience'),
-    t('requirements.id'),
     t('requirements.housing'),
     t('requirements.insurance'),
   ];
@@ -98,7 +81,7 @@ export default function BecomeSitterPage() {
           </p>
           <div className="inline-block bg-white/15 backdrop-blur rounded-3xl px-6 py-3 mb-8 border border-white/20">
             <p className="text-xl font-bold text-white">
-              🎁 {t('trialBadge')}
+              {t('trialBadge')}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -135,7 +118,7 @@ export default function BecomeSitterPage() {
                   <Icon className="w-10 h-10 text-primary mb-4" />
                   <h3 className="text-xl font-bold mb-3 text-gray-900">{adv.title}</h3>
                   <p className="text-gray-600 text-sm mb-4 leading-relaxed">{adv.text}</p>
-                  <p className="text-primary font-semibold text-sm">{adv.stat}</p>
+                  {adv.stat && <p className="text-primary font-semibold text-sm">{adv.stat}</p>}
                 </div>
               );
             })}
@@ -154,7 +137,7 @@ export default function BecomeSitterPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 text-gray-900">
             {t('howTo.title')}
           </h2>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {steps.map((step, i) => (
               <div key={i} className="text-center">
                 <div className="bg-primary text-white w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
@@ -184,45 +167,7 @@ export default function BecomeSitterPage() {
               <div key={i} className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
                 <div className="text-4xl mb-3">{service.emoji}</div>
                 <h3 className="text-lg font-bold mb-2 text-gray-900">{service.title}</h3>
-                <p className="text-gray-600 text-sm mb-3 leading-relaxed">{service.text}</p>
-                <p className="text-xs text-primary font-semibold">{service.price}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Témoignages petsitters */}
-      <section className="relative py-16 md:py-24 px-4 bg-[#f8faf9] overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-          <div className="absolute top-[15%] left-[8%] w-10 h-10 rounded-lg bg-primary/10" />
-          <div className="absolute bottom-[20%] right-[12%] w-12 h-12 rounded-lg bg-primary/10" />
-        </div>
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <p className="text-primary font-semibold text-sm uppercase tracking-widest text-center mb-2">{t('testimonials.subtitle')}</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 text-gray-900">
-            {t('testimonials.title')}
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {testimonials.map((testimonial, i) => (
-              <div key={i} className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
-                <div className="flex items-center gap-1 mb-4">
-                  {[1,2,3,4,5].map((j) => (
-                    <Star key={j} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-gray-600 text-sm mb-5 italic leading-relaxed">
-                  "{testimonial.text}"
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-xl">
-                    {testimonial.emoji}
-                  </div>
-                  <div>
-                    <p className="font-bold text-gray-900">{testimonial.name}</p>
-                    <p className="text-gray-500 text-sm">{testimonial.info}</p>
-                  </div>
-                </div>
+                <p className="text-gray-600 text-sm leading-relaxed">{service.text}</p>
               </div>
             ))}
           </div>

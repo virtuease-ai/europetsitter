@@ -199,11 +199,6 @@ export function Header() {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-white z-30 lg:hidden overflow-y-auto">
           <div className="container mx-auto px-4 pt-20 pb-8">
-            {/* Sélecteur de langue mobile */}
-            <div className="mb-6 pb-6 border-b border-gray-200">
-              <LanguageSwitcher />
-            </div>
-
             {/* Navigation links */}
             <nav className="space-y-1 mb-8">
               <Link 

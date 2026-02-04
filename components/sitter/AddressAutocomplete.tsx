@@ -16,22 +16,31 @@ interface AddressAutocompleteProps {
   helpText?: string;
   placeholder?: string;
   error?: string;
+  countryCode?: string;
 }
 
 interface NominatimResult {
   display_name: string;
   lat: string;
   lon: string;
+  address?: {
+    postcode?: string;
+    city?: string;
+    town?: string;
+    village?: string;
+    municipality?: string;
+  };
 }
 
 export function AddressAutocomplete({
   value,
   coordinates,
   onChange,
-  label = 'Adresse postale (public)',
-  helpText = 'Sélectionnez une adresse dans la liste des suggestions pour permettre votre localisation sur la carte',
-  placeholder = 'Rechercher une adresse...',
+  label = 'Localité (public)',
+  helpText = 'Seuls le code postal et la ville seront affichés publiquement (ex: 1000 Bruxelles)',
+  placeholder = 'Rechercher une ville ou code postal...',
   error,
+  countryCode = 'be',
 }: AddressAutocompleteProps) {
   const [query, setQuery] = useState(value);
   const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
@@ -64,7 +73,7 @@ export function AddressAutocomplete({
       setLoading(true);
       try {
         const res = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=fr,be,lu&limit=5`,
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=${countryCode}&limit=5&addressdetails=1`,
           { headers: { Accept: 'application/json' } }
         );
         const data: NominatimResult[] = await res.json();
@@ -82,8 +91,17 @@ export function AddressAutocomplete({
   }, [query]);
 
   const select = (item: NominatimResult) => {
-    onChange(item.display_name, { latitude: parseFloat(item.lat), longitude: parseFloat(item.lon) });
-    setQuery(item.display_name);
+    // Extraire uniquement le code postal et la ville pour la confidentialité
+    const postcode = item.address?.postcode || '';
+    const city = item.address?.city || item.address?.town || item.address?.village || item.address?.municipality || '';
+
+    // Format: "1000 Bruxelles" ou juste la ville si pas de code postal
+    const locationOnly = postcode && city
+      ? `${postcode} ${city}`
+      : city || item.display_name.split(',')[0];
+
+    onChange(locationOnly, { latitude: parseFloat(item.lat), longitude: parseFloat(item.lon) });
+    setQuery(locationOnly);
     setOpen(false);
     setSuggestions([]);
   };

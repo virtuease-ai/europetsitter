@@ -904,7 +904,7 @@
       "visibility": {
         "title": "Visibilité maximale",
         "text": "Profitez de notre référencement SEO pour être trouvé facilement par des clients près de chez vous. Pas besoin de chercher, ils viennent à vous.",
-        "stat": "Des milliers de visiteurs/mois"
+        "stat": ""
       }
     },
     "howTo": {
@@ -922,7 +922,8 @@
       "dayCare": { "title": "Garde de jour", "text": "Prenez soin d'animaux pendant la journée", "price": "Tarif moyen : 20-35€/jour" },
       "homeVisit": { "title": "Visite à domicile", "text": "Rendez visite aux animaux chez leur propriétaire", "price": "Tarif moyen : 15-25€/visite" },
       "walking": { "title": "Promenade", "text": "Promenez des chiens dans votre quartier", "price": "Tarif moyen : 10-20€/promenade" },
-      "transport": { "title": "Transport", "text": "Transportez des animaux (vétérinaire, etc.)", "price": "Tarif moyen : 20-40€/trajet" }
+      "transport": { "title": "Transport", "text": "Transportez des animaux (vétérinaire, etc.)", "price": "Tarif moyen : 20-40€/trajet" },
+      "excursion": { "title": "Excursion", "text": "Sorties à la campagne, en forêt ou à la plage avec les animaux", "price": "Tarif moyen : 25-45€/excursion" }
     },
     "testimonials": {
       "subtitle": "Témoignages",

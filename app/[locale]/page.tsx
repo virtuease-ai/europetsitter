@@ -4,6 +4,7 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/navigation';
+import Image from 'next/image';
 import { Search, ChevronDown } from 'lucide-react';
 import { getOrganizationSchema, getWebSiteSchema, generateStructuredData } from '@/lib/structuredData';
 
@@ -63,7 +64,7 @@ export default function HomePage() {
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
               <div className="text-center lg:text-left">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900 tracking-tight">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 tracking-tight">
                   {t('hero.title')} <span className="text-primary">{t('hero.titleHighlight')}</span> {t('hero.titleEnd')}
                 </h1>
                 <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
@@ -83,12 +84,30 @@ export default function HomePage() {
                   </Link>
                 </div>
               </div>
-              <div className="relative flex justify-center lg:justify-end">
-                <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-dashed border-primary/40 bg-primary-light/30 flex items-center justify-center shadow-lg">
-                  <span className="text-8xl md:text-9xl" role="img" aria-label="Chien">🐕</span>
+              {/* Hero droite : 2 rectangles superposés avec images réalistes */}
+              <div className="relative flex justify-center lg:justify-end min-h-[280px] md:min-h-[340px]">
+                {/* Rectangle 1 : en arrière-plan, décalé en bas à droite */}
+                <div className="absolute right-0 bottom-0 w-[85%] max-w-[320px] aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border border-white/50 bg-gray-100 -rotate-3">
+                  <Image
+                    src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&q=80"
+                    alt="Chien avec un PetSitter"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 280px, 320px"
+                    priority
+                  />
                 </div>
-                <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-primary/20 border-2 border-dashed border-primary/50 flex items-center justify-center text-4xl" aria-hidden>🐈</div>
-                <div className="absolute top-4 -left-2 w-16 h-16 rounded-full bg-primary/20 border-2 border-dashed border-primary/50 flex items-center justify-center text-3xl" aria-hidden>🐶</div>
+                {/* Rectangle 2 : au premier plan, décalé en haut à gauche */}
+                <div className="absolute left-0 top-0 w-[85%] max-w-[280px] aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border border-white/50 bg-gray-100 rotate-6 z-10">
+                  <Image
+                    src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&q=80"
+                    alt="Chat et détenteur"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 240px, 280px"
+                    priority
+                  />
+                </div>
               </div>
             </div>
           </div>

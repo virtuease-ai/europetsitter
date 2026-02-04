@@ -300,17 +300,19 @@ export default function SitterProfilePage({
                       </div>
                     </div>
 
-                    {/* Bouton favori */}
-                    <button
-                      onClick={toggleFavorite}
-                      className={`p-3 rounded-full border-2 transition-all self-center ${
-                        isFavorite
-                          ? 'bg-red-50 border-red-200 text-red-500'
-                          : 'border-gray-200 text-gray-400 hover:border-red-200 hover:text-red-400'
-                      }`}
-                    >
-                      <Heart className={`w-6 h-6 ${isFavorite ? 'fill-red-500' : ''}`} />
-                    </button>
+                    {/* Bouton favori - visible uniquement pour les non-petsitters */}
+                    {(!user || user.role !== 'sitter') && (
+                      <button
+                        onClick={toggleFavorite}
+                        className={`p-3 rounded-full border-2 transition-all self-center ${
+                          isFavorite
+                            ? 'bg-red-50 border-red-200 text-red-500'
+                            : 'border-gray-200 text-gray-400 hover:border-red-200 hover:text-red-400'
+                        }`}
+                      >
+                        <Heart className={`w-6 h-6 ${isFavorite ? 'fill-red-500' : ''}`} />
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -456,7 +458,7 @@ export default function SitterProfilePage({
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Card de réservation */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-6">
+            <div className="bg-white rounded-2xl shadow-lg p-6">
               <h3 className="text-xl font-bold mb-4">Services & Tarifs</h3>
 
               {services.length > 0 ? (

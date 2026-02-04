@@ -904,7 +904,7 @@
       "visibility": {
         "title": "Maximale zichtbaarheid",
         "text": "Profiteer van onze SEO om gemakkelijk gevonden te worden door klanten in uw buurt. Geen zoeken nodig, zij komen naar u.",
-        "stat": "Duizenden bezoekers/maand"
+        "stat": ""
       }
     },
     "howTo": {
@@ -922,7 +922,8 @@
       "dayCare": { "title": "Dagopvang", "text": "Zorg voor dieren gedurende de dag", "price": "Gemiddeld tarief: €20-35/dag" },
       "homeVisit": { "title": "Huisbezoek", "text": "Bezoek dieren bij hun eigenaar thuis", "price": "Gemiddeld tarief: €15-25/bezoek" },
       "walking": { "title": "Wandelen", "text": "Wandel met honden in uw buurt", "price": "Gemiddeld tarief: €10-20/wandeling" },
-      "transport": { "title": "Transport", "text": "Transporteer dieren (dierenarts, enz.)", "price": "Gemiddeld tarief: €20-40/rit" }
+      "transport": { "title": "Transport", "text": "Transporteer dieren (dierenarts, enz.)", "price": "Gemiddeld tarief: €20-40/rit" },
+      "excursion": { "title": "Uitstap", "text": "Uitstapjes naar het platteland, bos of strand met de dieren", "price": "Gemiddeld tarief: €25-45/uitstap" }
     },
     "testimonials": {
       "subtitle": "Getuigenissen",

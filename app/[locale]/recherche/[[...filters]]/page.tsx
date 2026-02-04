@@ -1,32 +1,9 @@
-import { detectVille, detectService, services, villes } from '@/lib/searchUtils';
+import { detectVille, detectService } from '@/lib/searchUtils';
 import { SearchInterface } from '@/components/search/SearchInterface';
 import { Metadata } from 'next';
 
-export async function generateStaticParams() {
-  const combinations = [];
-  
-  // Recherche vide
-  combinations.push({ filters: [] });
-  
-  // Villes seules
-  villes.forEach(ville => {
-    combinations.push({ filters: [ville] });
-  });
-  
-  // Services seuls
-  services.forEach(service => {
-    combinations.push({ filters: [service] });
-  });
-  
-  // Combinaisons service + ville
-  services.forEach(service => {
-    villes.forEach(ville => {
-      combinations.push({ filters: [service, ville] });
-    });
-  });
-  
-  return combinations;
-}
+// Force dynamic rendering to avoid SSG issues with catch-all routes and locales
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ 
   params 
