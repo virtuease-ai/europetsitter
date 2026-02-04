@@ -1,0 +1,1013 @@
+{
+  "nav": {
+    "home": "Home",
+    "search": "Zoeken",
+    "about": "Over ons",
+    "howItWorks": "Hoe het werkt",
+    "becomeSitter": "Word petsitter",
+    "blog": "Blog",
+    "contact": "Contact",
+    "signup": "Registreren",
+    "login": "Inloggen",
+    "myProfile": "Mijn profiel",
+    "logout": "Uitloggen"
+  },
+  "services": {
+    "hebergement": "Opvang",
+    "garde": "Dagopvang",
+    "garde_jour": "Dagopvang",
+    "visite-domicile": "Huisbezoek",
+    "visite_domicile": "Huisbezoek",
+    "promenade": "Wandeling",
+    "excursion": "Uitstap"
+  },
+  "cities": {
+    "bruxelles": "Brussel",
+    "anvers": "Antwerpen",
+    "liege": "Luik",
+    "gand": "Gent",
+    "charleroi": "Charleroi",
+    "bruges": "Brugge",
+    "namur": "Namen",
+    "louvain": "Leuven"
+  },
+  "auth": {
+    "chooseProfile": "Kies uw profiel",
+    "ownerTitle": "Ik zoek een petsitter",
+    "ownerSubtitle": "Diereneigenaar",
+    "ownerBadge": "100% Gratis",
+    "sitterTitle": "Ik bied mijn diensten aan",
+    "sitterSubtitle": "Professionele petsitter",
+    "sitterBadge": "3 maanden gratis",
+    "continue": "Doorgaan"
+  },
+  "login": {
+    "title": "Inloggen",
+    "subtitle": "Toegang tot uw EuroPetSitter account",
+    "email": "E-mail",
+    "emailPlaceholder": "uw@email.com",
+    "password": "Wachtwoord",
+    "passwordPlaceholder": "••••••••",
+    "rememberMe": "Onthoud mij",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "submit": "Inloggen",
+    "submitting": "Inloggen...",
+    "noAccount": "Nog geen account?",
+    "becomePetsitter": "Word petsitter",
+    "owner": "Eigenaar",
+    "errors": {
+      "fillAllFields": "Vul alle velden in",
+      "invalidCredentials": "Onjuist e-mailadres of wachtwoord",
+      "genericError": "Er is een fout opgetreden"
+    }
+  },
+  "signup": {
+    "sitter": {
+      "title": "Word Petsitter",
+      "subtitle": "Bied uw dierenverzorgingsdiensten aan"
+    },
+    "owner": {
+      "title": "Registratie Eigenaar",
+      "subtitle": "Vind de ideale petsitter voor uw huisdier"
+    },
+    "fullName": "Volledige naam",
+    "fullNamePlaceholder": "Jan Jansen",
+    "email": "E-mail",
+    "emailPlaceholder": "jan@voorbeeld.com",
+    "password": "Wachtwoord",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Bevestig wachtwoord",
+    "termsStart": "Ik accepteer de",
+    "termsLink": "algemene voorwaarden",
+    "termsAnd": "en het",
+    "privacyLink": "privacybeleid",
+    "submit": "Registreren",
+    "submitting": "Registreren...",
+    "alreadyAccount": "Al geregistreerd?",
+    "loginLink": "Inloggen",
+    "checkEmail": "Controleer uw e-mail om uw registratie te bevestigen",
+    "errors": {
+      "nameRequired": "Naam is verplicht",
+      "emailRequired": "E-mail is verplicht",
+      "passwordMin": "Wachtwoord moet minimaal 6 tekens bevatten",
+      "passwordMismatch": "Wachtwoorden komen niet overeen",
+      "termsRequired": "U moet de algemene voorwaarden accepteren",
+      "genericError": "Er is een fout opgetreden"
+    }
+  },
+  "search": {
+    "title": "Zoek een petsitter",
+    "location": "Locatie",
+    "service": "Dienst",
+    "animal": "Dier",
+    "radius": "Straal",
+    "filterBtn": "Filteren"
+  },
+  "ownerDashboard": {
+    "space": "Eigenaar Ruimte",
+    "title": "Dashboard",
+    "welcome": "Welkom {name}!",
+    "menu": "Menu",
+    "closeMenu": "Menu sluiten",
+    "nav": {
+      "dashboard": "Dashboard",
+      "reservations": "Mijn reserveringen",
+      "pets": "Mijn huisdieren",
+      "favorites": "Favorieten",
+      "settings": "Instellingen"
+    },
+    "stats": {
+      "myPets": "Mijn huisdieren",
+      "activeBookings": "Actieve boekingen",
+      "favoritePetsitters": "Favoriete petsitters",
+      "completedBookings": "Voltooide opvang"
+    },
+    "quickActions": "Snelle acties",
+    "addPet": "Huisdier toevoegen",
+    "managePets": "Mijn huisdieren beheren",
+    "createPetProfile": "Maak het profiel van uw metgezel aan",
+    "petsRegistered": "{count} huisdier geregistreerd",
+    "petsRegisteredPlural": "{count} huisdieren geregistreerd",
+    "findPetsitter": "Zoek een petsitter",
+    "searchNearby": "Zoek een oppas bij u in de buurt",
+    "myFavorites": "Mijn favorieten",
+    "noFavoritesYet": "Nog geen favorieten",
+    "favoritePetsitter": "{count} favoriete petsitter",
+    "favoritePetsitterPlural": "{count} favoriete petsitters",
+    "upcomingReservations": "Komende reserveringen",
+    "viewAll": "Alles bekijken",
+    "noUpcomingReservations": "Geen komende reserveringen",
+    "tip": "Tip",
+    "tipText": "Om de ideale petsitter te vinden, vergeet niet de profielen van uw huisdieren in te vullen met hun gewoonten en specifieke behoeften. Dit helpt petsitters om de opvang beter voor te bereiden!",
+    "reservationsPage": {
+      "title": "Mijn reserveringen",
+      "subtitle": "Volg de status van uw opvangverzoeken",
+      "pending": "In afwachting",
+      "confirmed": "Bevestigd",
+      "completed": "Voltooid",
+      "cancelled": "Geannuleerd",
+      "noReservations": "Geen reserveringen",
+      "noReservationsText": "Uw opvangverzoeken verschijnen hier",
+      "cancelReservation": "Reservering annuleren",
+      "confirmCancel": "Annulering bevestigen",
+      "cancelConfirmText": "Weet u zeker dat u deze reservering wilt annuleren?",
+      "leaveReview": "Beoordeling achterlaten"
+    },
+    "petsPage": {
+      "title": "Mijn huisdieren",
+      "subtitle": "Beheer de profielen van uw metgezellen",
+      "addPet": "Huisdier toevoegen",
+      "noPets": "Geen huisdieren geregistreerd",
+      "noPetsText": "Voeg uw eerste metgezel toe om te beginnen",
+      "editPet": "Huisdier bewerken",
+      "deletePet": "Huisdier verwijderen",
+      "confirmDelete": "Verwijdering bevestigen",
+      "deleteConfirmText": "Weet u zeker dat u dit huisdier wilt verwijderen?",
+      "vaccinated": "Vaccinaties bijgewerkt",
+      "sterilized": "Gesteriliseerd",
+      "years": "jaar",
+      "kg": "kg"
+    },
+    "favoritesPage": {
+      "title": "Mijn favoriete petsitters",
+      "subtitle": "Vind uw favoriete petsitters terug",
+      "noFavorites": "Nog geen favorieten",
+      "noFavoritesText": "Voeg petsitters toe aan uw favorieten tijdens uw zoekopdrachten",
+      "findPetsitters": "Petsitters zoeken",
+      "removeFavorite": "Verwijderen uit favorieten",
+      "viewProfile": "Profiel bekijken",
+      "contactPetsitter": "Contact"
+    },
+    "settingsPage": {
+      "title": "Instellingen",
+      "subtitle": "Beheer uw persoonlijke gegevens",
+      "accountInfo": "Accountgegevens",
+      "displayName": "Weergavenaam",
+      "email": "E-mail",
+      "changePassword": "Wachtwoord wijzigen",
+      "currentPassword": "Huidig wachtwoord",
+      "newPassword": "Nieuw wachtwoord",
+      "confirmPassword": "Wachtwoord bevestigen",
+      "updatePassword": "Wachtwoord bijwerken",
+      "dangerZone": "Gevarenzone",
+      "deleteAccount": "Mijn account verwijderen",
+      "deleteAccountText": "Deze actie is onomkeerbaar. Al uw gegevens worden verwijderd.",
+      "confirmDeleteAccount": "Accountverwijdering bevestigen",
+      "save": "Opslaan",
+      "cancel": "Annuleren"
+    }
+  },
+  "sitterDashboard": {
+    "space": "Petsitter Ruimte",
+    "title": "Dashboard",
+    "welcome": "Welkom {name}! Hier is een overzicht van uw activiteit.",
+    "menu": "Menu",
+    "closeMenu": "Menu sluiten",
+    "nav": {
+      "dashboard": "Dashboard",
+      "reservations": "Reserveringen",
+      "calendar": "Kalender",
+      "profile": "Mijn profiel",
+      "reviews": "Beoordelingen",
+      "subscription": "Abonnement",
+      "settings": "Instellingen"
+    },
+    "stats": {
+      "pendingRequests": "Verzoeken in afwachting",
+      "upcomingReservations": "Komende reserveringen",
+      "averageRating": "Gemiddelde beoordeling",
+      "monthlyRevenue": "Inkomsten deze maand",
+      "noReviewsYet": "Nog geen beoordelingen",
+      "reviewsCount": "{count} beoordelingen"
+    },
+    "pendingAlert": {
+      "title": "{count} verzoek in afwachting!",
+      "titlePlural": "{count} verzoeken in afwachting!",
+      "text": "Eigenaren wachten op uw antwoord",
+      "viewRequests": "Verzoeken bekijken"
+    },
+    "trialAlert": {
+      "title": "Proefperiode",
+      "text": "Uw proefperiode eindigt binnenkort. Overweeg een abonnement om boekingen te blijven ontvangen."
+    },
+    "quickActions": "Snelle acties",
+    "completeProfile": "Mijn profiel voltooien",
+    "completeProfileText": "Voeg uw diensten en tarieven toe",
+    "manageCalendar": "Mijn kalender beheren",
+    "manageCalendarText": "Mijn beschikbaarheid instellen",
+    "myReservations": "Mijn reserveringen",
+    "manageRequests": "Verzoeken beheren ({count} in afwachting)",
+    "recentRequests": "Recente verzoeken",
+    "viewAll": "Alles bekijken",
+    "noRequests": "Nog geen boekingsverzoeken",
+    "noRequestsText": "Verzoeken verschijnen hier",
+    "accept": "Accepteren",
+    "decline": "Weigeren",
+    "status": {
+      "pending": "In afwachting",
+      "accepted": "Geaccepteerd",
+      "completed": "Voltooid",
+      "cancelled": "Geannuleerd",
+      "declined": "Geweigerd"
+    },
+    "reservationsPage": {
+      "title": "Mijn reserveringen",
+      "subtitle": "Beheer uw boekingsverzoeken",
+      "pending": "In afwachting",
+      "accepted": "Geaccepteerd",
+      "completed": "Voltooid",
+      "declined": "Geweigerd",
+      "noReservations": "Geen reserveringen",
+      "noReservationsText": "Opvangverzoeken verschijnen hier",
+      "howItWorks": "Hoe het werkt",
+      "howItWorksText": "Accepteer of weiger boekingsverzoeken. Na acceptatie wordt de eigenaar op de hoogte gebracht."
+    },
+    "profilePage": {
+      "title": "Mijn profiel",
+      "subtitle": "Vul uw profiel in meerdere stappen in",
+      "tabs": {
+        "profile": "Profiel",
+        "services": "Diensten",
+        "specifics": "Specificaties"
+      },
+      "back": "Terug",
+      "save": "Opslaan",
+      "next": "Volgende",
+      "publish": "Profiel publiceren",
+      "unpublish": "Depubliceren",
+      "profilePublished": "Uw profiel is gepubliceerd",
+      "profileUnpublished": "Uw profiel is niet gepubliceerd",
+      "toPublishComplete": "Om te publiceren, vul in:",
+      "profileTab": {
+        "commercialName": "Handelsnaam of Bijnaam (openbaar)",
+        "commercialNamePlaceholder": "Uw bedrijfsnaam / bijnaam",
+        "fullName": "Voornaam + Achternaam (privé)",
+        "fullNamePlaceholder": "Voornaam + achternaam",
+        "phone": "Telefoonnummer (privé)",
+        "phonePlaceholder": "Bijv.: 06 12 34 56 78",
+        "status": "Status (openbaar)",
+        "businessTypes": {
+          "individual": "Particulier / Privé",
+          "independent": "Zelfstandige / Freelancer",
+          "company": "Rechtspersoon / Bedrijf"
+        },
+        "tvaNumber": "BTW-nummer (verplicht)",
+        "tvaPlaceholder": "BE0123456789",
+        "siretNumber": "Ondernemingsnummer (verplicht)",
+        "siretPlaceholder": "0123456789",
+        "siretHelp": "Het ondernemingsnummer moet exact 10 cijfers bevatten",
+        "description": "Beschrijving (openbaar)",
+        "descriptionPlaceholder": "Leg uw activiteit uit, beschrijf uw visie op het vak, uw passie voor dieren en trek trouwe klanten aan!"
+      },
+      "servicesTab": {
+        "animalTypes": "Geaccepteerde diersoorten",
+        "servicesOffered": "Aangeboden diensten",
+        "pricePerDay": "Prijs/dag (€)",
+        "pricePerWeek": "Prijs/week (€)",
+        "serviceDescription": "Dienstbeschrijving",
+        "serviceDescriptionPlaceholder": "Beschrijf wat u aanbiedt...",
+        "optionsForDogs": "Opties voor honden",
+        "optionsForCats": "Opties voor katten",
+        "animals": {
+          "petit-chien": "Kleine hond (-10kg)",
+          "moyen-chien": "Middelgrote hond (10-20kg)",
+          "grand-chien": "Grote hond (+20kg)",
+          "chien-attaque": "Aanvalshond (Cat. 1)",
+          "chien-garde": "Waakhond (Cat. 2)",
+          "chat": "Kat",
+          "lapin": "Konijn",
+          "rongeur": "Klein knaagdier",
+          "oiseau": "Vogel",
+          "volaille": "Pluimvee",
+          "nac": "Exotische huisdieren"
+        },
+        "serviceTypes": {
+          "hebergement": "Logies (opvang +12u)",
+          "garde": "Dagopvang (opvang -12u)",
+          "visite": "Bezoek bij het dier thuis",
+          "promenade": "Hond uitlaten",
+          "excursion": "Hondexcursie"
+        },
+        "serviceOptions": {
+          "hebergementChien": {
+            "ext-espace-privatif": "Buiten in een afgesloten privéruimte (kennel)",
+            "partage-sans-acces": "Deelt de leefruimte zonder toegang tot een afgesloten buitenruimte",
+            "partage-avec-acces": "Deelt de leefruimte met toegang tot een afgesloten buitenruimte (tuin)",
+            "int-sans-acces": "Binnen in een speciale kamer zonder toegang tot een afgesloten buitenruimte",
+            "int-avec-acces": "Binnen in een speciale kamer met toegang tot een afgesloten buitenruimte (tuin)"
+          },
+          "hebergementChat": {
+            "chat-partage-sans-acces": "Deelt de leefruimte zonder toegang tot een afgesloten buitenruimte",
+            "chat-partage-avec-acces": "Deelt de leefruimte met toegang tot een afgesloten buitenruimte (tuin)",
+            "chat-int-sans-acces": "Binnen in een speciale kamer zonder toegang tot een afgesloten buitenruimte",
+            "chat-int-avec-acces": "Binnen in een speciale kamer met toegang tot een afgesloten buitenruimte (tuin)"
+          },
+          "gardeChien": {
+            "garde-partage-sans-acces": "Deelt de leefruimte zonder toegang tot een afgesloten buitenruimte",
+            "garde-partage-avec-acces": "Deelt de leefruimte met toegang tot een afgesloten buitenruimte (tuin)",
+            "garde-int-sans-acces": "Binnen in een speciale kamer zonder toegang tot een afgesloten buitenruimte",
+            "garde-int-avec-acces": "Binnen in een speciale kamer met toegang tot een afgesloten buitenruimte (tuin)"
+          },
+          "gardeChat": {
+            "chat-garde-partage-sans-acces": "Deelt de leefruimte zonder toegang tot een afgesloten buitenruimte",
+            "chat-garde-partage-avec-acces": "Deelt de leefruimte met toegang tot een afgesloten buitenruimte (tuin)",
+            "chat-garde-int-sans-acces": "Binnen in een speciale kamer zonder toegang tot een afgesloten buitenruimte",
+            "chat-garde-int-avec-acces": "Binnen in een speciale kamer met toegang tot een afgesloten buitenruimte (tuin)"
+          },
+          "visiteChien": {
+            "1-visite": "1x huisbezoek per dag + voeren",
+            "2-visites": "2x huisbezoek per dag + voeren",
+            "1-visite-1-promenade": "1x huisbezoek per dag + 1x wandeling + voeren",
+            "2-visites-2-promenades": "2x huisbezoek per dag + 2x wandeling + voeren"
+          },
+          "visiteChat": {
+            "chat-1-visite": "1x huisbezoek per dag + voeren",
+            "chat-2-visites": "2x huisbezoek per dag + voeren"
+          },
+          "promenadeChien": {
+            "promenade-1x": "Wandeling 1x per dag",
+            "promenade-2x": "Wandeling 2x per dag"
+          }
+        }
+      },
+      "specificsTab": {
+        "housingTypeTitle": "Type accommodatie",
+        "housingTypeSubtitle": "Selecteer uw woningtype",
+        "housingTypes": {
+          "maison": "Huis",
+          "appartement": "Appartement",
+          "propriete": "Landelijk eigendom"
+        },
+        "childrenTitle": "Kinderen",
+        "childrenSubtitle": "Aanwezigheid van kinderen op de opvanglocatie",
+        "childrenOptions": {
+          "no-answer": "Ik beantwoord deze vraag liever niet",
+          "no-children": "Geen kinderen",
+          "toddlers": "Peuters thuis (-6 jaar)",
+          "children": "Kinderen thuis (6-12 jaar)",
+          "teenagers": "Tieners thuis (+12 jaar)"
+        },
+        "walkingTitle": "Wandelgebieden",
+        "walkingSubtitle": "Type wandelgebieden nabij de opvanglocatie",
+        "walkingHelp": "Selecteer de wandelgebieden in uw buurt",
+        "walkingOptions": {
+          "off-leash": "Losloopgebied in de buurt",
+          "park": "Park",
+          "beach": "Strand",
+          "forest": "Bos",
+          "countryside": "Platteland"
+        },
+        "skillsTitle": "Extra vaardigheden",
+        "skillsSubtitle": "Uw andere expertisegebieden",
+        "skillsHelp": "Geef de gebieden aan waarin u expertise heeft",
+        "skillsOptions": {
+          "volunteer": "Ervaring als vrijwilliger in dierenwelzijn",
+          "behavior": "Ervaring met gedragsproblemen",
+          "rescue": "Ervaring met reddingsdieren",
+          "training": "Ervaring met hondentrainingstechnieken"
+        },
+        "experienceTitle": "Jaren ervaring",
+        "experienceSubtitle": "Uw ervaringsniveau",
+        "experienceHelp": "Geef uw ervaringsniveau met dieren aan",
+        "experienceOptions": {
+          "less-1": "Minder dan 1 jaar ervaring",
+          "less-5": "Minder dan 5 jaar ervaring",
+          "more-5": "Meer dan 5 jaar ervaring",
+          "more-10": "Meer dan 10 jaar ervaring"
+        }
+      }
+    },
+    "calendarPage": {
+      "title": "Kalender & Beschikbaarheid",
+      "subtitle": "Beheer uw beschikbaarheid",
+      "blockDates": "Datums blokkeren",
+      "legend": "Legende",
+      "confirmedBooking": "Bevestigde boeking",
+      "pendingRequest": "Verzoek in afwachting",
+      "blockedDate": "Geblokkeerde datum",
+      "available": "Beschikbaar",
+      "today": "Vandaag",
+      "unavailable": "Niet beschikbaar",
+      "unblockDate": "Deze datum deblokkeren",
+      "eventDetails": "Details",
+      "reason": "Reden",
+      "modal": {
+        "title": "Datums blokkeren",
+        "subtitle": "Markeer uw onbeschikbaarheden",
+        "startDate": "Startdatum",
+        "endDate": "Einddatum (optioneel)",
+        "endDateHelp": "Laat leeg om één dag te blokkeren",
+        "reasonLabel": "Reden (optioneel)",
+        "reasonPlaceholder": "Bijv.: Vakantie, opleiding...",
+        "characters": "tekens",
+        "cancel": "Annuleren",
+        "block": "Blokkeren",
+        "loading": "Bezig...",
+        "required": "verplicht",
+        "errors": {
+          "selectDate": "Selecteer ten minste één datum",
+          "endBeforeStart": "Einddatum moet na startdatum liggen",
+          "generic": "Er is een fout opgetreden"
+        }
+      },
+      "calendar": {
+        "next": "Volgende",
+        "previous": "Vorige",
+        "today": "Vandaag",
+        "month": "Maand",
+        "week": "Week",
+        "day": "Dag",
+        "agenda": "Agenda",
+        "date": "Datum",
+        "time": "Tijd",
+        "event": "Gebeurtenis",
+        "noEvents": "Geen gebeurtenissen in deze periode",
+        "pending": "In afwachting",
+        "confirmed": "Bevestigd",
+        "unavailable": "Niet beschikbaar"
+      }
+    },
+    "reviewsPage": {
+      "title": "Ontvangen beoordelingen",
+      "subtitle": "Bekijk beoordelingen achtergelaten door eigenaren",
+      "averageRating": "Gemiddelde beoordeling",
+      "reviewsCount": "Aantal beoordelingen",
+      "noReviews": "Nog geen beoordelingen",
+      "noReviewsText": "Beoordelingen verschijnen hier na uw eerste opvang"
+    },
+    "subscriptionPage": {
+      "title": "Mijn abonnement",
+      "subtitle": "Beheer uw EuroPetSitter abonnement",
+      "currentStatus": "Huidige status",
+      "subscriptionType": "Type abonnement",
+      "trial": "Proefperiode",
+      "trialEnds": "Eindigt op",
+      "active": "Actief",
+      "expired": "Verlopen",
+      "plans": {
+        "free": "Gratis",
+        "essential": "Essentieel",
+        "premium": "Premium"
+      },
+      "perQuarter": "per kwartaal",
+      "perSemester": "per semester",
+      "perYear": "per jaar",
+      "subscribe": "Abonneren",
+      "currentPlan": "Huidig plan",
+      "features": {
+        "visibleProfile": "Zichtbaar profiel",
+        "unlimitedBookings": "Onbeperkte boekingen",
+        "prioritySupport": "Prioritaire ondersteuning",
+        "analytics": "Geavanceerde statistieken"
+      }
+    },
+    "settingsPage": {
+      "title": "Instellingen",
+      "subtitle": "Beheer uw persoonlijke gegevens",
+      "accountInfo": "Accountgegevens",
+      "displayName": "Weergavenaam",
+      "email": "E-mail",
+      "changePassword": "Wachtwoord wijzigen",
+      "currentPassword": "Huidig wachtwoord",
+      "newPassword": "Nieuw wachtwoord",
+      "confirmPassword": "Wachtwoord bevestigen",
+      "updatePassword": "Wachtwoord bijwerken",
+      "subscription": "Abonnement",
+      "manageSubscription": "Mijn abonnement beheren",
+      "dangerZone": "Gevarenzone",
+      "deleteAccount": "Mijn account verwijderen",
+      "deleteAccountText": "Deze actie is onomkeerbaar. Al uw gegevens worden verwijderd.",
+      "confirmDeleteAccount": "Accountverwijdering bevestigen",
+      "save": "Opslaan",
+      "cancel": "Annuleren"
+    }
+  },
+  "pets": {
+    "title": "Mijn huisdieren",
+    "add": "Huisdier toevoegen",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "name": "Naam",
+    "type": "Type",
+    "breed": "Ras",
+    "age": "Leeftijd",
+    "weight": "Gewicht",
+    "gender": "Geslacht",
+    "male": "Mannelijk",
+    "female": "Vrouwelijk",
+    "bio": "Beschrijving",
+    "healthInfo": "Gezondheidsinformatie",
+    "specialNeeds": "Speciale behoeften",
+    "vaccinated": "Vaccinaties up-to-date",
+    "sterilized": "Gesteriliseerd",
+    "types": {
+      "chien": "Hond",
+      "chat": "Kat",
+      "lapin": "Konijn",
+      "oiseau": "Vogel",
+      "rongeur": "Knaagdier",
+      "reptile": "Reptiel",
+      "poisson": "Vis",
+      "nac": "Exotisch huisdier"
+    }
+  },
+  "reservations": {
+    "title": "Mijn reserveringen",
+    "all": "Alle",
+    "pending": "In afwachting",
+    "accepted": "Bevestigd",
+    "completed": "Voltooid",
+    "cancelled": "Geannuleerd",
+    "rejected": "Afgewezen",
+    "status": "Status",
+    "startDate": "Startdatum",
+    "endDate": "Einddatum",
+    "duration": "Duur",
+    "service": "Dienst",
+    "pet": "Huisdier",
+    "price": "Prijs",
+    "totalPrice": "Totale prijs",
+    "perDay": "per dag",
+    "accept": "Accepteren",
+    "reject": "Weigeren",
+    "cancel": "Annuleren",
+    "leaveReview": "Beoordeling achterlaten",
+    "ownerMessage": "Bericht van eigenaar",
+    "sitterResponse": "Reactie van petsitter",
+    "cancellationReason": "Reden voor annulering"
+  },
+  "reviews": {
+    "title": "Beoordelingen",
+    "rating": "Beoordeling",
+    "comment": "Opmerking",
+    "respond": "Reageren",
+    "yourResponse": "Uw reactie",
+    "noReviews": "Nog geen beoordelingen",
+    "averageRating": "Gemiddelde beoordeling",
+    "totalReviews": "beoordelingen",
+    "basedOn": "Gebaseerd op"
+  },
+  "subscription": {
+    "title": "Abonnement",
+    "status": "Status",
+    "trial": "Proefperiode",
+    "active": "Actief",
+    "expired": "Verlopen",
+    "monthly": "Maandelijks",
+    "yearly": "Jaarlijks",
+    "perMonth": "per maand",
+    "perYear": "per jaar",
+    "subscribe": "Abonneren",
+    "manage": "Mijn abonnement beheren",
+    "daysLeft": "dagen resterend",
+    "endsOn": "Eindigt op",
+    "renewsOn": "Vernieuwt op"
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Er is een fout opgetreden",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "close": "Sluiten",
+    "confirm": "Bevestigen",
+    "search": "Zoeken",
+    "filter": "Filteren",
+    "viewAll": "Alles bekijken",
+    "noResults": "Geen resultaten",
+    "back": "Terug",
+    "next": "Volgende",
+    "previous": "Vorige"
+  },
+  "home": {
+    "hero": {
+      "title": "Vind uw",
+      "titleHighlight": "PetSitter",
+      "titleEnd": "en de juiste dierenverzorging in België!",
+      "subtitle": "Een eenvoudige, efficiënte en gratis applicatie voor huisdiereigenaren. Selecteer een diersoort, de gewenste dierenverzorging met opties, uw postcode, een zoekradius en klaar!",
+      "searchBtn": "Zoek een PetSitter",
+      "becomeBtn": "Word een PetSitter"
+    },
+    "affiliates": {
+      "title": "Ontdek onze nieuwste aangesloten PetSitters",
+      "scrollHint": "Scroll om meer te zien"
+    },
+    "tabs": {
+      "owners": "Info Eigenaren",
+      "app": "App Info",
+      "sitters": "PetSitters Info"
+    },
+    "ownersTab": {
+      "title": "Voor huisdiereigenaren",
+      "shortText": "Het wordt ten zeerste aanbevolen om de gekozen PetSitter ruim voor de geplande dienst te ontmoeten, vergezeld van uw hond of kat in het bijzonder.",
+      "fullText": "Het wordt ten zeerste aanbevolen om de gekozen PetSitter ruim voor de geplande dienst te ontmoeten, vergezeld van uw hond of kat in het bijzonder. Een kort gesprek van enkele minuten met de PetSitter en een voorafgaand bezoek aan de plaats waar uw dier zal worden gehouden, kan veel misverstanden voorkomen. Zorg er ook voor dat de PetSitter zijn activiteit heeft geregistreerd bij de bevoegde autoriteiten. Op zoek om plezier en extra inkomsten te combineren zonder financieel risico? Registreer u hier gratis als PetSitter voor een proefperiode van 3 maanden, zonder verdere verplichtingen. Vervolgens wordt een abonnement zonder automatische verlenging aangeboden vanaf € 29 incl. BTW per kwartaal!",
+      "readMore": "Lees meer",
+      "readLess": "Lees minder",
+      "discoverBtn": "Ontdek onze PetSitters"
+    },
+    "appTab": {
+      "title": "Een eenvoudige en veilige applicatie",
+      "shortText": "EuroPetSitter verbindt huisdiereigenaren met dienstverleners in heel België voor verschillende diensten.",
+      "fullText": "EuroPetSitter verbindt huisdiereigenaren met dierenverzorgingsdiensten die verschillende missies aanbieden in heel België: opvang (+12u), dagopvang (-12u), huisbezoeken, wandelingen en uitstapjes. Via onze applicatie zijn er geen registratiekosten of commissies te betalen door de huisdiereigenaar. PetSitters stellen hun tarieven vast en behouden al hun inkomsten. EuroPetSitter genereert zijn inkomsten uitsluitend via advertentieruimte en werkt als een digitale gids met een zoekmachine.",
+      "readMore": "Lees meer",
+      "readLess": "Lees minder"
+    },
+    "sittersTab": {
+      "title": "Voor dierenverzorgingsdiensten",
+      "shortText": "Wilt u uw dierenverzorgingsbedrijf promoten of een nieuwe activiteit starten zonder financieel risico?",
+      "fullText": "Wilt u uw dierenverzorgingsbedrijf promoten of een nieuwe activiteit starten zonder financieel risico? In uw advertentieruimte kunt u uzelf presenteren via tekst of foto's. Specificeer nauwkeurig de soorten dieren waar u voor zorgt, de aangeboden diensten, de beschikbare ruimte voor dieren, evenals uw dag- en weektarieven. Voeg ook relevante informatie toe zoals de aanwezigheid van kinderen of niet, of de zorgomgeving. Geïnteresseerd? Registreer u gratis als PetSitter voor een proefperiode van 3 maanden, zonder verplichtingen. Tevreden? U kunt uw abonnement naar believen verlengen: € 29 voor 3 maanden, € 49 voor 6 maanden, of € 96 voor één jaar, incl. BTW, zonder automatische verlenging.",
+      "readMore": "Lees meer",
+      "readLess": "Lees minder",
+      "becomeBtn": "Word een PetSitter"
+    },
+    "blog": {
+      "title": "Nieuwste artikelen",
+      "subtitle": "Tips en trucs om voor uw huisdieren te zorgen",
+      "viewAll": "Alle artikelen bekijken"
+    },
+    "faq": {
+      "title": "Veelgestelde vragen",
+      "q1": "Hoe kies ik de juiste PetSitter?",
+      "a1": "Om de juiste PetSitter te kiezen, raden we aan om de profielen en beoordelingen zorgvuldig te lezen, kwalificaties en ervaring te controleren, een voorafgaande ontmoeting met uw huisdier te organiseren en uw verwachtingen en de specifieke behoeften van uw huisdier in detail te bespreken.",
+      "q2": "Wat zijn de voordelen van het gebruik van EuroPetSitter?",
+      "a2": "Gratis: Toegang tot het zoekblok en direct contact met de PetSitter van uw keuze zijn volledig gratis. EuroPetSitter rekent geen commissie op betalingen aan PetSitters die bij onze applicatie zijn aangesloten. Dit zeldzame, zo niet unieke, economische model onder vergelijkbare applicaties garandeert u transparante prijzen.\n\nSnelheid: Met slechts 6 criteria krijgt u een lijst van PetSitters die het meest nauwkeurig aan uw verwachtingen voldoen, waardoor u verspilde tijd met onsuccesvolle contacten vermijdt.\n\nDuidelijkheid: Het profiel van de PetSitter biedt u essentiële informatie: soorten verzorgde dieren, geaccepteerde missies met mogelijke opties, locatie, dag- en weektarieven. Bovendien leert u meer over hun woonomgeving (appartement of landhuis met of zonder jonge kinderen) evenals de mogelijkheid om uw huisdier op te halen en terug te brengen, medicijnen toe te dienen en nog veel meer.",
+      "q3": "Hoe plaats ik een advertentie op EuroPetSitter?",
+      "a3": "Om hun profiel te plaatsen, moet de dierenverzorgingsdienst zich identificeren en een abonnement nemen. Elke nieuwe registrant ontvangt een eerste en uniek gratis abonnement voor 3 maanden, als proef zonder verdere verplichtingen. Zodra uw profiel geldig is voltooid, wordt het online geplaatst. Vanaf dan kunnen alle huisdiereigenaren het bekijken en u rechtstreeks contacteren.",
+      "q4": "Hoe verwijder ik mijn account als PetSitter?",
+      "a4": "Geen zorgen, als u uw diensten niet langer op ons platform wilt promoten, tijdelijk of permanent, gebruikt u gewoon de optie 'mijn account opschorten' of 'mijn account verwijderen' naar gelang het geval in uw klantruimte en zal uw profiel niet langer zichtbaar zijn. Er is geen automatische verlenging van abonnementen op ons platform!",
+      "q5": "Hoe boek en betaal ik voor een dienst bij de PetSitter?",
+      "a5": "U kunt uw verzoek voor een dierenverzorgingsreservering rechtstreeks indienen bij de PetSitter van uw keuze. De kosten van diensten moeten rechtstreeks aan uw PetSitter worden betaald. EuroPetSitter rekent geen commissie op deze betalingen."
+    }
+  },
+  "about": {
+    "subtitle": "Over ons",
+    "title": "OVER ONS",
+    "description": "Ontdek onze missie en visie om de dierenverzorgingsdiensten in België te revolutioneren",
+    "philosophy": {
+      "subtitle": "Onze filosofie",
+      "title": "Onze filosofie",
+      "text1": "Via EuroPetSitter betalen huisdiereigenaren geen registratiekosten of 20% commissie op elke dienst, in tegenstelling tot de meeste andere vergelijkbare applicaties. Elke PetSitter die is aangesloten bij EuroPetSitter stelt zijn eigen tarieven vast en behoudt al zijn inkomsten.",
+      "text2": "Ons bedrijfsmodel is uitsluitend gebaseerd op de verkoop van advertentieruimte waarmee PetSitters zichzelf kunnen presenteren, hun diensten kunnen beschrijven en hun contactgegevens kunnen delen. EuroPetSitter is een gids met een zoekmachine, die de verbinding tussen huisdiereigenaren en PetSitters vergemakkelijkt.",
+      "quote": "Wij geloven in een transparante en eerlijke relatie tussen huisdiereigenaren en PetSitters."
+    },
+    "ambition": {
+      "subtitle": "Onze ambitie",
+      "title": "Onze ambitie",
+      "text": "EuroPetSitter streeft ernaar om met vertrouwen verbindingen te faciliteren in heel België tussen huisdiereigenaren en dierenverzorgingsdiensten. Onze aangesloten PetSitters bieden verschillende diensten aan zoals:",
+      "quote": "Onze ambitie is om het referentieplatform voor dierenverzorgingsdiensten in België te creëren."
+    },
+    "services": {
+      "boarding": "Opvang (meer dan 12 uur dagopvang of nachtopvang)",
+      "dayCare": "Dagopvang (minder dan 12 uur)",
+      "homeVisit": "Huisbezoek voor voeding, medicijntoediening",
+      "dogWalking": "Honden uitlaten",
+      "excursion": "Uitstap naar het platteland, strand of bos"
+    },
+    "cta": {
+      "title": "Word vandaag nog lid van onze community",
+      "text": "Of u nu een huisdiereigenaar of PetSitter bent, EuroPetSitter biedt u een transparant en efficiënt platform.",
+      "findBtn": "Vind een PetSitter",
+      "becomeBtn": "Word PetSitter"
+    }
+  },
+  "howItWorks": {
+    "subtitle": "Hoe het werkt",
+    "title": "Hoe werkt EuroPetSitter?",
+    "description": "Ontdek hoe ons platform huisdiereigenaren verbindt met toegewijde PetSitters",
+    "startNow": "Nu beginnen",
+    "steps": {
+      "subtitle": "Stappen",
+      "title": "Een eenvoudig 3-stappenproces",
+      "description": "Ons platform is ontworpen om het vinden en boeken van oppas diensten zo eenvoudig mogelijk te maken",
+      "step1": {
+        "title": "Stap 1 – Zoeken",
+        "text": "Vind de ideale PetSitter op basis van uw behoeften, locatie en gewenste type dienst. Onze geavanceerde zoekmachine stelt u in staat de resultaten te filteren op basis van uw specifieke criteria."
+      },
+      "step2": {
+        "title": "Stap 2 – Boeken",
+        "text": "Selecteer uw datums en dien uw aanvraag direct online in. Ons intuïtieve boekingssysteem stelt u in staat de diensten te kiezen die u nodig heeft en uw specifieke eisen te communiceren."
+      },
+      "step3": {
+        "title": "Stap 3 – Ontmoeten",
+        "text": "Chat met uw PetSitter en maak een eerste afspraak om vertrouwen op te bouwen. Deze stap is essentieel om het welzijn van uw huisdier en uw gemoedsrust te garanderen."
+      }
+    },
+    "advantages": {
+      "subtitle": "Voordelen",
+      "title": "EuroPetSitter betekent ook",
+      "description": "Ontdek de voordelen die ons platform tot de referentie maken voor oppas diensten in België",
+      "community": {
+        "title": "Zorgzame community",
+        "text": "Word lid van een community die gepassioneerd is over dierenwelzijn en deel uw ervaringen met andere eigenaren en oppassers."
+      },
+      "security": {
+        "title": "Veilige service",
+        "text": "Ons platform garandeert de veiligheid van uw gegevens en faciliteert vertrouwde uitwisselingen tussen eigenaren en oppassers."
+      },
+      "personalized": {
+        "title": "Gepersonaliseerde service",
+        "text": "Diensten op maat van de specifieke behoeften van uw huisdier, of het nu gaat om speciale zorg of vastgestelde routines."
+      },
+      "flexible": {
+        "title": "Flexibele beschikbaarheid",
+        "text": "Vind oppassers die beschikbaar zijn volgens uw planning, zelfs voor last-minute verzoeken of regelmatige behoeften."
+      }
+    },
+    "servicesList": {
+      "subtitle": "Diensten",
+      "title": "Diensten op maat van al uw behoeften",
+      "description": "Of u nu af en toe of regelmatig verzorging nodig heeft, onze oppassers bieden diverse diensten aan om aan uw specifieke behoeften te voldoen.",
+      "quote": "Kwaliteitsdiensten voor het welzijn van uw huisdieren",
+      "boarding": { "name": "Opvang", "desc": "Verzorging gedurende meer dan 12 uur, dag en nacht, bij de oppasser thuis" },
+      "dayCare": { "name": "Dagopvang thuis", "desc": "Verzorging gedurende minder dan 12 uur bij de eigenaar thuis" },
+      "visits": { "name": "Huisbezoeken", "desc": "Eenmalige bezoeken om te voeden, medicijnen toe te dienen of gewoon gezelschap te houden" },
+      "walks": { "name": "Wandelingen", "desc": "Regelmatige uitstapjes voor beweging en natuurlijke behoeften" }
+    },
+    "cta": {
+      "title": "Klaar om de ideale PetSitter te vinden?",
+      "text": "Word lid van onze community van tevreden huisdiereigenaren en begin vandaag nog met het gebruik van onze diensten",
+      "findBtn": "Vind een PetSitter",
+      "becomeBtn": "Word PetSitter"
+    },
+    "faqSection": {
+      "subtitle": "FAQ",
+      "title": "Veelgestelde vragen",
+      "description": "Vind snel antwoorden op uw meest voorkomende vragen",
+      "viewAll": "Bekijk alle veelgestelde vragen"
+    }
+  },
+  "contact": {
+    "subtitle": "Contact",
+    "title": "Neem contact met ons op",
+    "description": "Wij zijn er om al uw vragen te beantwoorden en u te ondersteunen in uw EuroPetSitter ervaring",
+    "info": {
+      "subtitle": "Contactgegevens",
+      "title": "Onze contactgegevens",
+      "description": "Verschillende manieren om contact met ons op te nemen",
+      "phone": "Telefoon",
+      "email": "E-mail",
+      "address": "Adres",
+      "followUs": "Volg ons"
+    },
+    "form": {
+      "title": "Stuur ons een bericht",
+      "fullName": "Volledige naam",
+      "fullNamePlaceholder": "Uw naam",
+      "email": "E-mail",
+      "emailPlaceholder": "uw@email.com",
+      "phone": "Telefoon",
+      "phonePlaceholder": "Uw telefoonnummer",
+      "subject": "Onderwerp",
+      "subjectPlaceholder": "Selecteer een onderwerp",
+      "message": "Bericht",
+      "messagePlaceholder": "Beschrijf uw bericht hier...",
+      "required": "Verplichte velden",
+      "submit": "Bericht verzenden",
+      "submitting": "Verzenden...",
+      "success": {
+        "title": "Bericht succesvol verzonden!",
+        "text": "Bedankt voor uw contact. We nemen zo snel mogelijk contact met u op.",
+        "sendAnother": "Nog een bericht sturen"
+      },
+      "error": "Er is een fout opgetreden bij het verzenden van het bericht. Probeer het opnieuw.",
+      "subjects": {
+        "general": "Algemene vraag",
+        "support": "Technische ondersteuning",
+        "partnership": "Partnerschap",
+        "report": "Probleem melden",
+        "other": "Anders"
+      }
+    },
+    "faq": {
+      "subtitle": "FAQ",
+      "title": "Veelgestelde vragen",
+      "description": "Heeft u vragen? Bekijk onze antwoorden op de meest gestelde vragen",
+      "q1": "Hoe kan ik PetSitter worden op uw platform?",
+      "a1": "Om PetSitter te worden, registreert u zich op onze site, maakt u uw profiel aan met uw diensten en tarieven, en neemt u een van onze abonnementen. U krijgt een gratis proefperiode van 3 maanden.",
+      "q2": "Hoe neem ik contact op met een PetSitter?",
+      "a2": "Zodra u een PetSitter heeft gevonden die aan uw behoeften voldoet, kunt u direct contact met hen opnemen via ons platform. Hun contactgegevens zijn zichtbaar op hun profiel.",
+      "q3": "Wat zijn de reactietijden voor mijn vragen?",
+      "a3": "Ons team streeft ernaar al uw vragen binnen 24 tot 48 werkuren te beantwoorden. Voor dringende vragen raden we aan om telefonisch contact met ons op te nemen."
+    },
+    "cta": {
+      "title": "Klaar om lid te worden van onze community?",
+      "text": "Of u nu een huisdiereigenaar of PetSitter bent, EuroPetSitter biedt u een transparant en efficiënt platform",
+      "findBtn": "Vind een PetSitter",
+      "becomeBtn": "Word PetSitter"
+    }
+  },
+  "becomeSitter": {
+    "subtitle": "Word PetSitter",
+    "title": "Word een professionele petsitter",
+    "description": "Verander uw passie voor dieren in een lonende activiteit",
+    "trialBadge": "3 maanden gratis proefperiode",
+    "createProfile": "Maak gratis mijn profiel aan",
+    "learnMore": "Meer weten",
+    "whyJoin": {
+      "subtitle": "Waarom lid worden",
+      "title": "Waarom lid worden?",
+      "income": {
+        "title": "Extra inkomen",
+        "text": "Genereer inkomsten door te doen wat u leuk vindt. Stel uw eigen tarieven vast en beheer uw planning naar uw beschikbaarheid.",
+        "stat": "Gemiddeld: €500-1500/maand"
+      },
+      "flexibility": {
+        "title": "Totale flexibiliteit",
+        "text": "U bepaalt wanneer u beschikbaar bent. Beheer uw agenda zelfstandig en accepteer alleen boekingen die bij u passen.",
+        "stat": "100% autonoom"
+      },
+      "noCommission": {
+        "title": "0% commissie",
+        "text": "In tegenstelling tot andere platforms, nemen wij GEEN commissie op uw diensten. U houdt 100% van uw inkomsten.",
+        "stat": "U houdt alles!"
+      },
+      "visibility": {
+        "title": "Maximale zichtbaarheid",
+        "text": "Profiteer van onze SEO om gemakkelijk gevonden te worden door klanten in uw buurt. Geen zoeken nodig, zij komen naar u.",
+        "stat": "Duizenden bezoekers/maand"
+      }
+    },
+    "howTo": {
+      "subtitle": "Hoe het werkt",
+      "title": "Hoe word je petsitter?",
+      "step1": { "title": "Registreren", "text": "Maak uw account aan in 2 minuten" },
+      "step2": { "title": "Profiel", "text": "Vul uw profiel aan met foto's en diensten" },
+      "step3": { "title": "Validatie", "text": "Uw profiel wordt binnen 24 uur geverifieerd" },
+      "step4": { "title": "Laten we gaan!", "text": "Ontvang uw eerste aanvragen" }
+    },
+    "services": {
+      "subtitle": "Diensten",
+      "title": "Welke diensten kunt u aanbieden?",
+      "boarding": { "title": "Opvang", "text": "Verwelkom dieren bij u thuis voor een of meer nachten", "price": "Gemiddeld tarief: €25-40/nacht" },
+      "dayCare": { "title": "Dagopvang", "text": "Zorg voor dieren gedurende de dag", "price": "Gemiddeld tarief: €20-35/dag" },
+      "homeVisit": { "title": "Huisbezoek", "text": "Bezoek dieren bij hun eigenaar thuis", "price": "Gemiddeld tarief: €15-25/bezoek" },
+      "walking": { "title": "Wandelen", "text": "Wandel met honden in uw buurt", "price": "Gemiddeld tarief: €10-20/wandeling" },
+      "transport": { "title": "Transport", "text": "Transporteer dieren (dierenarts, enz.)", "price": "Gemiddeld tarief: €20-40/rit" }
+    },
+    "testimonials": {
+      "subtitle": "Getuigenissen",
+      "title": "Zij zijn petsitters op EuroPetSitter",
+      "testimonial1": {
+        "text": "Ik vind het geweldig om petsitter te zijn! Ik verdien ongeveer €800/maand met het verzorgen van honden en katten. Het platform is eenvoudig en de eigenaren zijn geweldig.",
+        "name": "Laura",
+        "role": "Petsitter in Brussel sinds 1 jaar"
+      },
+      "testimonial2": {
+        "text": "Het is de perfecte activiteit naast mijn werk! Ik beheer mijn planning zoals ik wil en breng tijd door met dieren. Wat wil je nog meer?",
+        "name": "Marc",
+        "role": "Petsitter in Antwerpen sinds 6 maanden"
+      }
+    },
+    "requirements": {
+      "subtitle": "Vereisten",
+      "title": "Vereisten",
+      "age": "Minimaal 18 jaar oud zijn",
+      "experience": "Dieren liefhebben en ervaring hebben",
+      "id": "ID verstrekken voor verificatie",
+      "housing": "Geschikte huisvesting hebben (voor opvang)",
+      "insurance": "Aansprakelijkheidsverzekering hebben"
+    },
+    "cta": {
+      "title": "Klaar om te beginnen?",
+      "text": "Word lid van onze community van gepassioneerde petsitters",
+      "trialText": "3 maanden gratis proefperiode - Geen verplichting",
+      "createBtn": "Maak nu mijn profiel aan",
+      "note": "Registreer in 2 minuten • Geen creditcard nodig"
+    }
+  },
+  "blog": {
+    "subtitle": "Onze blog",
+    "title": "De EuroPetSitter blog",
+    "searchPlaceholder": "Zoek een artikel...",
+    "searchResults": "Zoekresultaten",
+    "articles": "artikel",
+    "articlesPlural": "artikelen",
+    "latestArticles": "Nieuwste artikelen",
+    "popularArticles": "Populaire artikelen",
+    "clearFilters": "Filters wissen",
+    "noResults": "Geen artikelen komen overeen met uw zoekopdracht",
+    "readArticle": "Lees artikel",
+    "newsletter": {
+      "title": "Abonneer u op onze nieuwsbrief",
+      "text": "Ontvang onze nieuwste artikelen en tips rechtstreeks in uw inbox",
+      "placeholder": "Uw e-mailadres",
+      "subscribe": "Abonneren"
+    },
+    "popularTags": "Populaire tags",
+    "categories": {
+      "tips": "Tips",
+      "guides": "Gidsen",
+      "testimonials": "Getuigenissen",
+      "dogs": "Honden",
+      "cats": "Katten",
+      "boarding": "Opvang"
+    },
+    "articles": {
+      "article1": {
+        "title": "10 tips om uw hond voor te bereiden op opvang bij een petsitter",
+        "excerpt": "Ontdek onze beste tips om ervoor te zorgen dat uw hond een positieve ervaring heeft bij zijn petsitter.",
+        "date": "15 januari 2026",
+        "author": "Marie L."
+      },
+      "article2": {
+        "title": "Hoe kies je de juiste petsitter voor je kat?",
+        "excerpt": "Essentiële criteria om te controleren voordat u uw kat toevertrouwt aan een professional.",
+        "date": "10 januari 2026",
+        "author": "Sophie M."
+      },
+      "article3": {
+        "title": "Petsitter worden: het verhaal van Laura, 28 jaar",
+        "excerpt": "Laura deelt haar ervaring en tips om te slagen als professionele petsitter.",
+        "date": "5 januari 2026",
+        "author": "Het EuroPetSitter Team"
+      },
+      "article4": {
+        "title": "De verschillende soorten dierenverzorging uitgelegd",
+        "excerpt": "Opvang, dagopvang, huisbezoeken... Welke service kiezen volgens uw behoeften?",
+        "date": "28 december 2025",
+        "author": "Thomas D."
+      },
+      "article5": {
+        "title": "De verzorgingsset van uw huisdier voorbereiden voor opvang",
+        "excerpt": "De volledige checklist van items die u aan de petsitter moet geven om het welzijn van uw metgezel te verzekeren.",
+        "date": "20 december 2025",
+        "author": "Marie L."
+      },
+      "article6": {
+        "title": "De makkelijkste hondenrassen om te verzorgen",
+        "excerpt": "Ontdek de hondenrassen die bekend staan om hun gezelligheid en aanpassingsvermogen.",
+        "date": "15 december 2025",
+        "author": "Sophie M."
+      }
+    }
+  },
+  "footer": {
+    "stayConnected": "Blijf verbonden",
+    "newsletterText": "Meld u aan voor onze nieuwsbrief voor het laatste nieuws en exclusieve aanbiedingen.",
+    "emailPlaceholder": "Uw e-mailadres",
+    "subscribeNewsletter": "Aanmelden voor nieuwsbrief",
+    "quickLinks": "Snelle links",
+    "links": {
+      "home": "Home",
+      "about": "Over ons",
+      "search": "Zoeken",
+      "howItWorks": "Hoe het werkt",
+      "becomeSitter": "Word PetSitter",
+      "blog": "Blog",
+      "contact": "Contact"
+    },
+    "contactUs": "Neem contact op",
+    "country": "België",
+    "phone": "Tel: +32 2 123 45 67",
+    "email": "E-mail: contact@europetsitter.be",
+    "followUs": "Volg ons",
+    "copyright": "© 2026 EuroPetSitter. Alle rechten voorbehouden.",
+    "legalLinks": {
+      "legal": "Juridische kennisgeving",
+      "terms": "Algemene voorwaarden",
+      "privacy": "Privacybeleid"
+    },
+    "madeBy": "Gemaakt door"
+  }
+}

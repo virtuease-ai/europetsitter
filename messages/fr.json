@@ -1,0 +1,1013 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "search": "Rechercher",
+    "about": "À propos",
+    "howItWorks": "Comment ça marche",
+    "becomeSitter": "Devenir petsitter",
+    "blog": "Blog",
+    "contact": "Contact",
+    "signup": "M'inscrire",
+    "login": "Me connecter",
+    "myProfile": "Mon profil",
+    "logout": "Se déconnecter"
+  },
+  "services": {
+    "hebergement": "Hébergement",
+    "garde": "Garde de jour",
+    "garde_jour": "Garde de jour",
+    "visite-domicile": "Visite à domicile",
+    "visite_domicile": "Visite à domicile",
+    "promenade": "Promenade",
+    "excursion": "Excursion"
+  },
+  "cities": {
+    "bruxelles": "Bruxelles",
+    "anvers": "Anvers",
+    "liege": "Liège",
+    "gand": "Gand",
+    "charleroi": "Charleroi",
+    "bruges": "Bruges",
+    "namur": "Namur",
+    "louvain": "Louvain"
+  },
+  "auth": {
+    "chooseProfile": "Choisissez votre profil",
+    "ownerTitle": "Je cherche un petsitter",
+    "ownerSubtitle": "Propriétaire d'animaux",
+    "ownerBadge": "100% Gratuit",
+    "sitterTitle": "Je propose mes services",
+    "sitterSubtitle": "Petsitter professionnel",
+    "sitterBadge": "3 mois gratuits",
+    "continue": "Continuer"
+  },
+  "login": {
+    "title": "Connexion",
+    "subtitle": "Accédez à votre compte EuroPetSitter",
+    "email": "Email",
+    "emailPlaceholder": "votre@email.com",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "••••••••",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié ?",
+    "submit": "Se connecter",
+    "submitting": "Connexion...",
+    "noAccount": "Pas encore de compte ?",
+    "becomePetsitter": "Devenir petsitter",
+    "owner": "Propriétaire",
+    "errors": {
+      "fillAllFields": "Veuillez remplir tous les champs",
+      "invalidCredentials": "Email ou mot de passe incorrect",
+      "genericError": "Une erreur est survenue"
+    }
+  },
+  "signup": {
+    "sitter": {
+      "title": "Devenir Petsitter",
+      "subtitle": "Proposez vos services de garde d'animaux"
+    },
+    "owner": {
+      "title": "Inscription Propriétaire",
+      "subtitle": "Trouvez le petsitter idéal pour votre animal"
+    },
+    "fullName": "Nom complet",
+    "fullNamePlaceholder": "Jean Dupont",
+    "email": "Email",
+    "emailPlaceholder": "jean@example.com",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirmer le mot de passe",
+    "termsStart": "J'accepte les",
+    "termsLink": "conditions générales",
+    "termsAnd": "et la",
+    "privacyLink": "politique de confidentialité",
+    "submit": "S'inscrire",
+    "submitting": "Inscription en cours...",
+    "alreadyAccount": "Déjà inscrit ?",
+    "loginLink": "Se connecter",
+    "checkEmail": "Vérifiez votre email pour confirmer votre inscription",
+    "errors": {
+      "nameRequired": "Le nom est requis",
+      "emailRequired": "L'email est requis",
+      "passwordMin": "Le mot de passe doit contenir au moins 6 caractères",
+      "passwordMismatch": "Les mots de passe ne correspondent pas",
+      "termsRequired": "Vous devez accepter les conditions générales",
+      "genericError": "Une erreur est survenue"
+    }
+  },
+  "search": {
+    "title": "Rechercher un petsitter",
+    "location": "Localisation",
+    "service": "Service",
+    "animal": "Animal",
+    "radius": "Rayon",
+    "filterBtn": "Filtrer"
+  },
+  "ownerDashboard": {
+    "space": "Espace Propriétaire",
+    "title": "Tableau de bord",
+    "welcome": "Bienvenue {name} !",
+    "menu": "Menu",
+    "closeMenu": "Fermer le menu",
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "reservations": "Mes réservations",
+      "pets": "Mes animaux",
+      "favorites": "Favoris",
+      "settings": "Paramètres"
+    },
+    "stats": {
+      "myPets": "Mes animaux",
+      "activeBookings": "Réservations actives",
+      "favoritePetsitters": "Petsitters favoris",
+      "completedBookings": "Gardes terminées"
+    },
+    "quickActions": "Actions rapides",
+    "addPet": "Ajouter un animal",
+    "managePets": "Gérer mes animaux",
+    "createPetProfile": "Créer la fiche de votre compagnon",
+    "petsRegistered": "{count} animal enregistré",
+    "petsRegisteredPlural": "{count} animaux enregistrés",
+    "findPetsitter": "Trouver un petsitter",
+    "searchNearby": "Rechercher un gardien près de chez vous",
+    "myFavorites": "Mes favoris",
+    "noFavoritesYet": "Aucun favori pour le moment",
+    "favoritePetsitter": "{count} petsitter favori",
+    "favoritePetsitterPlural": "{count} petsitters favoris",
+    "upcomingReservations": "Réservations à venir",
+    "viewAll": "Voir tout",
+    "noUpcomingReservations": "Aucune réservation à venir",
+    "tip": "Conseil",
+    "tipText": "Pour trouver le petsitter idéal, pensez à compléter les fiches de vos animaux avec leurs habitudes et besoins spécifiques. Cela aidera les petsitters à mieux préparer la garde !",
+    "reservationsPage": {
+      "title": "Mes réservations",
+      "subtitle": "Suivez l'état de vos demandes de garde",
+      "pending": "En attente",
+      "confirmed": "Confirmées",
+      "completed": "Terminées",
+      "cancelled": "Annulées",
+      "noReservations": "Aucune réservation",
+      "noReservationsText": "Vos demandes de garde apparaîtront ici",
+      "cancelReservation": "Annuler la réservation",
+      "confirmCancel": "Confirmer l'annulation",
+      "cancelConfirmText": "Êtes-vous sûr de vouloir annuler cette réservation ?",
+      "leaveReview": "Laisser un avis"
+    },
+    "petsPage": {
+      "title": "Mes animaux",
+      "subtitle": "Gérez les fiches de vos compagnons",
+      "addPet": "Ajouter un animal",
+      "noPets": "Aucun animal enregistré",
+      "noPetsText": "Ajoutez votre premier compagnon pour commencer",
+      "editPet": "Modifier l'animal",
+      "deletePet": "Supprimer l'animal",
+      "confirmDelete": "Confirmer la suppression",
+      "deleteConfirmText": "Êtes-vous sûr de vouloir supprimer cet animal ?",
+      "vaccinated": "Vaccins à jour",
+      "sterilized": "Stérilisé(e)",
+      "years": "ans",
+      "kg": "kg"
+    },
+    "favoritesPage": {
+      "title": "Mes petsitters favoris",
+      "subtitle": "Retrouvez vos petsitters préférés",
+      "noFavorites": "Aucun favori pour le moment",
+      "noFavoritesText": "Ajoutez des petsitters à vos favoris lors de vos recherches",
+      "findPetsitters": "Trouver des petsitters",
+      "removeFavorite": "Retirer des favoris",
+      "viewProfile": "Voir le profil",
+      "contactPetsitter": "Contacter"
+    },
+    "settingsPage": {
+      "title": "Paramètres",
+      "subtitle": "Gérez vos informations personnelles",
+      "accountInfo": "Informations du compte",
+      "displayName": "Nom d'affichage",
+      "email": "Email",
+      "changePassword": "Changer le mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "updatePassword": "Mettre à jour le mot de passe",
+      "dangerZone": "Zone dangereuse",
+      "deleteAccount": "Supprimer mon compte",
+      "deleteAccountText": "Cette action est irréversible. Toutes vos données seront supprimées.",
+      "confirmDeleteAccount": "Confirmer la suppression du compte",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    }
+  },
+  "sitterDashboard": {
+    "space": "Espace Petsitter",
+    "title": "Tableau de bord",
+    "welcome": "Bienvenue {name} ! Voici un aperçu de votre activité.",
+    "menu": "Menu",
+    "closeMenu": "Fermer le menu",
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "reservations": "Réservations",
+      "calendar": "Calendrier",
+      "profile": "Mon profil",
+      "reviews": "Avis reçus",
+      "subscription": "Abonnement",
+      "settings": "Paramètres"
+    },
+    "stats": {
+      "pendingRequests": "Demandes en attente",
+      "upcomingReservations": "Réservations à venir",
+      "averageRating": "Note moyenne",
+      "monthlyRevenue": "Revenus ce mois",
+      "noReviewsYet": "Pas encore d'avis",
+      "reviewsCount": "{count} avis"
+    },
+    "pendingAlert": {
+      "title": "{count} demande en attente !",
+      "titlePlural": "{count} demandes en attente !",
+      "text": "Des propriétaires attendent votre réponse",
+      "viewRequests": "Voir les demandes"
+    },
+    "trialAlert": {
+      "title": "Période d'essai",
+      "text": "Votre période d'essai se termine bientôt. Pensez à souscrire à un abonnement pour continuer à recevoir des réservations."
+    },
+    "quickActions": "Actions rapides",
+    "completeProfile": "Compléter mon profil",
+    "completeProfileText": "Ajoutez vos services et tarifs",
+    "manageCalendar": "Gérer mon calendrier",
+    "manageCalendarText": "Définir mes disponibilités",
+    "myReservations": "Mes réservations",
+    "manageRequests": "Gérer les demandes ({count} en attente)",
+    "recentRequests": "Demandes récentes",
+    "viewAll": "Voir tout",
+    "noRequests": "Aucune demande de réservation pour le moment",
+    "noRequestsText": "Les demandes apparaîtront ici",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "status": {
+      "pending": "En attente",
+      "accepted": "Acceptée",
+      "completed": "Terminée",
+      "cancelled": "Annulée",
+      "declined": "Refusée"
+    },
+    "reservationsPage": {
+      "title": "Mes réservations",
+      "subtitle": "Gérez vos demandes de réservation",
+      "pending": "En attente",
+      "accepted": "Acceptées",
+      "completed": "Terminées",
+      "declined": "Refusées",
+      "noReservations": "Aucune réservation",
+      "noReservationsText": "Les demandes de garde apparaîtront ici",
+      "howItWorks": "Comment ça marche",
+      "howItWorksText": "Acceptez ou refusez les demandes de réservation. Une fois acceptée, le propriétaire sera notifié."
+    },
+    "profilePage": {
+      "title": "Mon profil",
+      "subtitle": "Complétez votre profil en plusieurs étapes",
+      "tabs": {
+        "profile": "Profil",
+        "services": "Services",
+        "specifics": "Spécificités"
+      },
+      "back": "Retour",
+      "save": "Enregistrer",
+      "next": "Suivant",
+      "publish": "Publier le profil",
+      "unpublish": "Dépublier",
+      "profilePublished": "Votre profil est publié",
+      "profileUnpublished": "Votre profil n'est pas publié",
+      "toPublishComplete": "Pour publier, complétez :",
+      "profileTab": {
+        "commercialName": "Dénomination commerciale ou Pseudo (public)",
+        "commercialNamePlaceholder": "Nom de votre entreprise / pseudo",
+        "fullName": "Prénom + Nom (non public)",
+        "fullNamePlaceholder": "Prénom + nom",
+        "phone": "Numéro de téléphone (non public)",
+        "phonePlaceholder": "Ex: 06 12 34 56 78",
+        "status": "Statut (public)",
+        "businessTypes": {
+          "individual": "Particulier / Privé",
+          "independent": "Personne physique / Indépendant",
+          "company": "Personne morale / Société"
+        },
+        "tvaNumber": "Numéro de TVA (obligatoire)",
+        "tvaPlaceholder": "FR12345678901",
+        "siretNumber": "Numéro SIRET (obligatoire)",
+        "siretPlaceholder": "12345678901234",
+        "siretHelp": "Le numéro SIRET doit contenir exactement 14 chiffres",
+        "description": "Description (public)",
+        "descriptionPlaceholder": "Expliquez votre activité, décrivez votre vision du métier, votre passion pour nos amis les animaux et attirez à vous une clientèle fidèle !"
+      },
+      "servicesTab": {
+        "animalTypes": "Types d'animaux acceptés",
+        "servicesOffered": "Services proposés",
+        "pricePerDay": "Prix/jour (€)",
+        "pricePerWeek": "Prix/semaine (€)",
+        "serviceDescription": "Description du service",
+        "serviceDescriptionPlaceholder": "Décrivez ce que vous proposez...",
+        "optionsForDogs": "Options pour chiens",
+        "optionsForCats": "Options pour chats",
+        "animals": {
+          "petit-chien": "Petit Chien (-10kg)",
+          "moyen-chien": "Moyen chien (10-20kg)",
+          "grand-chien": "Grand chien (+20kg)",
+          "chien-attaque": "Chien d'attaque (Cat. 1)",
+          "chien-garde": "Chien de garde (Cat. 2)",
+          "chat": "Chat",
+          "lapin": "Lapin",
+          "rongeur": "Petit rongeur",
+          "oiseau": "Oiseau",
+          "volaille": "Volaille",
+          "nac": "NAC (Nouveaux Animaux de Compagnie)"
+        },
+        "serviceTypes": {
+          "hebergement": "Hébergement (garde de +12h)",
+          "garde": "Garde (garde de -12h)",
+          "visite": "Visite sur le lieu de vie de l'animal",
+          "promenade": "Chien en promenade",
+          "excursion": "Chien en excursion"
+        },
+        "serviceOptions": {
+          "hebergementChien": {
+            "ext-espace-privatif": "En extérieur dans un espace privatif clos (chenil)",
+            "partage-sans-acces": "Partage l'espace de vie sans accès à un espace extérieur clos",
+            "partage-avec-acces": "Partage l'espace de vie avec accès à un espace clos extérieur (cour ou jardin)",
+            "int-sans-acces": "En intérieur dans une pièce dédiée sans accès à un espace extérieur clos",
+            "int-avec-acces": "En intérieur dans une pièce dédiée avec accès à un espace extérieur clos (cour ou jardin)"
+          },
+          "hebergementChat": {
+            "chat-partage-sans-acces": "Partage l'espace de vie sans accès à un espace extérieur clos",
+            "chat-partage-avec-acces": "Partage l'espace de vie avec accès à un espace clos extérieur (cour ou jardin)",
+            "chat-int-sans-acces": "En intérieur dans une pièce dédiée sans accès à un espace extérieur clos",
+            "chat-int-avec-acces": "En intérieur dans une pièce dédiée avec accès à un espace extérieur clos (cour ou jardin)"
+          },
+          "gardeChien": {
+            "garde-partage-sans-acces": "Partage l'espace de vie sans accès à un espace extérieur clos",
+            "garde-partage-avec-acces": "Partage l'espace de vie avec accès à un espace clos extérieur (cour ou jardin)",
+            "garde-int-sans-acces": "En intérieur dans une pièce dédiée sans accès à un espace extérieur clos",
+            "garde-int-avec-acces": "En intérieur dans une pièce dédiée avec accès à un espace extérieur clos (cour ou jardin)"
+          },
+          "gardeChat": {
+            "chat-garde-partage-sans-acces": "Partage l'espace de vie sans accès à un espace extérieur clos",
+            "chat-garde-partage-avec-acces": "Partage l'espace de vie avec accès à un espace clos extérieur (cour ou jardin)",
+            "chat-garde-int-sans-acces": "En intérieur dans une pièce dédiée sans accès à un espace extérieur clos",
+            "chat-garde-int-avec-acces": "En intérieur dans une pièce dédiée avec accès à un espace extérieur clos (cour ou jardin)"
+          },
+          "visiteChien": {
+            "1-visite": "1x visite à domicile par jour + nourrissage",
+            "2-visites": "2x visite à domicile par jour + nourrissage",
+            "1-visite-1-promenade": "1x visite à domicile par jour + 1x promenade du chien + nourrissage",
+            "2-visites-2-promenades": "2x visites à domicile par jour + 2x promenade du chien + nourrissage"
+          },
+          "visiteChat": {
+            "chat-1-visite": "1x visite à domicile par jour + nourrissage",
+            "chat-2-visites": "2x visites à domicile par jour + nourrissage"
+          },
+          "promenadeChien": {
+            "promenade-1x": "Promenade du chien 1x par jour",
+            "promenade-2x": "Promenade du chien 2x par jour"
+          }
+        }
+      },
+      "specificsTab": {
+        "housingTypeTitle": "Type du lieu de l'hébergement",
+        "housingTypeSubtitle": "Sélectionnez le type de votre habitation",
+        "housingTypes": {
+          "maison": "Maison",
+          "appartement": "Appartement",
+          "propriete": "Propriété à la campagne"
+        },
+        "childrenTitle": "Enfants",
+        "childrenSubtitle": "Présence d'enfants sur le lieu de garde",
+        "childrenOptions": {
+          "no-answer": "Je ne réponds pas à cette question",
+          "no-children": "Pas d'enfants",
+          "toddlers": "Bambins à la maison (-6 ans)",
+          "children": "Enfants à la maison (6-12 ans)",
+          "teenagers": "Adolescents à la maison (+12 ans)"
+        },
+        "walkingTitle": "Lieux de promenade",
+        "walkingSubtitle": "Type d'aires de promenade près du lieu de garde",
+        "walkingHelp": "Sélectionnez les zones de promenade disponibles près de chez vous",
+        "walkingOptions": {
+          "off-leash": "Zone sans laisse à proximité",
+          "park": "Parc",
+          "beach": "Plage",
+          "forest": "Forêt",
+          "countryside": "Campagne"
+        },
+        "skillsTitle": "Compétences supplémentaires",
+        "skillsSubtitle": "Vos autres domaines de compétence",
+        "skillsHelp": "Indiquez les domaines dans lesquels vous avez une expertise",
+        "skillsOptions": {
+          "volunteer": "Expérience en tant que bénévole dans le domaine du bien-être animal",
+          "behavior": "Expérience avec les problèmes de comportement",
+          "rescue": "Expérience avec des animaux de sauvetage",
+          "training": "Expérience avec les techniques de dressage de chien"
+        },
+        "experienceTitle": "Années d'expérience",
+        "experienceSubtitle": "Votre niveau d'expérience",
+        "experienceHelp": "Indiquez votre niveau d'expérience avec les animaux",
+        "experienceOptions": {
+          "less-1": "Moins de 1 an d'expérience",
+          "less-5": "Moins de 5 ans d'expérience",
+          "more-5": "Plus de 5 ans d'expérience",
+          "more-10": "Plus de 10 ans d'expérience"
+        }
+      }
+    },
+    "calendarPage": {
+      "title": "Calendrier & Disponibilités",
+      "subtitle": "Gérez vos disponibilités",
+      "blockDates": "Bloquer des dates",
+      "legend": "Légende",
+      "confirmedBooking": "Réservation confirmée",
+      "pendingRequest": "Demande en attente",
+      "blockedDate": "Date bloquée",
+      "available": "Disponible",
+      "today": "Aujourd'hui",
+      "unavailable": "Indisponible",
+      "unblockDate": "Débloquer cette date",
+      "eventDetails": "Détails",
+      "reason": "Raison",
+      "modal": {
+        "title": "Bloquer des dates",
+        "subtitle": "Marquez vos indisponibilités",
+        "startDate": "Date de début",
+        "endDate": "Date de fin (optionnel)",
+        "endDateHelp": "Laissez vide pour bloquer une seule journée",
+        "reasonLabel": "Raison (optionnel)",
+        "reasonPlaceholder": "Ex: Vacances, formation...",
+        "characters": "caractères",
+        "cancel": "Annuler",
+        "block": "Bloquer",
+        "loading": "En cours...",
+        "required": "obligatoire",
+        "errors": {
+          "selectDate": "Veuillez sélectionner au moins une date",
+          "endBeforeStart": "La date de fin doit être après la date de début",
+          "generic": "Une erreur est survenue"
+        }
+      },
+      "calendar": {
+        "next": "Suivant",
+        "previous": "Préc.",
+        "today": "Aujourd'hui",
+        "month": "Mois",
+        "week": "Semaine",
+        "day": "Jour",
+        "agenda": "Agenda",
+        "date": "Date",
+        "time": "Heure",
+        "event": "Événement",
+        "noEvents": "Aucun événement dans cette période",
+        "pending": "En attente",
+        "confirmed": "Confirmée",
+        "unavailable": "Indisponible"
+      }
+    },
+    "reviewsPage": {
+      "title": "Avis reçus",
+      "subtitle": "Consultez les avis laissés par les propriétaires",
+      "averageRating": "Note moyenne",
+      "reviewsCount": "Nombre d'avis",
+      "noReviews": "Aucun avis pour le moment",
+      "noReviewsText": "Les avis apparaîtront ici après vos premières gardes"
+    },
+    "subscriptionPage": {
+      "title": "Mon abonnement",
+      "subtitle": "Gérez votre abonnement EuroPetSitter",
+      "currentStatus": "Statut actuel",
+      "subscriptionType": "Type d'abonnement",
+      "trial": "Période d'essai",
+      "trialEnds": "Se termine le",
+      "active": "Actif",
+      "expired": "Expiré",
+      "plans": {
+        "free": "Gratuit",
+        "essential": "Essentiel",
+        "premium": "Premium"
+      },
+      "perQuarter": "par trimestre",
+      "perSemester": "par semestre",
+      "perYear": "par an",
+      "subscribe": "Souscrire",
+      "currentPlan": "Plan actuel",
+      "features": {
+        "visibleProfile": "Profil visible",
+        "unlimitedBookings": "Réservations illimitées",
+        "prioritySupport": "Support prioritaire",
+        "analytics": "Statistiques avancées"
+      }
+    },
+    "settingsPage": {
+      "title": "Paramètres",
+      "subtitle": "Gérez vos informations personnelles",
+      "accountInfo": "Informations du compte",
+      "displayName": "Nom d'affichage",
+      "email": "Email",
+      "changePassword": "Changer le mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "updatePassword": "Mettre à jour le mot de passe",
+      "subscription": "Abonnement",
+      "manageSubscription": "Gérer mon abonnement",
+      "dangerZone": "Zone dangereuse",
+      "deleteAccount": "Supprimer mon compte",
+      "deleteAccountText": "Cette action est irréversible. Toutes vos données seront supprimées.",
+      "confirmDeleteAccount": "Confirmer la suppression du compte",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    }
+  },
+  "pets": {
+    "title": "Mes animaux",
+    "add": "Ajouter un animal",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "name": "Nom",
+    "type": "Type",
+    "breed": "Race",
+    "age": "Âge",
+    "weight": "Poids",
+    "gender": "Sexe",
+    "male": "Mâle",
+    "female": "Femelle",
+    "bio": "Description",
+    "healthInfo": "Informations médicales",
+    "specialNeeds": "Besoins spéciaux",
+    "vaccinated": "Vaccins à jour",
+    "sterilized": "Stérilisé(e)",
+    "types": {
+      "chien": "Chien",
+      "chat": "Chat",
+      "lapin": "Lapin",
+      "oiseau": "Oiseau",
+      "rongeur": "Rongeur",
+      "reptile": "Reptile",
+      "poisson": "Poisson",
+      "nac": "NAC"
+    }
+  },
+  "reservations": {
+    "title": "Mes réservations",
+    "all": "Toutes",
+    "pending": "En attente",
+    "accepted": "Confirmées",
+    "completed": "Terminées",
+    "cancelled": "Annulées",
+    "rejected": "Refusées",
+    "status": "Statut",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "duration": "Durée",
+    "service": "Service",
+    "pet": "Animal",
+    "price": "Prix",
+    "totalPrice": "Prix total",
+    "perDay": "par jour",
+    "accept": "Accepter",
+    "reject": "Refuser",
+    "cancel": "Annuler",
+    "leaveReview": "Laisser un avis",
+    "ownerMessage": "Message du propriétaire",
+    "sitterResponse": "Réponse du petsitter",
+    "cancellationReason": "Raison de l'annulation"
+  },
+  "reviews": {
+    "title": "Avis reçus",
+    "rating": "Note",
+    "comment": "Commentaire",
+    "respond": "Répondre",
+    "yourResponse": "Votre réponse",
+    "noReviews": "Aucun avis pour le moment",
+    "averageRating": "Note moyenne",
+    "totalReviews": "avis",
+    "basedOn": "Basé sur"
+  },
+  "subscription": {
+    "title": "Abonnement",
+    "status": "Statut",
+    "trial": "Période d'essai",
+    "active": "Actif",
+    "expired": "Expiré",
+    "monthly": "Mensuel",
+    "yearly": "Annuel",
+    "perMonth": "par mois",
+    "perYear": "par an",
+    "subscribe": "Souscrire",
+    "manage": "Gérer mon abonnement",
+    "daysLeft": "jours restants",
+    "endsOn": "Se termine le",
+    "renewsOn": "Renouvelle le"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "viewAll": "Voir tout",
+    "noResults": "Aucun résultat",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent"
+  },
+  "home": {
+    "hero": {
+      "title": "Trouvez en Belgique votre",
+      "titleHighlight": "PetSitter",
+      "titleEnd": "et le service animalier adéquat !",
+      "subtitle": "Une application simple, efficace et gratuite pour les détenteurs d'animaux de compagnie. Vous sélectionnez un type d'animal, le service animalier désiré avec option, votre code postal, un rayon de recherche et le tour est joué !",
+      "searchBtn": "Chercher un PetSitter",
+      "becomeBtn": "Devenir PetSitter"
+    },
+    "affiliates": {
+      "title": "Découvrez nos derniers PetSitters affiliés",
+      "scrollHint": "Faites défiler pour voir plus"
+    },
+    "tabs": {
+      "owners": "Info Détenteurs",
+      "app": "Info Application",
+      "sitters": "Info PetSitters"
+    },
+    "ownersTab": {
+      "title": "À l'attention des détenteurs d'animaux de compagnie",
+      "shortText": "Il est vivement recommandé de rencontrer le PetSitter choisi bien avant le début de la prestation prévue, accompagné de votre chien ou chat notamment.",
+      "fullText": "Il est vivement recommandé de rencontrer le PetSitter choisi bien avant le début de la prestation prévue, accompagné de votre chien ou chat notamment. Une brève conversation de quelques minutes avec le PetSitter et une visite préalable des lieux où votre animal sera gardé peuvent éviter de nombreux malentendus. Par ailleurs, assurez-vous que le PetSitter a déclaré son activité auprès des autorités compétentes. Vous cherchez à allier plaisir et revenus complémentaires sans risque financier ? Inscrivez-vous gratuitement ici comme PetSitter pour une période d'essai de 3 mois, sans engagement ultérieur aucun. Ensuite un abonnement sans renouvellement en automatique vous sera proposé à partir de 29 € TTC par trimestre !",
+      "readMore": "Lire plus",
+      "readLess": "Lire moins",
+      "discoverBtn": "Découvrir nos PetSitters"
+    },
+    "appTab": {
+      "title": "Une application simple et sécurisée",
+      "shortText": "EuroPetSitter met en relation des propriétaires d'animaux avec des prestataires partout en Belgique pour des services variés.",
+      "fullText": "EuroPetSitter met en relation des propriétaires d'animaux de compagnie avec des prestataires de services animaliers assurant diverses missions partout en Belgique : hébergement (+12h), garde (-12h), visite à domicile, promenade et excursion. Via notre application, il n'y a ni frais d'inscription ni commissions à payer par le détenteur d'animaux de compagnie. Les PetSitters fixent leurs tarifs et conservent l'intégralité de leurs gains. EuroPetSitter génère ses revenus uniquement via la mise à disposition d'espaces publicitaires et fonctionne comme un annuaire numérique doté d'un moteur de recherche.",
+      "readMore": "Lire plus",
+      "readLess": "Lire moins"
+    },
+    "sittersTab": {
+      "title": "À l'attention des prestataires de services animaliers",
+      "shortText": "Vous souhaitez promouvoir votre activité de services animaliers ou démarrer une nouvelle activité sans risque financier ?",
+      "fullText": "Vous souhaitez promouvoir votre activité de services animaliers ou démarrer une nouvelle activité sans risque financier ? Dans votre espace publicitaire, vous pourrez vous présenter à travers un texte ou des photos. Indiquez précisément les types d'animaux que vous prenez en charge, les services proposés, l'espace disponible pour les animaux, ainsi que vos tarifs journaliers et hebdomadaires. Ajoutez également des informations pertinentes comme la présence d'enfants ou non ou encore l'environnement de garde. Intéressé ? Inscrivez-vous gratuitement comme PetSitter pour une période d'essai de 3 mois, sans engagement. Satisfait ? Vous pourrez renouveler votre abonnement à votre convenance : 29 € pour 3 mois, 49 € pour 6 mois, ou 96 € pour un an, TTC, sans renouvellement automatique.",
+      "readMore": "Lire plus",
+      "readLess": "Lire moins",
+      "becomeBtn": "Devenir PetSitter"
+    },
+    "blog": {
+      "title": "Derniers articles",
+      "subtitle": "Conseils et astuces pour prendre soin de vos animaux",
+      "viewAll": "Voir tous les articles"
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "q1": "Comment choisir le bon PetSitter ?",
+      "a1": "Pour choisir le bon PetSitter, nous vous recommandons de lire attentivement les profils et les avis, vérifier les qualifications et l'expérience, organiser une rencontre au préalable avec votre animal, discuter en détail de vos attentes et des besoins spécifiques de votre animal.",
+      "q2": "Quels sont les avantages d'utilisation de EuroPetSitter ?",
+      "a2": "Gratuité : L'accès au bloc de recherche et la prise de contact direct avec le PetSitter de votre choix sont entièrement gratuits. EuroPetSitter ne prélève aucune commission sur les rémunérations versées aux PetSitters affiliés à notre application. Ce modèle économique rare, voire inexistant sur les autres applications similaires, vous garantit un prix transparent.\n\nRapidité : En seulement 6 critères, vous obtenez une liste de PetSitters correspondant le plus précisément à vos attentes, vous évitant ainsi perte de temps en contacts infructueux.\n\nClarté : Le profil du PetSitter vous fournit les informations essentielles : type d'animaux pris en charge, missions acceptées avec options possibles, localisation, tarifs journalier et hebdomadaire. En outre, vous en saurez plus sur son cadre de vie (appartement ou maison à la campagne avec présence d'enfants en bas âge ou non) ainsi que la possibilité de venir chercher et ramener votre animal, d'administrer des médicaments et bien plus encore.",
+      "q3": "Comment placer son annonce sur EuroPetSitter ?",
+      "a3": "Afin de pouvoir placer son profil, le prestataire de services animaliers doit obligatoirement s'identifier et souscrire un abonnement. Tout nouvel inscrit bénéficiera d'un premier et unique abonnement gratuit d'une durée de 3 mois, ceci à titre d'essai et sans engagement ultérieur aucun. Une fois votre profil complété valablement, il sera mis en ligne. Dès lors tous les détenteurs d'animaux de compagnie pourront en prendre connaissance et vous contacter directement.",
+      "q4": "Comment supprimer mon compte en tant que PetSitter ?",
+      "a4": "Pas d'inquiétude, si vous ne souhaitez plus promouvoir vos services sur notre plateforme, temporairement ou définitivement, il vous suffit simplement d'utiliser l'option 'suspendre mon compte' ou 'supprimer mon compte' selon le cas dans votre espace client et votre profil ne sera plus visible. Il n'y a pas de renouvellement en automatique des abonnements sur notre plateforme !",
+      "q5": "Comment réserver et payer un service auprès du PetSitter ?",
+      "a5": "Vous pouvez soumettre directement auprès du PetSitter de votre choix la demande de réservation d'un service animalier. Le montant des prestations est à payer directement à votre PetSitter. EuroPetSitter ne prélève aucune commission sur ces rémunérations."
+    }
+  },
+  "about": {
+    "subtitle": "À propos",
+    "title": "À PROPOS DE NOUS",
+    "description": "Découvrez notre mission et notre vision pour révolutionner les services de garde d'animaux en Belgique",
+    "philosophy": {
+      "subtitle": "Notre philosophie",
+      "title": "Notre philosophie",
+      "text1": "Via EuroPetSitter les détenteurs d'animaux de compagnie ne paient ni frais d'inscription ni commission de 20% sur chaque prestation, contrairement à la majorité des autres applications similaires à celle-ci. Tout PetSitter affilié à EuroPetSitter fixe ses tarifs à sa convenance et conserve l'intégralité des sommes perçues.",
+      "text2": "Notre modèle économique repose uniquement sur la vente d'espaces publicitaires permettant aux PetSitters de se présenter, de détailler leurs services et de partager leurs coordonnées. EuroPetSitter est un répertoire doté d'un moteur de recherche, facilitant la mise en relation entre propriétaires d'animaux de compagnie et PetSitters.",
+      "quote": "Nous croyons en une relation transparente et équitable entre les propriétaires d'animaux et les PetSitters."
+    },
+    "ambition": {
+      "subtitle": "Notre ambition",
+      "title": "Notre ambition",
+      "text": "EuroPetSitter vise à faciliter en toute confiance la mise en relation, partout en Belgique, entre les propriétaires d'animaux de compagnie et des prestataires de services animaliers. Nos PetSitters affiliés offrent divers services tels que :",
+      "quote": "Notre ambition est de créer la plateforme de référence pour les services animaliers en Belgique."
+    },
+    "services": {
+      "boarding": "Hébergement (+ de 12h de garde de jour ou garde de nuit)",
+      "dayCare": "Garde (- de 12h de garde de jour)",
+      "homeVisit": "Visite à domicile pour nourrissage, administration de médicaments",
+      "dogWalking": "Promenade de chiens",
+      "excursion": "Excursion à la campagne, à la plage ou en forêt"
+    },
+    "cta": {
+      "title": "Rejoignez notre communauté dès aujourd'hui",
+      "text": "Que vous soyez propriétaire d'animal ou PetSitter, EuroPetSitter vous offre une plateforme transparente et efficace.",
+      "findBtn": "Trouver un PetSitter",
+      "becomeBtn": "Devenir PetSitter"
+    }
+  },
+  "howItWorks": {
+    "subtitle": "Comment ça marche",
+    "title": "Comment fonctionne EuroPetSitter ?",
+    "description": "Découvrez comment notre plateforme connecte les détenteurs d'animaux de compagnie avec des PetSitters impliqués dans leurs missions",
+    "startNow": "Commencer maintenant",
+    "steps": {
+      "subtitle": "Étapes",
+      "title": "Un processus simple en 3 étapes",
+      "description": "Notre plateforme a été conçue pour rendre la recherche et la réservation de services de pet sitting aussi simple que possible",
+      "step1": {
+        "title": "Étape 1 – Recherchez",
+        "text": "Trouvez le PetSitter idéal en fonction de vos besoins, de votre localisation et du type de service souhaité. Notre moteur de recherche avancé vous permet de filtrer les résultats selon vos critères spécifiques."
+      },
+      "step2": {
+        "title": "Étape 2 – Réservez",
+        "text": "Sélectionnez vos dates et soumettez votre demande directement en ligne. Notre système de réservation intuitif vous permet de choisir les services dont vous avez besoin et de communiquer vos exigences spécifiques."
+      },
+      "step3": {
+        "title": "Étape 3 – Rencontrez",
+        "text": "Échangez avec votre PetSitter et organisez une première rencontre pour établir une relation de confiance. Cette étape est essentielle pour assurer le bien-être de votre animal et votre tranquillité d'esprit."
+      }
+    },
+    "advantages": {
+      "subtitle": "Avantages",
+      "title": "EuroPetSitter c'est aussi",
+      "description": "Découvrez les avantages qui font de notre plateforme la référence pour les services de pet sitting en Belgique",
+      "community": {
+        "title": "Communauté bienveillante",
+        "text": "Rejoignez une communauté passionnée par le bien-être animal et partagez vos expériences avec d'autres propriétaires et pet sitters."
+      },
+      "security": {
+        "title": "Service sécurisé",
+        "text": "Notre plateforme garantit la sécurité de vos données et facilite des échanges en toute confiance entre propriétaires et pet sitters."
+      },
+      "personalized": {
+        "title": "Service personnalisé",
+        "text": "Des prestations adaptées aux besoins spécifiques de votre animal, qu'il s'agisse de soins particuliers ou de routines établies."
+      },
+      "flexible": {
+        "title": "Disponibilité flexible",
+        "text": "Trouvez des pet sitters disponibles selon vos horaires, même pour des demandes de dernière minute ou des besoins réguliers."
+      }
+    },
+    "servicesList": {
+      "subtitle": "Services",
+      "title": "Des services adaptés à tous vos besoins",
+      "description": "Que vous ayez besoin d'une garde ponctuelle ou régulière, nos pet sitters proposent une variété de services pour répondre à vos besoins spécifiques.",
+      "quote": "Des services de qualité pour le bien-être de vos animaux de compagnie",
+      "boarding": { "name": "Hébergement", "desc": "Garde de plus de 12h, de jour comme de nuit, chez le pet sitter" },
+      "dayCare": { "name": "Garde à domicile", "desc": "Garde de moins de 12h au domicile du propriétaire" },
+      "visits": { "name": "Visites à domicile", "desc": "Visites ponctuelles pour nourrir, médicamenter ou simplement tenir compagnie" },
+      "walks": { "name": "Promenades", "desc": "Sorties régulières pour l'exercice et les besoins naturels" }
+    },
+    "cta": {
+      "title": "Prêt à trouver le PetSitter idéal ?",
+      "text": "Rejoignez notre communauté de détenteurs d'animaux de compagnie satisfaits et commencez à utiliser nos services dès aujourd'hui",
+      "findBtn": "Trouver un PetSitter",
+      "becomeBtn": "Devenir PetSitter"
+    },
+    "faqSection": {
+      "subtitle": "FAQ",
+      "title": "Questions fréquentes",
+      "description": "Trouvez rapidement des réponses à vos questions les plus courantes",
+      "viewAll": "Voir toutes les questions fréquentes"
+    }
+  },
+  "contact": {
+    "subtitle": "Contact",
+    "title": "Contactez-nous",
+    "description": "Nous sommes là pour répondre à toutes vos questions et vous accompagner dans votre expérience avec EuroPetSitter",
+    "info": {
+      "subtitle": "Coordonnées",
+      "title": "Nos coordonnées",
+      "description": "Plusieurs façons de nous contacter",
+      "phone": "Téléphone",
+      "email": "Email",
+      "address": "Adresse",
+      "followUs": "Suivez-nous"
+    },
+    "form": {
+      "title": "Envoyez-nous un message",
+      "fullName": "Nom complet",
+      "fullNamePlaceholder": "Votre nom",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "phone": "Téléphone",
+      "phonePlaceholder": "Votre numéro de téléphone",
+      "subject": "Sujet",
+      "subjectPlaceholder": "Sélectionnez un sujet",
+      "message": "Message",
+      "messagePlaceholder": "Détaillez votre message ici...",
+      "required": "Champs obligatoires",
+      "submit": "Envoyer le message",
+      "submitting": "Envoi en cours...",
+      "success": {
+        "title": "Message envoyé avec succès !",
+        "text": "Merci de nous avoir contactés. Nous vous répondrons dans les plus brefs délais.",
+        "sendAnother": "Envoyer un autre message"
+      },
+      "error": "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.",
+      "subjects": {
+        "general": "Question générale",
+        "support": "Support technique",
+        "partnership": "Partenariat",
+        "report": "Signaler un problème",
+        "other": "Autre"
+      }
+    },
+    "faq": {
+      "subtitle": "FAQ",
+      "title": "Questions fréquentes",
+      "description": "Vous avez des questions ? Consultez nos réponses aux questions les plus fréquentes",
+      "q1": "Comment puis-je devenir PetSitter sur votre plateforme ?",
+      "a1": "Pour devenir PetSitter, inscrivez-vous sur notre site, créez votre profil en détaillant vos services et tarifs, puis souscrivez à l'un de nos abonnements. Vous bénéficiez d'une période d'essai gratuite de 3 mois.",
+      "q2": "Comment contacter un PetSitter ?",
+      "a2": "Une fois que vous avez trouvé un PetSitter qui correspond à vos besoins, vous pouvez le contacter directement via notre plateforme. Ses coordonnées seront visibles sur son profil.",
+      "q3": "Quels sont les délais de réponse à mes questions ?",
+      "a3": "Notre équipe s'engage à répondre à toutes vos questions dans un délai de 24 à 48 heures ouvrables. Pour les questions urgentes, nous vous recommandons de nous contacter par téléphone."
+    },
+    "cta": {
+      "title": "Prêt à rejoindre notre communauté ?",
+      "text": "Que vous soyez propriétaire d'animal ou PetSitter, EuroPetSitter vous offre une plateforme transparente et efficace",
+      "findBtn": "Trouver un PetSitter",
+      "becomeBtn": "Devenir PetSitter"
+    }
+  },
+  "becomeSitter": {
+    "subtitle": "Devenir PetSitter",
+    "title": "Devenez petsitter professionnel",
+    "description": "Transformez votre passion pour les animaux en activité rémunératrice",
+    "trialBadge": "3 mois d'essai gratuit",
+    "createProfile": "Créer mon profil gratuitement",
+    "learnMore": "En savoir plus",
+    "whyJoin": {
+      "subtitle": "Pourquoi nous rejoindre",
+      "title": "Pourquoi nous rejoindre ?",
+      "income": {
+        "title": "Revenus supplémentaires",
+        "text": "Générez des revenus en faisant ce que vous aimez. Fixez vos propres tarifs et gérez votre planning selon vos disponibilités.",
+        "stat": "Moyenne : 500-1500€/mois"
+      },
+      "flexibility": {
+        "title": "Flexibilité totale",
+        "text": "Vous décidez quand vous êtes disponible. Gérez votre calendrier en toute autonomie et acceptez uniquement les réservations qui vous conviennent.",
+        "stat": "100% autonome"
+      },
+      "noCommission": {
+        "title": "0% de commission",
+        "text": "Contrairement aux autres plateformes, nous ne prélevons AUCUNE commission sur vos services. Vous gardez 100% de vos revenus.",
+        "stat": "Vous gardez tout !"
+      },
+      "visibility": {
+        "title": "Visibilité maximale",
+        "text": "Profitez de notre référencement SEO pour être trouvé facilement par des clients près de chez vous. Pas besoin de chercher, ils viennent à vous.",
+        "stat": "Des milliers de visiteurs/mois"
+      }
+    },
+    "howTo": {
+      "subtitle": "Comment ça marche",
+      "title": "Comment devenir petsitter ?",
+      "step1": { "title": "Inscription", "text": "Créez votre compte en 2 minutes" },
+      "step2": { "title": "Profil", "text": "Complétez votre profil avec photos et services" },
+      "step3": { "title": "Validation", "text": "Votre profil est vérifié sous 24h" },
+      "step4": { "title": "C'est parti !", "text": "Recevez vos premières demandes" }
+    },
+    "services": {
+      "subtitle": "Services",
+      "title": "Quels services pouvez-vous proposer ?",
+      "boarding": { "title": "Hébergement", "text": "Accueillez des animaux chez vous pour une ou plusieurs nuits", "price": "Tarif moyen : 25-40€/nuit" },
+      "dayCare": { "title": "Garde de jour", "text": "Prenez soin d'animaux pendant la journée", "price": "Tarif moyen : 20-35€/jour" },
+      "homeVisit": { "title": "Visite à domicile", "text": "Rendez visite aux animaux chez leur propriétaire", "price": "Tarif moyen : 15-25€/visite" },
+      "walking": { "title": "Promenade", "text": "Promenez des chiens dans votre quartier", "price": "Tarif moyen : 10-20€/promenade" },
+      "transport": { "title": "Transport", "text": "Transportez des animaux (vétérinaire, etc.)", "price": "Tarif moyen : 20-40€/trajet" }
+    },
+    "testimonials": {
+      "subtitle": "Témoignages",
+      "title": "Ils sont petsitters sur EuroPetSitter",
+      "testimonial1": {
+        "text": "J'adore être petsitter ! Je génère environ 800€/mois en m'occupant de chiens et chats. La plateforme est simple et les propriétaires sont adorables.",
+        "name": "Laura",
+        "role": "Petsitter à Bruxelles depuis 1 an"
+      },
+      "testimonial2": {
+        "text": "C'est l'activité parfaite en complément de mon job ! Je gère mon emploi du temps comme je veux et je passe du temps avec des animaux. Que demander de plus ?",
+        "name": "Marc",
+        "role": "Petsitter à Anvers depuis 6 mois"
+      }
+    },
+    "requirements": {
+      "subtitle": "Conditions",
+      "title": "Conditions requises",
+      "age": "Avoir 18 ans minimum",
+      "experience": "Aimer les animaux et avoir de l'expérience",
+      "id": "Fournir une pièce d'identité pour vérification",
+      "housing": "Disposer d'un logement adapté (pour l'hébergement)",
+      "insurance": "Avoir une assurance responsabilité civile"
+    },
+    "cta": {
+      "title": "Prêt à vous lancer ?",
+      "text": "Rejoignez notre communauté de petsitters passionnés",
+      "trialText": "3 mois d'essai gratuit - Sans engagement",
+      "createBtn": "Créer mon profil maintenant",
+      "note": "Inscription en 2 minutes • Pas de carte bancaire requise"
+    }
+  },
+  "blog": {
+    "subtitle": "Notre blog",
+    "title": "Le blog d'EuroPetSitter",
+    "searchPlaceholder": "Rechercher un article...",
+    "searchResults": "Résultats de recherche",
+    "articles": "article",
+    "articlesPlural": "articles",
+    "latestArticles": "Derniers articles",
+    "popularArticles": "Articles populaires",
+    "clearFilters": "Effacer les filtres",
+    "noResults": "Aucun article ne correspond à votre recherche",
+    "readArticle": "Lire l'article",
+    "newsletter": {
+      "title": "Abonnez-vous à notre newsletter",
+      "text": "Recevez nos derniers articles et conseils directement dans votre boîte mail",
+      "placeholder": "Votre adresse email",
+      "subscribe": "S'abonner"
+    },
+    "popularTags": "Tags populaires",
+    "categories": {
+      "tips": "Conseils",
+      "guides": "Guides",
+      "testimonials": "Témoignages",
+      "dogs": "Chiens",
+      "cats": "Chats",
+      "boarding": "Hébergement"
+    },
+    "articles": {
+      "article1": {
+        "title": "10 conseils pour préparer votre chien à l'hébergement chez un petsitter",
+        "excerpt": "Découvrez nos meilleurs conseils pour que votre chien vive une expérience positive chez son petsitter.",
+        "date": "15 janvier 2026",
+        "author": "Marie L."
+      },
+      "article2": {
+        "title": "Comment choisir le bon petsitter pour votre chat ?",
+        "excerpt": "Les critères essentiels à vérifier avant de confier votre chat à un professionnel.",
+        "date": "10 janvier 2026",
+        "author": "Sophie M."
+      },
+      "article3": {
+        "title": "Devenir petsitter : témoignage de Laura, 28 ans",
+        "excerpt": "Laura partage son expérience et ses conseils pour réussir comme petsitter professionnel.",
+        "date": "5 janvier 2026",
+        "author": "L'équipe EuroPetSitter"
+      },
+      "article4": {
+        "title": "Les différents types de garde pour animaux expliqués",
+        "excerpt": "Hébergement, garde de jour, visite à domicile... Quel service choisir selon vos besoins ?",
+        "date": "28 décembre 2025",
+        "author": "Thomas D."
+      },
+      "article5": {
+        "title": "Préparer la trousse de soins de votre animal pour une garde",
+        "excerpt": "La checklist complète des éléments à fournir au petsitter pour assurer le bien-être de votre compagnon.",
+        "date": "20 décembre 2025",
+        "author": "Marie L."
+      },
+      "article6": {
+        "title": "Les races de chiens les plus faciles à garder",
+        "excerpt": "Découvrez les races de chiens réputées pour leur sociabilité et leur facilité d'adaptation.",
+        "date": "15 décembre 2025",
+        "author": "Sophie M."
+      }
+    }
+  },
+  "footer": {
+    "stayConnected": "Restez connecté",
+    "newsletterText": "Rejoignez notre newsletter pour les dernières actualités et offres exclusives.",
+    "emailPlaceholder": "Votre adresse email",
+    "subscribeNewsletter": "S'inscrire à la newsletter",
+    "quickLinks": "Liens rapides",
+    "links": {
+      "home": "Accueil",
+      "about": "À propos",
+      "search": "Recherche",
+      "howItWorks": "Comment ça marche",
+      "becomeSitter": "Devenir PetSitter",
+      "blog": "Blog",
+      "contact": "Contact"
+    },
+    "contactUs": "Contactez-nous",
+    "country": "Belgique",
+    "phone": "Tél. : +32 2 123 45 67",
+    "email": "Email : contact@europetsitter.fr",
+    "followUs": "Suivez-nous",
+    "copyright": "© 2026 EuroPetSitter. Tous droits réservés.",
+    "legalLinks": {
+      "legal": "Mentions légales",
+      "terms": "Conditions générales",
+      "privacy": "Politique de confidentialité"
+    },
+    "madeBy": "Réalisé par"
+  }
+}

@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 150 42% 31%;
+    --primary-hover: 150 50% 18%;
+    --primary-light: 138 45% 92%;
+    
+    /* Shadcn/ui variables */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary-shadcn: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+  
+  /* Empêcher le zoom sur les inputs sur iOS */
+  @media screen and (max-width: 768px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    input[type="number"],
+    input[type="search"],
+    input[type="url"],
+    textarea,
+    select {
+      font-size: 16px;
+    }
+  }
+}
+
+/* Masquer la scrollbar pour le slider */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Styles responsive pour le calendrier */
+@media screen and (max-width: 768px) {
+  .rbc-calendar {
+    min-height: 400px !important;
+  }
+  
+  .rbc-toolbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .rbc-toolbar-label {
+    order: -1;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .rbc-toolbar button {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+  }
+  
+  .rbc-header {
+    padding: 8px 2px;
+    font-size: 0.75rem;
+  }
+  
+  .rbc-event {
+    font-size: 0.7rem;
+    padding: 1px 3px;
+  }
+  
+  .rbc-date-cell {
+    padding: 2px;
+    font-size: 0.8rem;
+  }
+  
+  .rbc-month-view {
+    font-size: 0.85rem;
+  }
+}
+
+/* Amélioration du touch sur mobile */
+@media (hover: none) and (pointer: coarse) {
+  button,
+  a,
+  .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Smooth scroll pour toutes les pages */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Amélioration des modales sur mobile */
+@media screen and (max-width: 640px) {
+  .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* Éviter le débordement horizontal */
+body {
+  overflow-x: hidden;
+}
+
+/* Amélioration des grilles responsive */
+@media screen and (max-width: 640px) {
+  .responsive-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

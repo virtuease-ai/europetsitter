@@ -1,0 +1,24 @@
+# Robots.txt for EuroPetSitter
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://europetsitter.be/sitemap.xml
+
+# Disallow sensitive pages
+Disallow: /api/
+Disallow: /petsitter/profil
+Disallow: /proprietaire/
+Disallow: /inscription/
+Disallow: /connexion/
+
+# Allow public petsitter profiles
+Allow: /fr/petsitter/*
+Allow: /nl/petsitter/*
+Allow: /en/petsitter/*
+
+# Allow search pages
+Allow: /fr/recherche
+Allow: /nl/zoeken
+Allow: /en/search
