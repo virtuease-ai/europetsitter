@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { createClient } from '@/lib/supabase/client';
 import { SitterLayout } from '@/components/layout/SitterLayout';
 import { AuthGuard } from '@/components/auth/AuthGuard';
+import { SubscriptionGuard } from '@/components/auth/SubscriptionGuard';
 import { 
   ClipboardList, 
   Check, 
@@ -553,7 +554,9 @@ function ReservationsContent() {
 export default function SitterReservationsPage() {
   return (
     <AuthGuard requiredRole="sitter">
-      <ReservationsContent />
+      <SubscriptionGuard>
+        <ReservationsContent />
+      </SubscriptionGuard>
     </AuthGuard>
   );
 }

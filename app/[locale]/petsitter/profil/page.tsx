@@ -12,6 +12,7 @@ import {
 } from '@/types/sitterProfileForm';
 import { SitterLayout } from '@/components/layout/SitterLayout';
 import { AuthGuard } from '@/components/auth/AuthGuard';
+import { SubscriptionGuard } from '@/components/auth/SubscriptionGuard';
 import { ProfileTabContent } from '@/components/sitter/profile/ProfileTabContent';
 import { ServicesTabContent } from '@/components/sitter/profile/ServicesTabContent';
 import { SpecificitiesTabContent } from '@/components/sitter/profile/SpecificitiesTabContent';
@@ -427,7 +428,9 @@ function ProfileContent() {
 export default function SitterProfilePage() {
   return (
     <AuthGuard requiredRole="sitter">
-      <ProfileContent />
+      <SubscriptionGuard>
+        <ProfileContent />
+      </SubscriptionGuard>
     </AuthGuard>
   );
 }

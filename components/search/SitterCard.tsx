@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Star, MapPin, Heart } from 'lucide-react';
 import { Link } from '@/navigation';
 
@@ -30,11 +31,18 @@ export function SitterCard({
         {/* Image */}
         <div className="relative h-48 bg-gradient-to-br from-primary-light to-primary flex items-center justify-center text-6xl">
           {avatar ? (
-            <img src={avatar} alt={name} className="w-full h-full object-cover" />
+            <Image
+              src={avatar}
+              alt={name}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover"
+              loading="lazy"
+            />
           ) : (
             '👤'
           )}
-          <button className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition-colors">
+          <button className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition-colors z-10">
             <Heart className="w-5 h-5 text-gray-600" />
           </button>
         </div>

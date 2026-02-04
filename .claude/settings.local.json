@@ -6,7 +6,9 @@
       "Bash(findstr:*)",
       "Bash(powershell -Command \"Get-ChildItem -Path ''C:\\\\Users\\\\noah_\\\\Desktop\\\\EUROPETSITTER OFFICIEL - Nouveau projet\\\\europetsitter\\\\app\\\\[locale]'' -Recurse -Filter ''page.tsx'' | Select-Object -ExpandProperty FullName\")",
       "Bash(npm run build:*)",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)"
     ]
   }
 }

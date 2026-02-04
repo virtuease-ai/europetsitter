@@ -1,11 +1,24 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/navigation';
 import { Search, ChevronDown } from 'lucide-react';
 import { getOrganizationSchema, getWebSiteSchema, generateStructuredData } from '@/lib/structuredData';
-import { HomeSittersSlider } from '@/components/home/HomeSittersSlider';
+
+// Lazy load the slider component (below the fold, does DB query)
+const HomeSittersSlider = dynamic(
+  () => import('@/components/home/HomeSittersSlider').then(mod => mod.HomeSittersSlider),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex justify-center py-8">
+        <div className="animate-spin rounded-full h-10 w-10 border-2 border-primary border-t-transparent" />
+      </div>
+    ),
+  }
+);
 
 type InfoTab = 'owners' | 'app' | 'sitters';
 

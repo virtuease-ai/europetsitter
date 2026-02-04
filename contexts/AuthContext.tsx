@@ -17,6 +17,9 @@ export interface AuthUser extends User {
   name?: string
   trial_end_date?: string
   subscription_status?: string
+  subscription_end_date?: string
+  stripe_customer_id?: string
+  stripe_subscription_id?: string
 }
 
 interface AuthContextType {
@@ -39,7 +42,7 @@ async function enrichUser(authUser: User): Promise<AuthUser> {
   try {
     const { data, error } = await supabase
       .from('users')
-      .select('role, name, trial_end_date, subscription_status')
+      .select('role, name, trial_end_date, subscription_status, subscription_end_date, stripe_customer_id, stripe_subscription_id')
       .eq('id', authUser.id)
       .single()
 
@@ -53,6 +56,9 @@ async function enrichUser(authUser: User): Promise<AuthUser> {
       name: data.name,
       trial_end_date: data.trial_end_date,
       subscription_status: data.subscription_status,
+      subscription_end_date: data.subscription_end_date,
+      stripe_customer_id: data.stripe_customer_id,
+      stripe_subscription_id: data.stripe_subscription_id,
     }
   } catch {
     return authUser as AuthUser

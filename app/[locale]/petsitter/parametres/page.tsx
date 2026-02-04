@@ -8,6 +8,7 @@ import { signOut } from '@/lib/auth/actions';
 import { createClient } from '@/lib/supabase/client';
 import { SitterLayout } from '@/components/layout/SitterLayout';
 import { AuthGuard } from '@/components/auth/AuthGuard';
+import { SubscriptionGuard } from '@/components/auth/SubscriptionGuard';
 import { Link } from '@/navigation';
 import { User, Mail, Lock, Trash2, CreditCard } from 'lucide-react';
 
@@ -348,7 +349,9 @@ function SettingsContent() {
 export default function SitterSettingsPage() {
   return (
     <AuthGuard requiredRole="sitter">
-      <SettingsContent />
+      <SubscriptionGuard>
+        <SettingsContent />
+      </SubscriptionGuard>
     </AuthGuard>
   );
 }

@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { SitterLayout } from '@/components/layout/SitterLayout';
 import { AuthGuard } from '@/components/auth/AuthGuard';
+import { SubscriptionGuard } from '@/components/auth/SubscriptionGuard';
 import { Star } from 'lucide-react';
 
 function ReviewsContent() {
@@ -51,7 +52,9 @@ function ReviewsContent() {
 export default function SitterReviewsPage() {
   return (
     <AuthGuard requiredRole="sitter">
-      <ReviewsContent />
+      <SubscriptionGuard>
+        <ReviewsContent />
+      </SubscriptionGuard>
     </AuthGuard>
   );
 }

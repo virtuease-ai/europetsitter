@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { SitterLayout } from '@/components/layout/SitterLayout';
 import { StatCard } from '@/components/shared/StatCard';
 import { AuthGuard } from '@/components/auth/AuthGuard';
+import { SubscriptionGuard } from '@/components/auth/SubscriptionGuard';
 import { Link } from '@/navigation';
 import {
   Calendar,
@@ -428,7 +429,9 @@ function DashboardContent() {
 export default function SitterDashboard() {
   return (
     <AuthGuard requiredRole="sitter">
-      <DashboardContent />
+      <SubscriptionGuard>
+        <DashboardContent />
+      </SubscriptionGuard>
     </AuthGuard>
   );
 }

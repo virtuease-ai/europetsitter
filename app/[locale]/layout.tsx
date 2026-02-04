@@ -7,7 +7,11 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import type { Metadata } from 'next';
 import '../globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap', // Prevent FOIT (Flash of Invisible Text)
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: {
@@ -48,6 +52,15 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        {/* Preconnect to external services for faster loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {process.env.NEXT_PUBLIC_SUPABASE_URL && (
+          <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
+        )}
+        <link rel="dns-prefetch" href="https://js.stripe.com" />
+      </head>
       <body className={inter.className} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <AuthProvider>

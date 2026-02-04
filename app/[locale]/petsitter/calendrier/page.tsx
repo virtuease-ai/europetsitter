@@ -1,15 +1,34 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/hooks/useAuth';
 import { createClient } from '@/lib/supabase/client';
 import { SitterLayout } from '@/components/layout/SitterLayout';
-import { Calendar } from '@/components/sitter/Calendar';
-import { BlockDatesModal } from '@/components/sitter/BlockDatesModal';
 import { AuthGuard } from '@/components/auth/AuthGuard';
+import { SubscriptionGuard } from '@/components/auth/SubscriptionGuard';
 import { Calendar as CalendarIcon, X } from 'lucide-react';
 import type { Event as CalendarEvent } from 'react-big-calendar';
+
+// Lazy load the heavy Calendar component (react-big-calendar ~100KB)
+const Calendar = dynamic(
+  () => import('@/components/sitter/Calendar').then(mod => mod.Calendar),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="bg-white rounded-lg shadow p-6 min-h-[500px] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    ),
+  }
+);
+
+// Lazy load the modal (only shown on user interaction)
+const BlockDatesModal = dynamic(
+  () => import('@/components/sitter/BlockDatesModal').then(mod => mod.BlockDatesModal),
+  { ssr: false }
+);
 
 interface Reservation {
   id: string;
@@ -248,7 +267,9 @@ function CalendarContent() {
 export default function SitterCalendarPage() {
   return (
     <AuthGuard requiredRole="sitter">
-      <CalendarContent />
+      <SubscriptionGuard>
+        <CalendarContent />
+      </SubscriptionGuard>
     </AuthGuard>
   );
 }

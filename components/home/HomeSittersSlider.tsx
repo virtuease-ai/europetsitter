@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import { ANIMAL_TYPES } from '@/types/sitterProfileForm';
 import type { ServiceType } from '@/types/sitterProfileForm';
@@ -71,9 +72,16 @@ function SitterMiniCard({ sitter }: { sitter: HomeSitterCard }) {
   return (
     <Link href={`/petsitter/${sitter.id}`} className="flex-shrink-0 w-[280px] md:w-[320px]">
       <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-md hover:border-primary/30 transition-all h-full">
-        <div className="h-36 bg-primary-light/30 flex items-center justify-center text-5xl">
+        <div className="h-36 bg-primary-light/30 flex items-center justify-center text-5xl relative">
           {sitter.avatar ? (
-            <img src={sitter.avatar} alt={sitter.name} className="w-full h-full object-cover" />
+            <Image
+              src={sitter.avatar}
+              alt={sitter.name}
+              fill
+              sizes="(max-width: 768px) 280px, 320px"
+              className="object-cover"
+              loading="lazy"
+            />
           ) : (
             <span>👤</span>
           )}

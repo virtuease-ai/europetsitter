@@ -85,8 +85,8 @@ export default function SignupSitterPage() {
         // Attendre 2 secondes pour que les cookies soient mis à jour
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        // Redirection
-        window.location.href = `/${locale}/petsitter/tableau-de-bord`;
+        // Redirection vers le paywall pour configurer l'abonnement
+        window.location.href = `/${locale}/petsitter/abonnement/paywall`;
       }
     } catch (err: any) {
       console.error('Erreur inscription:', err);

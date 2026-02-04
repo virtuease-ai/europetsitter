@@ -12,6 +12,35 @@
     "myProfile": "My profile",
     "logout": "Log out"
   },
+  "paywall": {
+    "title": "Welcome to EuroPetSitter!",
+    "subtitle": "Start your petsitter journey with a 30-day free trial",
+    "trialTitle": "30-day free trial",
+    "trialDescription": "Test all features with no commitment. No credit card required.",
+    "trialButton": "Start my free trial",
+    "trialNote": "No credit card required",
+    "orChoosePlan": "or choose a subscription",
+    "allPlansIncludeTrial": "All subscriptions include a 30-day free trial",
+    "popular": "Popular",
+    "choosePlan": "Choose",
+    "loading": "Loading...",
+    "savings": "Save €20 per year",
+    "periods": {
+      "quarterly": "quarter",
+      "semiannual": "semester",
+      "annual": "year"
+    },
+    "features": {
+      "unlimitedBookings": "Unlimited bookings",
+      "visibleProfile": "Profile visible in searches",
+      "prioritySupport": "Priority support",
+      "analytics": "Advanced analytics"
+    },
+    "errors": {
+      "trialFailed": "Unable to start free trial. Please try again.",
+      "checkoutFailed": "Unable to create payment session. Please try again."
+    }
+  },
   "services": {
     "hebergement": "Boarding",
     "garde": "Day care",
@@ -482,8 +511,14 @@
       "subscriptionType": "Subscription type",
       "trial": "Trial period",
       "trialEnds": "Ends on",
+      "renewsOn": "Renews on",
       "active": "Active",
       "expired": "Expired",
+      "cancelled": "Cancelled",
+      "none": "None",
+      "availablePlans": "Available plans",
+      "manageSubscription": "Manage my subscription",
+      "loading": "Loading...",
       "plans": {
         "free": "Free",
         "essential": "Essential",
@@ -499,6 +534,10 @@
         "unlimitedBookings": "Unlimited bookings",
         "prioritySupport": "Priority support",
         "analytics": "Advanced analytics"
+      },
+      "errors": {
+        "checkoutFailed": "Unable to create payment session. Please try again.",
+        "portalFailed": "Unable to access management portal. Please try again."
       }
     },
     "settingsPage": {

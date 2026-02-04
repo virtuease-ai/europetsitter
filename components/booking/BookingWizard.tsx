@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import {
@@ -409,9 +410,15 @@ export function BookingWizard({ isOpen, onClose, sitter, onSuccess }: BookingWiz
         <div className="bg-gradient-to-r from-primary to-primary-hover px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center relative overflow-hidden">
                 {sitter.avatar ? (
-                  <img src={sitter.avatar} alt={sitter.name} className="w-full h-full rounded-full object-cover" />
+                  <Image
+                    src={sitter.avatar}
+                    alt={sitter.name}
+                    fill
+                    sizes="48px"
+                    className="object-cover"
+                  />
                 ) : (
                   <span className="text-2xl">👤</span>
                 )}

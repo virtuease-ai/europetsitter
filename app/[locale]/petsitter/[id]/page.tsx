@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useAuth } from '@/hooks/useAuth';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { BookingWizard } from '@/components/booking/BookingWizard';
 import {
   Star,
   MapPin,
@@ -22,6 +23,12 @@ import {
   Users,
   Sparkles,
 } from 'lucide-react';
+
+// Lazy load the BookingWizard modal (only shown on user interaction)
+const BookingWizard = dynamic(
+  () => import('@/components/booking/BookingWizard').then(mod => mod.BookingWizard),
+  { ssr: false }
+);
 
 interface SitterProfile {
   id: string;
@@ -235,7 +242,7 @@ export default function SitterProfilePage({
           {/* Photos en arrière-plan si disponibles */}
           {sitter.photos && sitter.photos.length > 0 && (
             <div className="absolute inset-0 opacity-20">
-              <img src={sitter.photos[0]} alt="" className="w-full h-full object-cover" />
+              <Image src={sitter.photos[0]} alt="" fill className="object-cover" priority={false} />
             </div>
           )}
         </div>
@@ -246,9 +253,9 @@ export default function SitterProfilePage({
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Avatar */}
                 <div className="flex-shrink-0">
-                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-gradient-to-br from-primary-light to-primary flex items-center justify-center text-6xl shadow-lg border-4 border-white mx-auto md:mx-0">
+                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-gradient-to-br from-primary-light to-primary flex items-center justify-center text-6xl shadow-lg border-4 border-white mx-auto md:mx-0 relative overflow-hidden">
                     {sitter.avatar ? (
-                      <img src={sitter.avatar} alt={sitter.name} className="w-full h-full object-cover rounded-xl" />
+                      <Image src={sitter.avatar} alt={sitter.name} fill className="object-cover rounded-xl" sizes="(max-width: 768px) 128px, 160px" priority />
                     ) : (
                       '👤'
                     )}
@@ -510,12 +517,16 @@ export default function SitterProfilePage({
                 <h3 className="text-xl font-bold mb-4">Photos</h3>
                 <div className="grid grid-cols-2 gap-2">
                   {sitter.photos.slice(0, 4).map((photo, idx) => (
-                    <img
-                      key={idx}
-                      src={photo}
-                      alt={`Photo ${idx + 1}`}
-                      className="w-full h-24 object-cover rounded-xl hover:opacity-90 transition-opacity cursor-pointer"
-                    />
+                    <div key={idx} className="relative h-24 rounded-xl overflow-hidden hover:opacity-90 transition-opacity cursor-pointer">
+                      <Image
+                        src={photo}
+                        alt={`Photo ${idx + 1}`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 50vw, 150px"
+                        loading="lazy"
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -546,8 +557,8 @@ export default function SitterProfilePage({
         </div>
       </div>
 
-      {/* Booking Wizard Modal */}
-      {sitter && (
+      {/* Booking Wizard Modal - only mount when open for performance */}
+      {isBookingWizardOpen && sitter && (
         <BookingWizard
           isOpen={isBookingWizardOpen}
           onClose={() => setIsBookingWizardOpen(false)}

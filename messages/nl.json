@@ -12,6 +12,35 @@
     "myProfile": "Mijn profiel",
     "logout": "Uitloggen"
   },
+  "paywall": {
+    "title": "Welkom bij EuroPetSitter!",
+    "subtitle": "Begin uw petsitter-avontuur met 30 dagen gratis proefperiode",
+    "trialTitle": "30 dagen gratis proefperiode",
+    "trialDescription": "Test alle functies zonder verplichtingen. Geen creditcard vereist.",
+    "trialButton": "Start mijn gratis proefperiode",
+    "trialNote": "Geen creditcard vereist",
+    "orChoosePlan": "of kies een abonnement",
+    "allPlansIncludeTrial": "Alle abonnementen bevatten 30 dagen gratis proefperiode",
+    "popular": "Populair",
+    "choosePlan": "Kiezen",
+    "loading": "Laden...",
+    "savings": "Bespaar €20 per jaar",
+    "periods": {
+      "quarterly": "kwartaal",
+      "semiannual": "semester",
+      "annual": "jaar"
+    },
+    "features": {
+      "unlimitedBookings": "Onbeperkte boekingen",
+      "visibleProfile": "Profiel zichtbaar in zoekopdrachten",
+      "prioritySupport": "Prioritaire ondersteuning",
+      "analytics": "Geavanceerde statistieken"
+    },
+    "errors": {
+      "trialFailed": "Kan gratis proefperiode niet starten. Probeer het opnieuw.",
+      "checkoutFailed": "Kan betalingssessie niet aanmaken. Probeer het opnieuw."
+    }
+  },
   "services": {
     "hebergement": "Opvang",
     "garde": "Dagopvang",
@@ -482,8 +511,14 @@
       "subscriptionType": "Type abonnement",
       "trial": "Proefperiode",
       "trialEnds": "Eindigt op",
+      "renewsOn": "Verlengt op",
       "active": "Actief",
       "expired": "Verlopen",
+      "cancelled": "Geannuleerd",
+      "none": "Geen",
+      "availablePlans": "Beschikbare abonnementen",
+      "manageSubscription": "Mijn abonnement beheren",
+      "loading": "Laden...",
       "plans": {
         "free": "Gratis",
         "essential": "Essentieel",
@@ -499,6 +534,10 @@
         "unlimitedBookings": "Onbeperkte boekingen",
         "prioritySupport": "Prioritaire ondersteuning",
         "analytics": "Geavanceerde statistieken"
+      },
+      "errors": {
+        "checkoutFailed": "Kan betalingssessie niet aanmaken. Probeer het opnieuw.",
+        "portalFailed": "Kan beheerportaal niet openen. Probeer het opnieuw."
       }
     },
     "settingsPage": {
