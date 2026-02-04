@@ -22,7 +22,7 @@ export async function getOwnerFavorites(ownerId: string): Promise<Favorite[]> {
         services
       )
     `)
-    .eq('owner_id', ownerId)
+    .eq('user_id', ownerId)
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -41,7 +41,7 @@ export async function isFavorite(ownerId: string, sitterId: string): Promise<boo
   const { data, error } = await supabase
     .from('favorites')
     .select('id')
-    .eq('owner_id', ownerId)
+    .eq('user_id', ownerId)
     .eq('sitter_id', sitterId)
     .single();
 
@@ -59,7 +59,7 @@ export async function addFavorite(ownerId: string, sitterId: string): Promise<Fa
   const supabase = createClient();
   const { data, error } = await supabase
     .from('favorites')
-    .insert([{ owner_id: ownerId, sitter_id: sitterId }])
+    .insert([{ user_id: ownerId, sitter_id: sitterId }])
     .select()
     .single();
 
@@ -79,7 +79,7 @@ export async function removeFavorite(ownerId: string, sitterId: string): Promise
   const { error } = await supabase
     .from('favorites')
     .delete()
-    .eq('owner_id', ownerId)
+    .eq('user_id', ownerId)
     .eq('sitter_id', sitterId);
 
   if (error) {
@@ -112,7 +112,7 @@ export async function countOwnerFavorites(ownerId: string): Promise<number> {
   const { count, error } = await supabase
     .from('favorites')
     .select('*', { count: 'exact', head: true })
-    .eq('owner_id', ownerId);
+    .eq('user_id', ownerId);
 
   if (error) {
     console.error('Error counting favorites:', error);
