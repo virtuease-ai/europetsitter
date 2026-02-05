@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/navigation';
 import Image from 'next/image';
 import { Search } from 'lucide-react';
@@ -33,7 +33,13 @@ function SectionBgAccents() {
   );
 }
 
-export default async function HomePage() {
+export default async function HomePage({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations('home');
 
   return (
