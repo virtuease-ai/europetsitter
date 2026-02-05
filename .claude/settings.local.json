@@ -8,7 +8,9 @@
       "Bash(npm run build:*)",
       "Bash(npm ls:*)",
       "Bash(npm install:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(dir \"C:\\\\Users\\\\noah_\\\\Desktop\\\\EUROPETSITTER OFFICIEL - Nouveau projet\\\\europetsitter\")",
+      "Bash(npx next build:*)"
     ]
   }
 }

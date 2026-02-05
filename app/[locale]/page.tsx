@@ -1,18 +1,16 @@
-'use client';
-
-import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/navigation';
 import Image from 'next/image';
-import { Search, ChevronDown } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { getOrganizationSchema, getWebSiteSchema, generateStructuredData } from '@/lib/structuredData';
+import { InfoTabs } from '@/components/home/InfoTabs';
+import { FaqAccordion } from '@/components/home/FaqAccordion';
 
 // Lazy load the slider component (below the fold, does DB query)
 const HomeSittersSlider = dynamic(
   () => import('@/components/home/HomeSittersSlider').then(mod => mod.HomeSittersSlider),
   {
-    ssr: false,
     loading: () => (
       <div className="flex justify-center py-8">
         <div className="animate-spin rounded-full h-10 w-10 border-2 border-primary border-t-transparent" />
@@ -20,8 +18,6 @@ const HomeSittersSlider = dynamic(
     ),
   }
 );
-
-type InfoTab = 'owners' | 'app' | 'sitters';
 
 /* Decorative background squares (Animal Cove style) */
 function SectionBgAccents() {
@@ -37,18 +33,8 @@ function SectionBgAccents() {
   );
 }
 
-export default function HomePage() {
-  const t = useTranslations('home');
-  const [activeInfoTab, setActiveInfoTab] = useState<InfoTab>('owners');
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-
-  const faqItems = [
-    { q: t('faq.q1'), a: t('faq.a1') },
-    { q: t('faq.q2'), a: t('faq.a2') },
-    { q: t('faq.q3'), a: t('faq.a3') },
-    { q: t('faq.q4'), a: t('faq.a4') },
-    { q: t('faq.q5'), a: t('faq.a5') },
-  ];
+export default async function HomePage() {
+  const t = await getTranslations('home');
 
   return (
     <>
@@ -122,10 +108,10 @@ export default function HomePage() {
               <h2 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900">{t('affiliates.title')}</h2>
               <p className="text-gray-500 mb-4 max-w-xl mx-auto">{t('affiliates.scrollHint')}</p>
             </div>
-            
+
             {/* Slider infini */}
             <HomeSittersSlider />
-            
+
             {/* CTA */}
             <div className="flex flex-wrap gap-3 justify-center mt-10">
               <Link href="/recherche">
@@ -140,84 +126,7 @@ export default function HomePage() {
         {/* Informations pratiques - tabs + card with green subtitle */}
         <section className="relative py-16 md:py-24 px-4 bg-[#f8faf9] overflow-hidden">
           <SectionBgAccents />
-          <div className="container mx-auto max-w-4xl relative z-10">
-            <p className="text-primary font-semibold text-sm uppercase tracking-widest text-center mb-2">Informations</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-900">Informations pratiques</h2>
-            <div className="flex flex-wrap gap-2 justify-center mb-8">
-              <button
-                onClick={() => setActiveInfoTab('owners')}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
-                  activeInfoTab === 'owners' ? 'bg-primary text-white' : 'bg-white text-gray-600 hover:text-gray-900 border-2 border-primary'
-                }`}
-              >
-                {t('tabs.owners')}
-              </button>
-              <button
-                onClick={() => setActiveInfoTab('app')}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
-                  activeInfoTab === 'app' ? 'bg-primary text-white' : 'bg-white text-gray-600 hover:text-gray-900 border-2 border-primary'
-                }`}
-              >
-                {t('tabs.app')}
-              </button>
-              <button
-                onClick={() => setActiveInfoTab('sitters')}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
-                  activeInfoTab === 'sitters' ? 'bg-primary text-white' : 'bg-white text-gray-600 hover:text-gray-900 border-2 border-primary'
-                }`}
-              >
-                {t('tabs.sitters')}
-              </button>
-            </div>
-
-            <div className="bg-white rounded-3xl border border-gray-200 p-8 md:p-10 shadow-sm">
-              {activeInfoTab === 'owners' && (
-                <>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('ownersTab.title')}</h3>
-                  <p className="text-gray-600 mb-4">
-                    {t('ownersTab.shortText')}
-                  </p>
-                  <p className="text-gray-600 mb-6">
-                    {t('ownersTab.fullText')}
-                  </p>
-                  <Link href="/recherche">
-                    <button className="bg-primary hover:bg-primary-hover text-white font-semibold px-5 py-2.5 rounded-full transition-all text-sm">
-                      {t('ownersTab.discoverBtn')}
-                    </button>
-                  </Link>
-                </>
-              )}
-
-              {activeInfoTab === 'app' && (
-                <>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('appTab.title')}</h3>
-                  <p className="text-gray-600 mb-4">
-                    {t('appTab.shortText')}
-                  </p>
-                  <p className="text-gray-600">
-                    {t('appTab.fullText')}
-                  </p>
-                </>
-              )}
-
-              {activeInfoTab === 'sitters' && (
-                <>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('sittersTab.title')}</h3>
-                  <p className="text-gray-600 mb-4">
-                    {t('sittersTab.shortText')}
-                  </p>
-                  <p className="text-gray-600 mb-6">
-                    {t('sittersTab.fullText')}
-                  </p>
-                  <Link href="/devenir-petsitter">
-                    <button className="bg-primary hover:bg-primary-hover text-white font-semibold px-5 py-2.5 rounded-full transition-all text-sm">
-                      {t('sittersTab.becomeBtn')}
-                    </button>
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
+          <InfoTabs />
         </section>
 
         {/* Blog section - subtitle + headline + CTA */}
@@ -238,32 +147,7 @@ export default function HomePage() {
         {/* FAQ - green subtitle + accordion with left border accent (testimonial style) */}
         <section id="faq" className="relative py-16 md:py-24 px-4 bg-[#f8faf9] overflow-hidden">
           <SectionBgAccents />
-          <div className="container mx-auto max-w-3xl relative z-10">
-            <p className="text-primary font-semibold text-sm uppercase tracking-widest text-center mb-2">FAQ</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-gray-900">{t('faq.title')}</h2>
-            <div className="space-y-3">
-              {faqItems.map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm"
-                >
-                  <button
-                    onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
-                    className="w-full px-5 py-4 text-left font-medium text-gray-900 flex items-center justify-between hover:bg-gray-50/50 transition-colors"
-                  >
-                    <span className="flex items-center gap-3">
-                      <span className="w-1 h-8 rounded-full bg-primary flex-shrink-0" />
-                      {item.q}
-                    </span>
-                    <ChevronDown className={`w-5 h-5 text-gray-400 flex-shrink-0 ml-2 transition-transform ${openFaqIndex === index ? 'rotate-180' : ''}`} />
-                  </button>
-                  {openFaqIndex === index && (
-                    <div className="px-5 pb-4 pt-0 text-gray-600 whitespace-pre-line text-sm leading-relaxed border-t border-gray-100">{item.a}</div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+          <FaqAccordion />
         </section>
       </div>
     </>
