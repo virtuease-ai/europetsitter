@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { fr, enGB, nl as nlDateFns } from 'date-fns/locale';
 import { Search, MapPin, Calendar as CalendarIcon, X, SlidersHorizontal, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { ANIMAL_TYPES } from '@/types/sitterProfileForm';
@@ -119,13 +119,15 @@ function mapRowToSitterCard(
     services?: { services?: Record<string, { active?: boolean; price?: string }> } | null;
     coordinates?: unknown;
   },
-  tServices: (key: string) => string
+  tServices: (key: string) => string,
+  fallbackName: string,
+  fallbackCity: string
 ): SitterCardData {
   const name =
     (row.name && row.name.trim()) ||
     [row.first_name, row.last_name].filter(Boolean).join(' ') ||
-    'Petsitter';
-  const city = row.address?.trim() || 'Ville non précisée';
+    fallbackName;
+  const city = row.address?.trim() || fallbackCity;
   const animalLabels = new Map<string, string>(ANIMAL_TYPES.map((a) => [a.id, a.label]));
   const animalIds: string[] = Array.isArray(row.animals) ? row.animals : [];
   const animals: string[] = animalIds.map((id) => animalLabels.get(id) || id);
@@ -187,6 +189,10 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
   const t = useTranslations('search');
   const tServices = useTranslations('services');
   const tCities = useTranslations('cities');
+  const locale = useLocale();
+
+  // Date-fns locale mapping
+  const dateLocale = locale === 'nl' ? nlDateFns : locale === 'en' ? enGB : fr;
 
   // Fermer les suggestions quand on clique en dehors
   useEffect(() => {
@@ -266,7 +272,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
         setLoading(false);
         return;
       }
-      setSitters((data ?? []).map((row: any) => mapRowToSitterCard(row, tServices)));
+      setSitters((data ?? []).map((row: any) => mapRowToSitterCard(row, tServices, t('fallbackName'), t('fallbackCity'))));
       setLoading(false);
     };
     fetchSitters();
@@ -401,39 +407,39 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
   
   // Types d'animaux correspondant aux options du profil petsitter
   const animalTypes = [
-    { id: 'petit-chien', label: 'Petit chien (-10kg)' },
-    { id: 'moyen-chien', label: 'Moyen chien (10-20kg)' },
-    { id: 'grand-chien', label: 'Grand chien (+20kg)' },
-    { id: 'chien-attaque', label: 'Chien d\'attaque (Cat. 1)' },
-    { id: 'chien-garde', label: 'Chien de garde (Cat. 2)' },
-    { id: 'chat', label: 'Chat' },
-    { id: 'lapin', label: 'Lapin' },
-    { id: 'rongeur', label: 'Petit rongeur' },
-    { id: 'oiseau', label: 'Oiseau' },
-    { id: 'volaille', label: 'Volaille' },
-    { id: 'nac', label: 'NAC' },
+    { id: 'petit-chien', label: t('animals.petit-chien') },
+    { id: 'moyen-chien', label: t('animals.moyen-chien') },
+    { id: 'grand-chien', label: t('animals.grand-chien') },
+    { id: 'chien-attaque', label: t('animals.chien-attaque') },
+    { id: 'chien-garde', label: t('animals.chien-garde') },
+    { id: 'chat', label: t('animals.chat') },
+    { id: 'lapin', label: t('animals.lapin') },
+    { id: 'rongeur', label: t('animals.rongeur') },
+    { id: 'oiseau', label: t('animals.oiseau') },
+    { id: 'volaille', label: t('animals.volaille') },
+    { id: 'nac', label: t('animals.nac') },
   ];
 
   // Services correspondant aux options du profil petsitter
   const servicesList = [
-    { key: 'hebergement', label: 'Hébergement (+12h)' },
-    { key: 'garde', label: 'Garde (-12h)' },
-    { key: 'visite', label: 'Visite à domicile' },
-    { key: 'promenade', label: 'Promenade' },
-    { key: 'excursion', label: 'Excursion' },
+    { key: 'hebergement', label: t('serviceTypes.hebergement') },
+    { key: 'garde', label: t('serviceTypes.garde') },
+    { key: 'visite', label: t('serviceTypes.visite') },
+    { key: 'promenade', label: t('serviceTypes.promenade') },
+    { key: 'excursion', label: t('serviceTypes.excursion') },
   ];
   
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Barre de recherche en haut - Sticky */}
-      <div className="bg-white shadow-sm border-b sticky top-16 z-20">
-        <div className="container mx-auto px-4 py-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+      {/* Barre de recherche en haut - Fixe */}
+      <div className="bg-white shadow-sm border-b fixed top-[57px] left-0 right-0 z-30">
+        <div className="container mx-auto px-4 py-3">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 items-end">
             {/* Localité */}
             <div ref={villeWrapperRef} className="relative">
               <label className="block text-sm font-medium mb-1.5 text-gray-700">
                 <MapPin className="w-4 h-4 inline mr-1" />
-                Localité (Belgique)
+                {t('locationLabel')}
               </label>
               <div className="relative">
                 <input
@@ -441,7 +447,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                   value={villeQuery}
                   onChange={(e) => setVilleQuery(e.target.value)}
                   onFocus={() => villeSuggestions.length > 0 && setShowVilleSuggestions(true)}
-                  placeholder="Ville ou code postal..."
+                  placeholder={t('locationPlaceholder')}
                   className="w-full h-9 px-3 pr-8 border border-input bg-white rounded-md text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
                 />
                 {villeLoading && (
@@ -474,17 +480,17 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
             
             {/* Service */}
             <div>
-              <label className="block text-sm font-medium mb-1.5 text-gray-700">Service demandé</label>
+              <label className="block text-sm font-medium mb-1.5 text-gray-700">{t('serviceLabel')}</label>
               <Select value={service} onValueChange={setService}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Tous les services" />
+                  <SelectValue placeholder={t('allServices')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tous les services</SelectItem>
-                  <SelectItem value="hebergement">Hébergement</SelectItem>
-                  <SelectItem value="garde">Garde de jour</SelectItem>
-                  <SelectItem value="visite-domicile">Visite à domicile</SelectItem>
-                  <SelectItem value="promenade">Promenade</SelectItem>
+                  <SelectItem value="all">{t('allServices')}</SelectItem>
+                  <SelectItem value="hebergement">{t('selectHebergement')}</SelectItem>
+                  <SelectItem value="garde">{t('selectGarde')}</SelectItem>
+                  <SelectItem value="visite-domicile">{t('selectVisite')}</SelectItem>
+                  <SelectItem value="promenade">{t('selectPromenade')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -493,7 +499,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
             <div>
               <label className="block text-sm font-medium mb-1.5 text-gray-700">
                 <CalendarIcon className="w-4 h-4 inline mr-1" />
-                Dates
+                {t('datesLabel')}
               </label>
               <div className="flex gap-2">
                 <Popover>
@@ -505,7 +511,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                         !startDate && "text-muted-foreground"
                       )}
                     >
-                      {startDate ? format(startDate, "dd/MM", { locale: fr }) : "Début"}
+                      {startDate ? format(startDate, "dd/MM", { locale: dateLocale }) : t('dateStart')}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -514,7 +520,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                       selected={startDate}
                       onSelect={setStartDate}
                       initialFocus
-                      locale={fr}
+                      locale={dateLocale}
                     />
                   </PopoverContent>
                 </Popover>
@@ -528,7 +534,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                         !endDate && "text-muted-foreground"
                       )}
                     >
-                      {endDate ? format(endDate, "dd/MM", { locale: fr }) : "Fin"}
+                      {endDate ? format(endDate, "dd/MM", { locale: dateLocale }) : t('dateEnd')}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -537,7 +543,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                       selected={endDate}
                       onSelect={setEndDate}
                       initialFocus
-                      locale={fr}
+                      locale={dateLocale}
                       disabled={(date) => startDate ? date < startDate : false}
                     />
                   </PopoverContent>
@@ -551,11 +557,14 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
               className="bg-primary hover:bg-primary-hover text-white h-10"
             >
               <Search className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Rechercher</span>
+              <span className="hidden sm:inline">{t('searchBtn')}</span>
             </Button>
           </div>
         </div>
       </div>
+
+      {/* Spacer pour compenser la barre fixe */}
+      <div className="h-[110px] sm:h-[90px] lg:h-[76px]" />
 
       {/* Contenu principal */}
       <div className="container mx-auto px-4 py-6">
@@ -563,16 +572,16 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
           <div className="flex gap-6">
             {/* Sidebar Filtres - Desktop */}
             <aside className="hidden lg:block w-80 flex-shrink-0">
-              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-32">
+              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-[145px]">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="font-bold text-lg">Filtres</h3>
+                  <h3 className="font-bold text-lg">{t('filters')}</h3>
                   <Button
                     onClick={resetFilters}
                     variant="ghost"
                     size="sm"
                     className="text-primary hover:text-primary-hover"
                   >
-                    Réinitialiser
+                    {t('reset')}
                   </Button>
                 </div>
 
@@ -582,7 +591,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                     <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
                       <SlidersHorizontal className="w-4 h-4 text-primary" />
                     </div>
-                    Services
+                    {t('servicesSection')}
                   </h4>
                   <div className="space-y-3">
                     {servicesList.map(svc => (
@@ -605,7 +614,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
 
                 {/* Prix */}
                 <div className="mb-6">
-                  <h4 className="font-semibold text-sm mb-3">Prix par nuit</h4>
+                  <h4 className="font-semibold text-sm mb-3">{t('pricePerNight')}</h4>
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-sm font-medium">
                       <span>{priceRange[0]}€</span>
@@ -624,7 +633,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
 
                 {/* Types d'animaux */}
                 <div className="mb-6">
-                  <h4 className="font-semibold text-sm mb-3">Animaux pris en charge</h4>
+                  <h4 className="font-semibold text-sm mb-3">{t('animalsAccepted')}</h4>
                   <div className="space-y-3">
                     {animalTypes.map(animal => (
                       <div key={animal.id} className="flex items-center space-x-2">
@@ -646,7 +655,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
 
                 {/* Rayon */}
                 <div>
-                  <h4 className="font-semibold text-sm mb-3">Rayon de distance</h4>
+                  <h4 className="font-semibold text-sm mb-3">{t('distanceRadius')}</h4>
                   <div className="space-y-3">
                     <Slider
                       value={radius}
@@ -665,8 +674,8 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                   <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     <div className="flex-1">
-                      <span className="text-sm font-medium text-gray-900">Safety Fast</span>
-                      <p className="text-xs text-gray-500">Profils vérifiés avec assurance</p>
+                      <span className="text-sm font-medium text-gray-900">{t('safetyBadge')}</span>
+                      <p className="text-xs text-gray-500">{t('safetyBadgeText')}</p>
                     </div>
                   </div>
                 </div>
@@ -686,16 +695,16 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
               <div className="lg:hidden fixed inset-0 bg-black/50 z-40 flex items-end">
                 <div className="bg-white w-full max-h-[80vh] overflow-y-auto rounded-t-3xl p-6">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="font-bold text-lg">Filtres</h3>
+                    <h3 className="font-bold text-lg">{t('filters')}</h3>
                     <Button variant="ghost" size="sm" onClick={() => setShowMobileFilters(false)}>
                       <X className="w-6 h-6" />
                     </Button>
                   </div>
-                  
+
                   <div className="space-y-6">
                     {/* Services */}
                     <div>
-                      <h4 className="font-semibold mb-3">Services</h4>
+                      <h4 className="font-semibold mb-3">{t('servicesSection')}</h4>
                       <div className="space-y-3">
                         {servicesList.map(svc => (
                           <div key={svc.key} className="flex items-center space-x-2">
@@ -714,7 +723,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
 
                     {/* Prix */}
                     <div>
-                      <h4 className="font-semibold mb-3">Prix: {priceRange[0]}€ - {priceRange[1]}€</h4>
+                      <h4 className="font-semibold mb-3">{t('pricePerNight')}: {priceRange[0]}€ - {priceRange[1]}€</h4>
                       <Slider
                         value={priceRange}
                         onValueChange={setPriceRange}
@@ -725,7 +734,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
 
                     {/* Animaux */}
                     <div>
-                      <h4 className="font-semibold mb-3">Animaux pris en charge</h4>
+                      <h4 className="font-semibold mb-3">{t('animalsAccepted')}</h4>
                       <div className="space-y-3">
                         {animalTypes.map(animal => (
                           <div key={animal.id} className="flex items-center space-x-2">
@@ -744,7 +753,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
 
                     {/* Rayon */}
                     <div>
-                      <h4 className="font-semibold mb-3">Rayon: {radius[0]} km</h4>
+                      <h4 className="font-semibold mb-3">{t('distanceRadius')}: {radius[0]} km</h4>
                       <Slider
                         value={radius}
                         onValueChange={setRadius}
@@ -761,13 +770,13 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                       variant="outline"
                       className="flex-1"
                     >
-                      Réinitialiser
+                      {t('reset')}
                     </Button>
                     <Button
                       onClick={() => setShowMobileFilters(false)}
                       className="flex-1 bg-primary hover:bg-primary-hover text-white"
                     >
-                      Appliquer
+                      {t('apply')}
                     </Button>
                   </div>
                 </div>
@@ -778,19 +787,19 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
             <div className="flex-1 min-w-0">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold mb-2">
-                  {filteredSitters.length} pet sitter{filteredSitters.length !== 1 ? 's' : ''} {ville && `à ${ville}`}
+                  {filteredSitters.length} pet sitter{filteredSitters.length !== 1 ? 's' : ''} {ville && t('resultsIn', { city: ville })}
                 </h2>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <span>Trier par:</span>
+                  <span>{t('sortBy')}</span>
                   <Select defaultValue="recommended">
                     <SelectTrigger className="w-[180px] h-8">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="recommended">Recommandés</SelectItem>
-                      <SelectItem value="price-asc">Prix croissant</SelectItem>
-                      <SelectItem value="price-desc">Prix décroissant</SelectItem>
-                      <SelectItem value="rating">Mieux notés</SelectItem>
+                      <SelectItem value="recommended">{t('sortRecommended')}</SelectItem>
+                      <SelectItem value="price-asc">{t('sortPriceAsc')}</SelectItem>
+                      <SelectItem value="price-desc">{t('sortPriceDesc')}</SelectItem>
+                      <SelectItem value="rating">{t('sortRating')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -811,13 +820,13 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                 </div>
               ) : currentSitters.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-xl">
-                  <p className="text-gray-600">Aucun petsitter trouvé avec ces critères.</p>
+                  <p className="text-gray-600">{t('noResults')}</p>
                   <Button
                     onClick={resetFilters}
                     variant="outline"
                     className="mt-4"
                   >
-                    Réinitialiser les filtres
+                    {t('resetFilters')}
                   </Button>
                 </div>
               ) : (
@@ -874,8 +883,8 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
         ) : (
           <div className="text-center py-20">
             <div className="text-6xl mb-4">🐾</div>
-            <h2 className="text-2xl font-bold mb-2">Trouvez le petsitter idéal</h2>
-            <p className="text-gray-600">Utilisez les filtres ci-dessus pour commencer votre recherche</p>
+            <h2 className="text-2xl font-bold mb-2">{t('heroTitle')}</h2>
+            <p className="text-gray-600">{t('heroSubtitle')}</p>
           </div>
         )}
       </div>

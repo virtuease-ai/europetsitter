@@ -122,9 +122,9 @@ html {
   }
 }
 
-/* Éviter le débordement horizontal */
+/* Éviter le débordement horizontal (clip au lieu de hidden pour ne pas casser sticky) */
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Amélioration des grilles responsive */

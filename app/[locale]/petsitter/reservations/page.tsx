@@ -270,19 +270,19 @@ function ReservationsContent() {
         {/* Tabs */}
         <div className="bg-white rounded-lg shadow mb-6">
           <div className="border-b border-gray-200">
-            <nav className="flex space-x-8 px-6" aria-label="Tabs">
+            <nav className="flex overflow-x-auto scrollbar-hide -mb-px px-4 sm:px-6 gap-2 sm:gap-6" aria-label="Tabs">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap flex-shrink-0 ${
                     activeTab === tab.id
                       ? 'border-primary text-primary'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
                 >
                   {tab.label}
-                  <span className={`ml-2 py-0.5 px-2 rounded-full text-xs ${
+                  <span className={`ml-1.5 py-0.5 px-2 rounded-full text-xs ${
                     activeTab === tab.id ? 'bg-primary-light' : 'bg-gray-100'
                   }`}>
                     {getTabCount(tab.id)}
