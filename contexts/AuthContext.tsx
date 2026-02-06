@@ -41,9 +41,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
   const [refreshKey, setRefreshKey] = useState(0)
 
-  // Créer le client Supabase une seule fois par instance du provider
   const supabase = useMemo(() => createClient(), [])
 
+  // Enrichir le user avec les données DB (subscription, etc.)
   const enrichUser = useCallback(async (authUser: User): Promise<AuthUser> => {
     try {
       const { data, error } = await supabase
@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .single()
 
       if (error || !data) {
-        console.warn('[Auth] Could not enrich user:', error?.message)
+        console.warn('[Auth] enrichUser échoué:', error?.message)
         return authUser as AuthUser
       }
 
@@ -68,66 +68,76 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         stripe_subscription_id: data.stripe_subscription_id,
       }
     } catch (err) {
-      console.error('[Auth] enrichUser error:', err)
+      console.error('[Auth] enrichUser exception:', err)
       return authUser as AuthUser
     }
   }, [supabase])
 
-  const updateUser = useCallback(async (authUser: User | null) => {
-    if (authUser) {
-      const enriched = await enrichUser(authUser)
-      setUser(enriched)
-    } else {
-      setUser(null)
-    }
-  }, [enrichUser])
-
   const refresh = useCallback(async () => {
     try {
-      // Utiliser getUser() qui valide le token côté serveur
       const { data: { user: authUser }, error } = await supabase.auth.getUser()
-      if (error) {
-        console.warn('[Auth] Refresh error:', error.message)
+      if (error || !authUser) {
         setUser(null)
         return
       }
-      await updateUser(authUser)
-    } catch (error) {
-      console.error('[Auth] Refresh error:', error)
+      const enriched = await enrichUser(authUser)
+      setUser(enriched)
+    } catch {
+      // ignore
     }
-  }, [supabase, updateUser])
+  }, [supabase, enrichUser])
 
-  // Initialisation de l'auth - un seul point d'entrée via onAuthStateChange
   useEffect(() => {
     let mounted = true
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event: AuthChangeEvent, session: Session | null) => {
         if (!mounted) return
+        console.log('[Auth] Event:', event, session?.user?.email || 'no user')
 
-        if (event === 'INITIAL_SESSION') {
+        if (
+          event === 'INITIAL_SESSION' ||
+          event === 'SIGNED_IN' ||
+          event === 'TOKEN_REFRESHED' ||
+          event === 'USER_UPDATED'
+        ) {
           if (session?.user) {
-            await updateUser(session.user)
-          } else {
-            // Pas de session dans les cookies - vérifier côté serveur
-            // Gère le cas où les tokens doivent être rafraîchis
-            try {
-              const { data: { user: authUser } } = await supabase.auth.getUser()
-              if (mounted) {
-                await updateUser(authUser)
-              }
-            } catch {
-              if (mounted) setUser(null)
+            // 1. User immédiat depuis le JWT (role + name dans user_metadata)
+            //    Aucun appel réseau, aucun verrou → instantané
+            const meta = session.user.user_metadata || {}
+            const quickUser: AuthUser = {
+              ...session.user,
+              role: meta.role,
+              name: meta.name,
             }
-          }
-          if (mounted) setLoading(false)
-        } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
-          if (session?.user) {
-            await updateUser(session.user)
+            setUser(quickUser)
+            setLoading(false)
+            console.log('[Auth] User défini depuis JWT: role=', meta.role, 'name=', meta.name)
+
+            // 2. Enrichir en arrière-plan APRÈS que le verrou interne soit libéré
+            //    (setTimeout pousse vers la macrotask queue, après que _initialize() libère le lock)
+            setTimeout(async () => {
+              if (!mounted) return
+              try {
+                const enriched = await enrichUser(session.user)
+                if (mounted) {
+                  setUser(enriched)
+                  console.log('[Auth] User enrichi depuis DB: role=', enriched.role)
+                }
+              } catch {
+                // Le user du JWT suffit, pas grave si l'enrichissement échoue
+              }
+            }, 0)
+          } else if (event === 'INITIAL_SESSION') {
+            // Pas de session → pas connecté
+            setUser(null)
+            setLoading(false)
+            console.log('[Auth] Pas de session trouvée')
           }
         } else if (event === 'SIGNED_OUT') {
           setUser(null)
           setLoading(false)
+          console.log('[Auth] Déconnexion')
         }
       }
     )
@@ -136,7 +146,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       mounted = false
       subscription.unsubscribe()
     }
-  }, [supabase, updateUser])
+  }, [supabase, enrichUser])
 
   // Rafraîchir quand l'onglet redevient visible
   useEffect(() => {

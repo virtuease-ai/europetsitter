@@ -3,23 +3,21 @@ import { createServerClient } from '@supabase/ssr'
 import createIntlMiddleware from 'next-intl/middleware'
 import { routing } from './i18n/routing'
 
-// Créer le middleware next-intl
 const intlMiddleware = createIntlMiddleware(routing)
 
 export async function middleware(request: NextRequest) {
-  // 1. Exécuter le middleware next-intl pour la gestion des locales
-  let response = intlMiddleware(request)
+  const url = request.nextUrl.pathname
+  console.log(`[Middleware] ▶ ${request.method} ${url}`)
 
-  // 2. Si next-intl n'a pas créé de réponse, créer une réponse par défaut
-  if (!response) {
-    response = NextResponse.next({
-      request: {
-        headers: request.headers,
-      },
-    })
-  }
+  // 1. SUPABASE D'ABORD
+  let supabaseResponse = NextResponse.next({
+    request: { headers: request.headers },
+  })
 
-  // 3. Créer le client Supabase pour rafraîchir la session
+  // Log les cookies auth présents dans la requête
+  const authCookies = request.cookies.getAll().filter(c => c.name.startsWith('sb-'))
+  console.log(`[Middleware] 🍪 Cookies auth trouvés: ${authCookies.length}`, authCookies.map(c => `${c.name}=${c.value.substring(0, 20)}...`))
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -29,34 +27,43 @@ export async function middleware(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          // Mettre à jour les cookies dans la requête
+          console.log(`[Middleware] 🔄 setAll appelé avec ${cookiesToSet.length} cookies:`, cookiesToSet.map(c => c.name))
           cookiesToSet.forEach(({ name, value }) => {
             request.cookies.set(name, value)
           })
-          // Mettre à jour les cookies dans la réponse
+          supabaseResponse = NextResponse.next({
+            request,
+          })
           cookiesToSet.forEach(({ name, value, options }) => {
-            response.cookies.set(name, value, options)
+            supabaseResponse.cookies.set(name, value, options)
           })
         },
       },
     }
   )
 
-  // 4. IMPORTANT: Appeler getUser() pour rafraîchir le token si nécessaire
-  // Cela synchronise aussi les cookies entre le navigateur et le serveur
-  try {
-    await supabase.auth.getUser()
-  } catch (error) {
-    // Ignorer les erreurs silencieusement - l'utilisateur n'est simplement pas connecté
-    console.error('[Middleware] Auth error:', error)
+  const { data: { user }, error } = await supabase.auth.getUser()
+  console.log(`[Middleware] 👤 getUser result:`, user ? `${user.email} (${user.id.substring(0, 8)})` : 'null', error ? `ERROR: ${error.message}` : '')
+
+  // 2. INTL ENSUITE
+  const intlResponse = intlMiddleware(request)
+
+  if (intlResponse) {
+    const supabaseCookies = supabaseResponse.cookies.getAll()
+    console.log(`[Middleware] 🔀 Merge ${supabaseCookies.length} cookies Supabase → intlResponse`)
+    supabaseCookies.forEach((cookie) => {
+      intlResponse.cookies.set(cookie.name, cookie.value, cookie)
+    })
+    return intlResponse
   }
 
-  return response
+  return supabaseResponse
 }
 
 export const config = {
-  // Match all pathnames except for
-  // - … if they start with `/api`, `/_next` or `/_vercel`
-  // - … the ones containing a dot (e.g. `favicon.ico`)
-  matcher: ['/', '/(fr|nl|en)/:path*', '/((?!api|_next|_vercel|.*\\..*).*)']
+  matcher: [
+    '/',
+    '/(fr|nl|en)/:path*',
+    '/((?!api|_next|_vercel|.*\\..*).*)',
+  ],
 }

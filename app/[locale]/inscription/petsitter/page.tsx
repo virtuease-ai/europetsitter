@@ -79,12 +79,6 @@ export default function SignupSitterPage() {
         alert(t('checkEmail'));
         setIsLoading(false);
       } else {
-        // Attendre que la session soit bien établie
-        console.log('Inscription réussie, redirection...');
-
-        // Attendre 2 secondes pour que les cookies soient mis à jour
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
         // Redirection vers le paywall pour configurer l'abonnement
         window.location.href = `/${locale}/petsitter/abonnement/paywall`;
       }

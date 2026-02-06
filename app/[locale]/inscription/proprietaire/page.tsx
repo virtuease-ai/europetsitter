@@ -79,13 +79,7 @@ export default function SignupOwnerPage() {
         alert(t('checkEmail'));
         setIsLoading(false);
       } else {
-        // Attendre que la session soit bien établie
-        console.log('Inscription réussie, redirection...');
-
-        // Attendre 2 secondes pour que les cookies soient mis à jour
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        // Redirection
+        // Redirection vers le tableau de bord
         window.location.href = `/${locale}/proprietaire/tableau-de-bord`;
       }
     } catch (err: any) {
