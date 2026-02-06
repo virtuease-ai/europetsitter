@@ -3,33 +3,33 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
+import { useLocale } from 'next-intl'
 
 interface AuthGuardProps {
   children: React.ReactNode
   requiredRole?: 'owner' | 'sitter'
-  fallbackUrl?: string
 }
 
 export function AuthGuard({
   children,
   requiredRole,
-  fallbackUrl = '/fr/connexion',
 }: AuthGuardProps) {
   const { user, loading } = useAuth()
   const router = useRouter()
+  const locale = useLocale()
 
   useEffect(() => {
     if (loading) return
 
     if (!user) {
-      router.replace(fallbackUrl)
+      router.replace(`/${locale}/connexion`)
       return
     }
 
     if (requiredRole && user.role !== requiredRole) {
-      router.replace('/fr')
+      router.replace(`/${locale}`)
     }
-  }, [loading, user, requiredRole, router, fallbackUrl])
+  }, [loading, user, requiredRole, router, locale])
 
   if (loading) {
     return (

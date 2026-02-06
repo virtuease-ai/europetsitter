@@ -84,89 +84,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refresh = useCallback(async () => {
     try {
-      // D'abord essayer getSession pour récupérer la session depuis les cookies
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-
-      if (sessionError) {
-        console.warn('[Auth] Refresh getSession error:', sessionError.message)
+      // Utiliser getUser() qui valide le token côté serveur
+      const { data: { user: authUser }, error } = await supabase.auth.getUser()
+      if (error) {
+        console.warn('[Auth] Refresh error:', error.message)
         setUser(null)
         return
       }
-
-      if (session?.user) {
-        await updateUser(session.user)
-      } else {
-        // Si pas de session, essayer getUser comme fallback
-        const { data: { user: authUser } } = await supabase.auth.getUser()
-        await updateUser(authUser)
-      }
+      await updateUser(authUser)
     } catch (error) {
       console.error('[Auth] Refresh error:', error)
     }
   }, [supabase, updateUser])
 
-  // Initialisation de l'auth
+  // Initialisation de l'auth - un seul point d'entrée via onAuthStateChange
   useEffect(() => {
     let mounted = true
 
-    const initAuth = async () => {
-      try {
-        // Utiliser getSession() d'abord - il lit les cookies et est plus rapide
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-
-        if (!mounted) return
-
-        if (sessionError) {
-          console.warn('[Auth] Init getSession error:', sessionError.message)
-          setUser(null)
-          setLoading(false)
-          return
-        }
-
-        if (session?.user) {
-          await updateUser(session.user)
-        } else {
-          setUser(null)
-        }
-      } catch (error) {
-        console.error('[Auth] Init error:', error)
-        if (mounted) setUser(null)
-      } finally {
-        if (mounted) setLoading(false)
-      }
-    }
-
-    initAuth()
-
-    // Écouter les changements d'état d'auth
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event: AuthChangeEvent, session: Session | null) => {
         if (!mounted) return
 
-        console.log('[Auth] Auth state changed:', event, session?.user?.email)
-
-        switch (event) {
-          case 'SIGNED_OUT':
-            setUser(null)
-            setLoading(false)
-            break
-
-          case 'SIGNED_IN':
-          case 'TOKEN_REFRESHED':
-          case 'USER_UPDATED':
-            if (session?.user) {
-              await updateUser(session.user)
+        if (event === 'INITIAL_SESSION') {
+          if (session?.user) {
+            await updateUser(session.user)
+          } else {
+            // Pas de session dans les cookies - vérifier côté serveur
+            // Gère le cas où les tokens doivent être rafraîchis
+            try {
+              const { data: { user: authUser } } = await supabase.auth.getUser()
+              if (mounted) {
+                await updateUser(authUser)
+              }
+            } catch {
+              if (mounted) setUser(null)
             }
-            setLoading(false)
-            break
-
-          case 'INITIAL_SESSION':
-            // Gérer la session initiale si elle existe
-            if (session?.user) {
-              await updateUser(session.user)
-            }
-            setLoading(false)
-            break
+          }
+          if (mounted) setLoading(false)
+        } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+          if (session?.user) {
+            await updateUser(session.user)
+          }
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null)
+          setLoading(false)
         }
       }
     )

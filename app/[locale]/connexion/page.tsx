@@ -48,11 +48,7 @@ export default function LoginPage() {
         return;
       }
 
-      // Attendre que les cookies soient mis à jour
-      console.log('Connexion réussie, redirection...');
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // Redirection selon le rôle
+      // Redirection selon le rôle (full page reload pour synchroniser les cookies)
       if (result.role === 'sitter') {
         window.location.href = `/${locale}/petsitter/tableau-de-bord`;
       } else {
