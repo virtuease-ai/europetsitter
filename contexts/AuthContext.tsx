@@ -5,8 +5,8 @@ import {
   useContext,
   useEffect,
   useState,
-  useRef,
   useCallback,
+  useMemo,
   ReactNode,
 } from 'react'
 import type { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
@@ -36,43 +36,42 @@ const AuthContext = createContext<AuthContextType>({
   refreshKey: 0,
 })
 
-const supabase = createClient()
-
-async function enrichUser(authUser: User): Promise<AuthUser> {
-  try {
-    const { data, error } = await supabase
-      .from('users')
-      .select('role, name, trial_end_date, subscription_status, subscription_end_date, stripe_customer_id, stripe_subscription_id')
-      .eq('id', authUser.id)
-      .single()
-
-    if (error || !data) {
-      console.warn('[Auth] Could not enrich user:', error?.message)
-      return authUser as AuthUser
-    }
-
-    return {
-      ...authUser,
-      role: data.role,
-      name: data.name,
-      trial_end_date: data.trial_end_date,
-      subscription_status: data.subscription_status,
-      subscription_end_date: data.subscription_end_date,
-      stripe_customer_id: data.stripe_customer_id,
-      stripe_subscription_id: data.stripe_subscription_id,
-    }
-  } catch (err) {
-    console.error('[Auth] enrichUser error:', err)
-    return authUser as AuthUser
-  }
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null)
   const [loading, setLoading] = useState(true)
   const [refreshKey, setRefreshKey] = useState(0)
-  const initializedRef = useRef(false)
-  const isRefreshingRef = useRef(false)
+
+  // Créer le client Supabase une seule fois par instance du provider
+  const supabase = useMemo(() => createClient(), [])
+
+  const enrichUser = useCallback(async (authUser: User): Promise<AuthUser> => {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('role, name, trial_end_date, subscription_status, subscription_end_date, stripe_customer_id, stripe_subscription_id')
+        .eq('id', authUser.id)
+        .single()
+
+      if (error || !data) {
+        console.warn('[Auth] Could not enrich user:', error?.message)
+        return authUser as AuthUser
+      }
+
+      return {
+        ...authUser,
+        role: data.role,
+        name: data.name,
+        trial_end_date: data.trial_end_date,
+        subscription_status: data.subscription_status,
+        subscription_end_date: data.subscription_end_date,
+        stripe_customer_id: data.stripe_customer_id,
+        stripe_subscription_id: data.stripe_subscription_id,
+      }
+    } catch (err) {
+      console.error('[Auth] enrichUser error:', err)
+      return authUser as AuthUser
+    }
+  }, [supabase])
 
   const updateUser = useCallback(async (authUser: User | null) => {
     if (authUser) {
@@ -81,53 +80,53 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } else {
       setUser(null)
     }
-  }, [])
+  }, [enrichUser])
 
   const refresh = useCallback(async () => {
-    if (isRefreshingRef.current) return
-
-    isRefreshingRef.current = true
-
     try {
-      // Utiliser getUser() qui valide le token côté serveur
-      const { data: { user: authUser }, error } = await supabase.auth.getUser()
+      // D'abord essayer getSession pour récupérer la session depuis les cookies
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
 
-      if (error) {
-        console.warn('[Auth] Refresh getUser error:', error.message)
-        // Si le token est invalide, déconnecter
-        if (error.message.includes('invalid') || error.message.includes('expired')) {
-          setUser(null)
-          return
-        }
+      if (sessionError) {
+        console.warn('[Auth] Refresh getSession error:', sessionError.message)
+        setUser(null)
+        return
       }
 
-      await updateUser(authUser)
+      if (session?.user) {
+        await updateUser(session.user)
+      } else {
+        // Si pas de session, essayer getUser comme fallback
+        const { data: { user: authUser } } = await supabase.auth.getUser()
+        await updateUser(authUser)
+      }
     } catch (error) {
       console.error('[Auth] Refresh error:', error)
-    } finally {
-      isRefreshingRef.current = false
     }
-  }, [updateUser])
+  }, [supabase, updateUser])
 
+  // Initialisation de l'auth
   useEffect(() => {
-    if (initializedRef.current) return
-    initializedRef.current = true
-
     let mounted = true
 
     const initAuth = async () => {
       try {
-        // Utiliser getUser() qui valide le token côté serveur Supabase
-        // C'est plus fiable que getSession() qui ne fait que lire le cookie local
-        const { data: { user: authUser }, error } = await supabase.auth.getUser()
+        // Utiliser getSession() d'abord - il lit les cookies et est plus rapide
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
 
         if (!mounted) return
 
-        if (error) {
-          console.warn('[Auth] Init getUser error:', error.message)
+        if (sessionError) {
+          console.warn('[Auth] Init getSession error:', sessionError.message)
           setUser(null)
+          setLoading(false)
+          return
+        }
+
+        if (session?.user) {
+          await updateUser(session.user)
         } else {
-          await updateUser(authUser)
+          setUser(null)
         }
       } catch (error) {
         console.error('[Auth] Init error:', error)
@@ -139,16 +138,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     initAuth()
 
+    // Écouter les changements d'état d'auth
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event: AuthChangeEvent, session: Session | null) => {
         if (!mounted) return
 
-        console.log('[Auth] Auth state changed:', event)
-
-        // Ignorer les événements pendant un refresh manuel
-        if (isRefreshingRef.current && event === 'SIGNED_IN') {
-          return
-        }
+        console.log('[Auth] Auth state changed:', event, session?.user?.email)
 
         switch (event) {
           case 'SIGNED_OUT':
@@ -159,14 +154,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           case 'SIGNED_IN':
           case 'TOKEN_REFRESHED':
           case 'USER_UPDATED':
-            if (session?.user && mounted) {
+            if (session?.user) {
               await updateUser(session.user)
             }
             setLoading(false)
             break
 
           case 'INITIAL_SESSION':
-            // La session initiale est gérée par initAuth
+            // Gérer la session initiale si elle existe
+            if (session?.user) {
+              await updateUser(session.user)
+            }
+            setLoading(false)
             break
         }
       }
@@ -176,7 +175,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       mounted = false
       subscription.unsubscribe()
     }
-  }, [updateUser])
+  }, [supabase, updateUser])
 
   // Rafraîchir quand l'onglet redevient visible
   useEffect(() => {
@@ -191,8 +190,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
   }, [refresh])
 
+  const value = useMemo(() => ({
+    user,
+    loading,
+    refresh,
+    refreshKey,
+  }), [user, loading, refresh, refreshKey])
+
   return (
-    <AuthContext.Provider value={{ user, loading, refresh, refreshKey }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   )
