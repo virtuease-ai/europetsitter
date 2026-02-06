@@ -47,6 +47,7 @@ async function enrichUser(authUser: User): Promise<AuthUser> {
       .single()
 
     if (error || !data) {
+      console.warn('[Auth] Could not enrich user:', error?.message)
       return authUser as AuthUser
     }
 
@@ -60,7 +61,8 @@ async function enrichUser(authUser: User): Promise<AuthUser> {
       stripe_customer_id: data.stripe_customer_id,
       stripe_subscription_id: data.stripe_subscription_id,
     }
-  } catch {
+  } catch (err) {
+    console.error('[Auth] enrichUser error:', err)
     return authUser as AuthUser
   }
 }
@@ -72,9 +74,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const initializedRef = useRef(false)
   const isRefreshingRef = useRef(false)
 
-  const updateUser = useCallback(async (session: Session | null) => {
-    if (session?.user) {
-      const enriched = await enrichUser(session.user)
+  const updateUser = useCallback(async (authUser: User | null) => {
+    if (authUser) {
+      const enriched = await enrichUser(authUser)
       setUser(enriched)
     } else {
       setUser(null)
@@ -83,12 +85,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refresh = useCallback(async () => {
     if (isRefreshingRef.current) return
-    
+
     isRefreshingRef.current = true
-    
+
     try {
-      const { data: { session } } = await supabase.auth.getSession()
-      await updateUser(session)
+      // Utiliser getUser() qui valide le token côté serveur
+      const { data: { user: authUser }, error } = await supabase.auth.getUser()
+
+      if (error) {
+        console.warn('[Auth] Refresh getUser error:', error.message)
+        // Si le token est invalide, déconnecter
+        if (error.message.includes('invalid') || error.message.includes('expired')) {
+          setUser(null)
+          return
+        }
+      }
+
+      await updateUser(authUser)
     } catch (error) {
       console.error('[Auth] Refresh error:', error)
     } finally {
@@ -104,9 +117,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const initAuth = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession()
+        // Utiliser getUser() qui valide le token côté serveur Supabase
+        // C'est plus fiable que getSession() qui ne fait que lire le cookie local
+        const { data: { user: authUser }, error } = await supabase.auth.getUser()
+
         if (!mounted) return
-        await updateUser(session)
+
+        if (error) {
+          console.warn('[Auth] Init getUser error:', error.message)
+          setUser(null)
+        } else {
+          await updateUser(authUser)
+        }
       } catch (error) {
         console.error('[Auth] Init error:', error)
         if (mounted) setUser(null)
@@ -120,7 +142,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event: AuthChangeEvent, session: Session | null) => {
         if (!mounted) return
-        
+
+        console.log('[Auth] Auth state changed:', event)
+
+        // Ignorer les événements pendant un refresh manuel
         if (isRefreshingRef.current && event === 'SIGNED_IN') {
           return
         }
@@ -128,14 +153,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         switch (event) {
           case 'SIGNED_OUT':
             setUser(null)
+            setLoading(false)
             break
 
           case 'SIGNED_IN':
           case 'TOKEN_REFRESHED':
           case 'USER_UPDATED':
             if (session?.user && mounted) {
-              await updateUser(session)
+              await updateUser(session.user)
             }
+            setLoading(false)
+            break
+
+          case 'INITIAL_SESSION':
+            // La session initiale est gérée par initAuth
             break
         }
       }
@@ -147,6 +178,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [updateUser])
 
+  // Rafraîchir quand l'onglet redevient visible
   useEffect(() => {
     const handleVisibilityChange = async () => {
       if (document.visibilityState === 'visible') {

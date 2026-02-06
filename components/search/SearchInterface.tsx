@@ -432,7 +432,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Barre de recherche en haut - Fixe */}
-      <div className="bg-white shadow-sm border-b fixed top-[57px] left-0 right-0 z-30">
+      <div className="bg-white shadow-sm border-b fixed top-[80px] left-0 right-0 z-30">
         <div className="container mx-auto px-4 py-3">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 items-end">
             {/* Localité */}
@@ -491,6 +491,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                   <SelectItem value="garde">{t('selectGarde')}</SelectItem>
                   <SelectItem value="visite-domicile">{t('selectVisite')}</SelectItem>
                   <SelectItem value="promenade">{t('selectPromenade')}</SelectItem>
+                  <SelectItem value="excursion">{t('serviceTypes.excursion')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -564,7 +565,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
       </div>
 
       {/* Spacer pour compenser la barre fixe */}
-      <div className="h-[110px] sm:h-[90px] lg:h-[76px]" />
+      <div className="h-[140px] sm:h-[120px] lg:h-[100px]" />
 
       {/* Contenu principal */}
       <div className="container mx-auto px-4 py-6">
@@ -572,7 +573,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
           <div className="flex gap-6">
             {/* Sidebar Filtres - Desktop */}
             <aside className="hidden lg:block w-80 flex-shrink-0">
-              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-[145px]">
+              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-[165px]">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="font-bold text-lg">{t('filters')}</h3>
                   <Button
