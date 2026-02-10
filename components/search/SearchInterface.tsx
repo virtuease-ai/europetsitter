@@ -7,14 +7,13 @@ import { format } from 'date-fns';
 import { fr, enGB, nl as nlDateFns } from 'date-fns/locale';
 import { Search, MapPin, Calendar as CalendarIcon, X, SlidersHorizontal, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-import { ANIMAL_TYPES } from '@/types/sitterProfileForm';
-import type { ServiceType } from '@/types/sitterProfileForm';
+import { ANIMAL_TYPES, DOG_TYPES, SERVICE_OPTION_LABELS } from '@/types/sitterProfileForm';
+import type { ServiceType, ServiceOptionKey } from '@/types/sitterProfileForm';
 import { SitterCard } from './SitterCard';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 
@@ -48,6 +47,7 @@ export interface SitterCardData {
   animals: string[];
   animalIds: string[];
   activeServiceKeys?: ServiceType[];
+  serviceOptions?: Record<string, string[]>;
   coordinates?: { latitude: number; longitude: number } | null;
 }
 
@@ -116,7 +116,10 @@ function mapRowToSitterCard(
     address?: string | null;
     avatar?: string | null;
     animals?: string[] | null;
-    services?: { services?: Record<string, { active?: boolean; price?: string }> } | null;
+    services?: {
+      services?: Record<string, { active?: boolean; price?: string }>;
+      serviceOptions?: Record<string, string[]>;
+    } | null;
     coordinates?: unknown;
   },
   tServices: (key: string) => string,
@@ -132,6 +135,7 @@ function mapRowToSitterCard(
   const animalIds: string[] = Array.isArray(row.animals) ? row.animals : [];
   const animals: string[] = animalIds.map((id) => animalLabels.get(id) || id);
   const svc = row.services?.services ?? {};
+  const svcOptions = row.services?.serviceOptions ?? {};
   const activeServiceKeys = SERVICE_TYPES.filter((key) => svc[key]?.active) as ServiceType[];
   const services = activeServiceKeys.map((key) =>
     tServices(SERVICE_KEY_TO_OPTION[key] || key)
@@ -155,6 +159,7 @@ function mapRowToSitterCard(
     animals,
     animalIds,
     activeServiceKeys,
+    serviceOptions: svcOptions,
     coordinates: parseCoordinates(row.coordinates),
   };
 }
@@ -179,8 +184,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
   // Filtres supplémentaires
   const [selectedAnimals, setSelectedAnimals] = useState<string[]>([]);
   const [radius, setRadius] = useState([50]);
-  const [priceRange, setPriceRange] = useState([0, 150]);
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [selectedOption, setSelectedOption] = useState<string>('all');
 
   const [sitters, setSitters] = useState<SitterCardData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -189,6 +193,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
   const t = useTranslations('search');
   const tServices = useTranslations('services');
   const tCities = useTranslations('cities');
+  const tProfile = useTranslations('sitterDashboard');
   const locale = useLocale();
 
   // Date-fns locale mapping
@@ -278,6 +283,48 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
     fetchSitters();
   }, [tServices]);
 
+  // Top bar animal select handler (single-select synced with sidebar checkboxes)
+  const topBarAnimal = selectedAnimals.length === 1 ? selectedAnimals[0] : 'all';
+  const handleTopBarAnimalChange = (value: string) => {
+    if (value === 'all') {
+      setSelectedAnimals([]);
+    } else {
+      setSelectedAnimals([value]);
+    }
+  };
+
+  // Compute available options based on selected service + animal
+  const availableOptionData = useMemo(() => {
+    const activeService = service === 'all' ? null : (service === 'visite-domicile' ? 'visite' : service);
+    if (!activeService || activeService === 'excursion') return null;
+
+    const activeAnimal = topBarAnimal === 'all' ? null : topBarAnimal;
+    if (!activeAnimal) return null;
+
+    const isDog = DOG_TYPES.includes(activeAnimal as any);
+    const isCat = activeAnimal === 'chat';
+    if (!isDog && !isCat) return null;
+
+    const optionKey = `${activeService}${isDog ? 'Chien' : 'Chat'}`;
+    const options = SERVICE_OPTION_LABELS[optionKey];
+    if (!options || options.length === 0) return null;
+
+    return { key: optionKey as ServiceOptionKey, options };
+  }, [service, topBarAnimal]);
+
+  // Reset selected option when service or animal changes (or when options become unavailable)
+  useEffect(() => {
+    if (!availableOptionData) {
+      setSelectedOption('all');
+      return;
+    }
+    // If the currently selected option is not in the new available options, reset
+    const validIds = availableOptionData.options.map(o => o.id);
+    if (selectedOption !== 'all' && !validIds.includes(selectedOption)) {
+      setSelectedOption('all');
+    }
+  }, [availableOptionData, selectedOption]);
+
   const filteredSitters = useMemo(() => {
     return sitters.filter((s) => {
       // Filtre par rayon de distance (si coordonnées disponibles)
@@ -313,22 +360,18 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
         if (!hasMatchingAnimal) return false;
       }
 
-      // Filtre services supplémentaires
-      if (selectedServices.length > 0) {
-        const hasMatchingService = selectedServices.some(svc =>
-          s.activeServiceKeys?.includes(svc as ServiceType)
-        );
-        if (!hasMatchingService) return false;
-      }
-
-      // Filtre prix
-      if (s.priceFrom !== undefined && (s.priceFrom < priceRange[0] || s.priceFrom > priceRange[1])) {
-        return false;
+      // Filtre options de service
+      if (selectedOption !== 'all' && availableOptionData) {
+        const optionKey = availableOptionData.key;
+        const sitterOpts = s.serviceOptions?.[optionKey];
+        if (!sitterOpts || !sitterOpts.includes(selectedOption)) {
+          return false;
+        }
       }
 
       return true;
     });
-  }, [sitters, ville, villeCoordinates, radius, service, selectedAnimals, selectedServices, priceRange]);
+  }, [sitters, ville, villeCoordinates, radius, service, selectedAnimals, selectedOption, availableOptionData]);
 
   // Pagination
   const totalPages = Math.ceil(filteredSitters.length / RESULTS_PER_PAGE);
@@ -339,23 +382,11 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
   // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [ville, service, selectedAnimals, selectedServices, priceRange]);
+  }, [ville, service, selectedAnimals, selectedOption]);
 
   const handleSearch = () => {
     setHasSearched(true);
     setCurrentPage(1);
-  };
-
-  const toggleAnimal = (animal: string) => {
-    setSelectedAnimals(prev => 
-      prev.includes(animal) ? prev.filter(a => a !== animal) : [...prev, animal]
-    );
-  };
-
-  const toggleService = (svc: string) => {
-    setSelectedServices(prev => 
-      prev.includes(svc) ? prev.filter(s => s !== svc) : [...prev, svc]
-    );
   };
 
   const resetFilters = () => {
@@ -365,8 +396,8 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
     setVilleSuggestions([]);
     setSelectedAnimals([]);
     setRadius([50]);
-    setPriceRange([0, 150]);
-    setSelectedServices([]);
+    setSelectedOption('all');
+    setService('all');
   };
 
   // Générer les numéros de pages à afficher
@@ -428,13 +459,13 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
     { key: 'promenade', label: t('serviceTypes.promenade') },
     { key: 'excursion', label: t('serviceTypes.excursion') },
   ];
-  
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Barre de recherche en haut - Fixe */}
-      <div className="bg-white shadow-sm border-b fixed top-[80px] left-0 right-0 z-30">
+      {/* Barre de recherche en haut - Non sticky */}
+      <div className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-3">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 items-end">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 items-end">
             {/* Localité */}
             <div ref={villeWrapperRef} className="relative">
               <label className="block text-sm font-medium mb-1.5 text-gray-700">
@@ -495,7 +526,47 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Type d'animal */}
+            <div>
+              <label className="block text-sm font-medium mb-1.5 text-gray-700">{t('animalsAccepted')}</label>
+              <Select value={topBarAnimal} onValueChange={handleTopBarAnimalChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={t('allAnimals')} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{t('allAnimals')}</SelectItem>
+                  {animalTypes.map((animal) => (
+                    <SelectItem key={animal.id} value={animal.id}>
+                      {animal.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             
+            {/* Options */}
+            <div>
+              <label className="block text-sm font-medium mb-1.5 text-gray-700">{t('optionsLabel')}</label>
+              <Select
+                value={selectedOption}
+                onValueChange={setSelectedOption}
+                disabled={!availableOptionData}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={availableOptionData ? t('allOptions') : t('selectServiceAndAnimal')} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{t('allOptions')}</SelectItem>
+                  {availableOptionData?.options.map((opt) => (
+                    <SelectItem key={opt.id} value={opt.id}>
+                      {tProfile(`profilePage.servicesTab.serviceOptions.${availableOptionData.key}.${opt.id}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
             {/* Dates */}
             <div>
               <label className="block text-sm font-medium mb-1.5 text-gray-700">
@@ -564,16 +635,13 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
         </div>
       </div>
 
-      {/* Spacer pour compenser la barre fixe */}
-      <div className="h-[140px] sm:h-[120px] lg:h-[100px]" />
-
       {/* Contenu principal */}
       <div className="container mx-auto px-4 py-6">
         {hasSearched ? (
           <div className="flex gap-6">
             {/* Sidebar Filtres - Desktop */}
             <aside className="hidden lg:block w-80 flex-shrink-0">
-              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-[165px]">
+              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-[80px]">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="font-bold text-lg">{t('filters')}</h3>
                   <Button
@@ -586,7 +654,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                   </Button>
                 </div>
 
-                {/* Services */}
+                {/* Service */}
                 <div className="mb-6">
                   <h4 className="font-semibold text-sm mb-3 flex items-center gap-2">
                     <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
@@ -594,68 +662,63 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                     </div>
                     {t('servicesSection')}
                   </h4>
-                  <div className="space-y-3">
-                    {servicesList.map(svc => (
-                      <div key={svc.key} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`service-${svc.key}`}
-                          checked={selectedServices.includes(svc.key)}
-                          onCheckedChange={() => toggleService(svc.key)}
-                        />
-                        <label
-                          htmlFor={`service-${svc.key}`}
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                        >
-                          {svc.label}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
+                  <Select value={service} onValueChange={setService}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={t('allServices')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">{t('allServices')}</SelectItem>
+                      <SelectItem value="hebergement">{t('selectHebergement')}</SelectItem>
+                      <SelectItem value="garde">{t('selectGarde')}</SelectItem>
+                      <SelectItem value="visite-domicile">{t('selectVisite')}</SelectItem>
+                      <SelectItem value="promenade">{t('selectPromenade')}</SelectItem>
+                      <SelectItem value="excursion">{t('serviceTypes.excursion')}</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                {/* Prix */}
-                <div className="mb-6">
-                  <h4 className="font-semibold text-sm mb-3">{t('pricePerNight')}</h4>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-sm font-medium">
-                      <span>{priceRange[0]}€</span>
-                      <span className="text-gray-400">-</span>
-                      <span>{priceRange[1]}€+</span>
-                    </div>
-                    <Slider
-                      value={priceRange}
-                      onValueChange={setPriceRange}
-                      max={150}
-                      step={5}
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-
-                {/* Types d'animaux */}
+                {/* Type d'animal */}
                 <div className="mb-6">
                   <h4 className="font-semibold text-sm mb-3">{t('animalsAccepted')}</h4>
-                  <div className="space-y-3">
-                    {animalTypes.map(animal => (
-                      <div key={animal.id} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`animal-${animal.id}`}
-                          checked={selectedAnimals.includes(animal.id)}
-                          onCheckedChange={() => toggleAnimal(animal.id)}
-                        />
-                        <label
-                          htmlFor={`animal-${animal.id}`}
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                        >
+                  <Select value={topBarAnimal} onValueChange={handleTopBarAnimalChange}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={t('allAnimals')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">{t('allAnimals')}</SelectItem>
+                      {animalTypes.map((animal) => (
+                        <SelectItem key={animal.id} value={animal.id}>
                           {animal.label}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Options de service */}
+                <div className="mb-6">
+                  <h4 className="font-semibold text-sm mb-3">{t('optionsLabel')}</h4>
+                  <Select
+                    value={selectedOption}
+                    onValueChange={setSelectedOption}
+                    disabled={!availableOptionData}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={availableOptionData ? t('allOptions') : t('selectServiceAndAnimal')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">{t('allOptions')}</SelectItem>
+                      {availableOptionData?.options.map((opt) => (
+                        <SelectItem key={opt.id} value={opt.id}>
+                          {tProfile(`profilePage.servicesTab.serviceOptions.${availableOptionData.key}.${opt.id}`)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 {/* Rayon */}
-                <div>
+                <div className="mb-6">
                   <h4 className="font-semibold text-sm mb-3">{t('distanceRadius')}</h4>
                   <div className="space-y-3">
                     <Slider
@@ -669,6 +732,7 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                     <p className="text-sm text-gray-600">{radius[0]} km</p>
                   </div>
                 </div>
+
 
                 {/* Badge Safety Fast */}
                 <div className="mt-6 pt-6 border-t">
@@ -703,53 +767,62 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                   </div>
 
                   <div className="space-y-6">
-                    {/* Services */}
+                    {/* Service */}
                     <div>
                       <h4 className="font-semibold mb-3">{t('servicesSection')}</h4>
-                      <div className="space-y-3">
-                        {servicesList.map(svc => (
-                          <div key={svc.key} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`mobile-service-${svc.key}`}
-                              checked={selectedServices.includes(svc.key)}
-                              onCheckedChange={() => toggleService(svc.key)}
-                            />
-                            <label htmlFor={`mobile-service-${svc.key}`} className="text-sm cursor-pointer">
-                              {svc.label}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
+                      <Select value={service} onValueChange={setService}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder={t('allServices')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">{t('allServices')}</SelectItem>
+                          <SelectItem value="hebergement">{t('selectHebergement')}</SelectItem>
+                          <SelectItem value="garde">{t('selectGarde')}</SelectItem>
+                          <SelectItem value="visite-domicile">{t('selectVisite')}</SelectItem>
+                          <SelectItem value="promenade">{t('selectPromenade')}</SelectItem>
+                          <SelectItem value="excursion">{t('serviceTypes.excursion')}</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
 
-                    {/* Prix */}
-                    <div>
-                      <h4 className="font-semibold mb-3">{t('pricePerNight')}: {priceRange[0]}€ - {priceRange[1]}€</h4>
-                      <Slider
-                        value={priceRange}
-                        onValueChange={setPriceRange}
-                        max={150}
-                        step={5}
-                      />
-                    </div>
-
-                    {/* Animaux */}
+                    {/* Type d'animal */}
                     <div>
                       <h4 className="font-semibold mb-3">{t('animalsAccepted')}</h4>
-                      <div className="space-y-3">
-                        {animalTypes.map(animal => (
-                          <div key={animal.id} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`mobile-animal-${animal.id}`}
-                              checked={selectedAnimals.includes(animal.id)}
-                              onCheckedChange={() => toggleAnimal(animal.id)}
-                            />
-                            <label htmlFor={`mobile-animal-${animal.id}`} className="text-sm cursor-pointer">
+                      <Select value={topBarAnimal} onValueChange={handleTopBarAnimalChange}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder={t('allAnimals')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">{t('allAnimals')}</SelectItem>
+                          {animalTypes.map((animal) => (
+                            <SelectItem key={animal.id} value={animal.id}>
                               {animal.label}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Options de service */}
+                    <div>
+                      <h4 className="font-semibold mb-3">{t('optionsLabel')}</h4>
+                      <Select
+                        value={selectedOption}
+                        onValueChange={setSelectedOption}
+                        disabled={!availableOptionData}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder={availableOptionData ? t('allOptions') : t('selectServiceAndAnimal')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">{t('allOptions')}</SelectItem>
+                          {availableOptionData?.options.map((opt) => (
+                            <SelectItem key={opt.id} value={opt.id}>
+                              {tProfile(`profilePage.servicesTab.serviceOptions.${availableOptionData.key}.${opt.id}`)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
 
                     {/* Rayon */}
@@ -763,6 +836,8 @@ export function SearchInterface({ defaultVille, defaultService }: SearchInterfac
                         step={1}
                       />
                     </div>
+
+
                   </div>
 
                   <div className="flex gap-3 mt-6 pt-6 border-t">

@@ -77,22 +77,21 @@ function DashboardContent() {
     setLoading(true);
 
     try {
-      // Récupérer toutes les réservations
-      const { data: bookings, error: bookingsError } = await supabase
-        .from('bookings')
-        .select('*')
-        .eq('sitter_id', user.id)
-        .order('created_at', { ascending: false });
+      // Fetch bookings and reviews in parallel
+      const [bookingsRes, reviewsRes] = await Promise.all([
+        supabase
+          .from('bookings')
+          .select('*')
+          .eq('sitter_id', user.id)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('reviews')
+          .select('rating')
+          .eq('reviewee_id', user.id),
+      ]);
 
-      if (bookingsError) {
-        console.error('Erreur bookings:', bookingsError);
-      }
-
-      // Récupérer les avis
-      const { data: reviews } = await supabase
-        .from('reviews')
-        .select('rating')
-        .eq('reviewee_id', user.id);
+      const bookings = bookingsRes.data;
+      const reviews = reviewsRes.data;
 
       // Calculer les stats
       const today = new Date();

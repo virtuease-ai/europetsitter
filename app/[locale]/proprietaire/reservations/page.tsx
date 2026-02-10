@@ -60,11 +60,14 @@ function ReservationsContent() {
         .eq('owner_id', user.id)
         .order('created_at', { ascending: false });
 
-      if (error) {
-        console.error('Erreur chargement réservations:', error);
-      } else if (data) {
-        // Récupérer les noms des sitters
-        const sitterIds = [...new Set(data.map((b: any) => b.sitter_id))];
+      if (error || !data) {
+        setLoading(false);
+        return;
+      }
+
+      // Fetch sitter profiles
+      const sitterIds = [...new Set(data.map((b: any) => b.sitter_id))];
+      if (sitterIds.length > 0) {
         const { data: sitters } = await supabase
           .from('sitter_profiles')
           .select('id, name, city')
@@ -77,9 +80,11 @@ function ReservationsContent() {
         }));
 
         setBookings(enrichedBookings);
+      } else {
+        setBookings(data);
       }
     } catch (error) {
-      console.error('Erreur:', error);
+      // silently fail
     } finally {
       setLoading(false);
     }

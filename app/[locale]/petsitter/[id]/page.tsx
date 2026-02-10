@@ -82,28 +82,39 @@ export default function SitterProfilePage({
     setLoading(true);
 
     try {
-      const { data: sitterData, error: sitterError } = await supabase
-        .from('sitter_profiles')
-        .select('*')
-        .eq('id', id)
-        .single();
+      // Fetch sitter profile and reviews in parallel
+      const [sitterRes, reviewsRes, favRes] = await Promise.all([
+        supabase
+          .from('sitter_profiles')
+          .select('*')
+          .eq('id', id)
+          .single(),
+        supabase
+          .from('reviews')
+          .select('id, rating, comment, created_at, reviewer_id')
+          .eq('reviewee_id', id)
+          .order('created_at', { ascending: false })
+          .limit(10),
+        user
+          ? supabase
+              .from('favorites')
+              .select('id')
+              .eq('user_id', user.id)
+              .eq('sitter_id', id)
+              .single()
+          : Promise.resolve({ data: null }),
+      ]);
 
-      if (sitterError || !sitterData) {
-        console.error('Erreur:', sitterError);
+      if (sitterRes.error || !sitterRes.data) {
         setLoading(false);
         return;
       }
 
-      setSitter(sitterData);
+      setSitter(sitterRes.data);
+      setIsFavorite(!!favRes.data);
 
-      // Récupérer les avis
-      const { data: reviewsData } = await supabase
-        .from('reviews')
-        .select('id, rating, comment, created_at, reviewer_id')
-        .eq('reviewee_id', id)
-        .order('created_at', { ascending: false })
-        .limit(10);
-
+      // Enrich reviews with reviewer names
+      const reviewsData = reviewsRes.data;
       if (reviewsData && reviewsData.length > 0) {
         const reviewerIds = reviewsData.map((r: any) => r.reviewer_id);
         const { data: users } = await supabase
@@ -118,20 +129,8 @@ export default function SitterProfilePage({
 
         setReviews(enrichedReviews);
       }
-
-      // Vérifier si c'est un favori
-      if (user) {
-        const { data: favData } = await supabase
-          .from('favorites')
-          .select('id')
-          .eq('user_id', user.id)
-          .eq('sitter_id', id)
-          .single();
-
-        setIsFavorite(!!favData);
-      }
     } catch (error) {
-      console.error('Erreur:', error);
+      // silently fail
     } finally {
       setLoading(false);
     }

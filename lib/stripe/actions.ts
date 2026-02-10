@@ -2,33 +2,6 @@
 
 import { createClient } from '@/lib/supabase/server';
 
-export async function startFreeTrial(userId: string) {
-  const supabase = await createClient();
-
-  // Calculate trial end date (30 days from now)
-  const trialEndDate = new Date();
-  trialEndDate.setDate(trialEndDate.getDate() + 30);
-
-  // Format as YYYY-MM-DD for Supabase date type
-  const trialEndDateStr = trialEndDate.toISOString().split('T')[0];
-
-  const { error } = await supabase
-    .from('users')
-    .update({
-      subscription_status: 'trial',
-      trial_end_date: trialEndDateStr,
-      updated_at: new Date().toISOString(),
-    })
-    .eq('id', userId);
-
-  if (error) {
-    console.error('Error starting free trial:', error);
-    throw new Error('Failed to start free trial');
-  }
-
-  return { success: true, trialEndDate: trialEndDateStr };
-}
-
 export async function checkSubscriptionStatus(userId: string) {
   const supabase = await createClient();
 

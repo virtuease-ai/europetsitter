@@ -10,8 +10,10 @@ const supabaseAdmin = createClient(
 );
 
 // Helper to format date as YYYY-MM-DD for Supabase date type
-const formatDate = (timestamp: number): string => {
+const formatDate = (timestamp: number | null | undefined): string | null => {
+  if (!timestamp) return null;
   const date = new Date(timestamp * 1000);
+  if (isNaN(date.getTime())) return null;
   return date.toISOString().split('T')[0];
 };
 
@@ -47,6 +49,13 @@ export async function POST(request: NextRequest) {
       case 'checkout.session.completed': {
         const session = event.data.object as any;
         const userId = session.metadata?.supabase_user_id;
+        const customerId = session.customer as string;
+
+        console.log('[Webhook] checkout.session.completed:', {
+          userId,
+          customerId,
+          subscriptionId: session.subscription,
+        });
 
         if (userId && session.subscription) {
           // Get subscription details
@@ -54,31 +63,53 @@ export async function POST(request: NextRequest) {
             session.subscription as string
           ) as any;
 
+          console.log('[Webhook] Subscription retrieved:', {
+            id: subscription.id,
+            status: subscription.status,
+            current_period_end: subscription.current_period_end,
+            trial_end: subscription.trial_end,
+          });
+
           // Determine status based on subscription state
           let status = 'active';
           if (subscription.status === 'trialing') {
             status = 'trial';
           }
 
-          // Update user with subscription info
+          const subEndDate = formatDate(subscription.current_period_end);
+          const trialEndDate = subscription.trial_end
+            ? formatDate(subscription.trial_end)
+            : null;
+
+          // Update user with all subscription info (including stripe_customer_id as safety net)
+          const updateData: Record<string, any> = {
+            stripe_customer_id: customerId,
+            stripe_subscription_id: subscription.id,
+            subscription_status: status,
+            updated_at: new Date().toISOString(),
+          };
+
+          // Only set dates if they're valid
+          if (subEndDate) updateData.subscription_end_date = subEndDate;
+          if (trialEndDate) updateData.trial_end_date = trialEndDate;
+
+          console.log('[Webhook] Updating user:', userId, updateData);
+
           const { error } = await supabaseAdmin
             .from('users')
-            .update({
-              stripe_subscription_id: subscription.id,
-              subscription_status: status,
-              subscription_end_date: formatDate(subscription.current_period_end),
-              trial_end_date: subscription.trial_end
-                ? formatDate(subscription.trial_end)
-                : null,
-              updated_at: new Date().toISOString(),
-            })
+            .update(updateData)
             .eq('id', userId);
 
           if (error) {
-            console.error('Error updating user after checkout:', error);
+            console.error('[Webhook] Error updating user after checkout:', error);
           } else {
-            console.log(`Subscription activated for user ${userId}, status: ${status}`);
+            console.log(`[Webhook] Subscription activated for user ${userId}, status: ${status}`);
           }
+        } else {
+          console.warn('[Webhook] checkout.session.completed missing data:', {
+            userId,
+            subscription: session.subscription,
+          });
         }
         break;
       }
@@ -99,37 +130,58 @@ export async function POST(request: NextRequest) {
             .single();
 
           if (userData) {
+            const subEndDate = formatDate(subscription.current_period_end);
+            const updateData: Record<string, any> = {
+              subscription_status: 'active',
+              stripe_subscription_id: subscriptionId,
+              updated_at: new Date().toISOString(),
+            };
+            if (subEndDate) updateData.subscription_end_date = subEndDate;
+
             const { error } = await supabaseAdmin
               .from('users')
-              .update({
-                subscription_status: 'active',
-                subscription_end_date: formatDate(subscription.current_period_end),
-                updated_at: new Date().toISOString(),
-              })
+              .update(updateData)
               .eq('id', userData.id);
 
             if (error) {
-              console.error('Error updating user after invoice paid:', error);
+              console.error('[Webhook] Error updating user after invoice paid:', error);
             } else {
-              console.log(`Invoice paid for user ${userData.id}`);
+              console.log(`[Webhook] Invoice paid for user ${userData.id}`);
             }
           }
         }
         break;
       }
 
+      case 'customer.subscription.created':
       case 'customer.subscription.updated': {
         const subscription = event.data.object as any;
         const customerId = subscription.customer as string;
 
-        // Find user by stripe_customer_id
-        const { data: userData } = await supabaseAdmin
-          .from('users')
-          .select('id')
-          .eq('stripe_customer_id', customerId)
-          .single();
+        console.log(`[Webhook] ${event.type}:`, {
+          subscriptionId: subscription.id,
+          customerId,
+          status: subscription.status,
+          current_period_end: subscription.current_period_end,
+          trial_end: subscription.trial_end,
+        });
 
-        if (userData) {
+        // Find user by stripe_customer_id OR by metadata
+        let userId: string | null = null;
+        const metaUserId = subscription.metadata?.supabase_user_id;
+
+        if (metaUserId) {
+          userId = metaUserId;
+        } else if (customerId) {
+          const { data: userData } = await supabaseAdmin
+            .from('users')
+            .select('id')
+            .eq('stripe_customer_id', customerId)
+            .single();
+          userId = userData?.id || null;
+        }
+
+        if (userId) {
           let status: string = 'active';
 
           if (subscription.status === 'canceled' || subscription.status === 'unpaid') {
@@ -140,23 +192,37 @@ export async function POST(request: NextRequest) {
             status = 'trial';
           }
 
+          const subEndDate = formatDate(subscription.current_period_end);
+          const trialEndDate = subscription.trial_end
+            ? formatDate(subscription.trial_end)
+            : null;
+
+          const updateData: Record<string, any> = {
+            stripe_subscription_id: subscription.id,
+            subscription_status: status,
+            updated_at: new Date().toISOString(),
+          };
+
+          if (subEndDate) updateData.subscription_end_date = subEndDate;
+          if (trialEndDate) updateData.trial_end_date = trialEndDate;
+
+          // Also save stripe_customer_id if not already set
+          if (customerId) updateData.stripe_customer_id = customerId;
+
+          console.log(`[Webhook] Updating user ${userId}:`, updateData);
+
           const { error } = await supabaseAdmin
             .from('users')
-            .update({
-              subscription_status: status,
-              subscription_end_date: formatDate(subscription.current_period_end),
-              trial_end_date: subscription.trial_end
-                ? formatDate(subscription.trial_end)
-                : null,
-              updated_at: new Date().toISOString(),
-            })
-            .eq('id', userData.id);
+            .update(updateData)
+            .eq('id', userId);
 
           if (error) {
-            console.error('Error updating subscription:', error);
+            console.error(`[Webhook] Error updating subscription for ${userId}:`, error);
           } else {
-            console.log(`Subscription updated for user ${userData.id}: ${status}`);
+            console.log(`[Webhook] Subscription ${event.type} for user ${userId}: ${status}`);
           }
+        } else {
+          console.warn(`[Webhook] ${event.type}: Could not find user for customer ${customerId}`);
         }
         break;
       }

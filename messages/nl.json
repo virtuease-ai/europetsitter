@@ -14,13 +14,9 @@
   },
   "paywall": {
     "title": "Welkom bij EuroPetSitter!",
-    "subtitle": "Begin uw petsitter-avontuur met 30 dagen gratis proefperiode",
-    "trialTitle": "30 dagen gratis proefperiode",
-    "trialDescription": "Test alle functies zonder verplichtingen. Geen creditcard vereist.",
-    "trialButton": "Start mijn gratis proefperiode",
-    "trialNote": "Geen creditcard vereist",
-    "orChoosePlan": "of kies een abonnement",
-    "allPlansIncludeTrial": "Alle abonnementen bevatten 30 dagen gratis proefperiode",
+    "subtitle": "Kies uw abonnement: 30 dagen gratis, daarna betaling volgens uw plan.",
+    "trialIncluded": "30 dagen gratis · Eerste afschrijving over 30 dagen",
+    "firstChargeIn30Days": "Bij inschrijving krijgt u 30 dagen gratis. Uw kaart wordt pas na deze periode afgeschreven.",
     "popular": "Populair",
     "choosePlan": "Kiezen",
     "loading": "Laden...",
@@ -39,7 +35,8 @@
     "errors": {
       "trialFailed": "Kan gratis proefperiode niet starten. Probeer het opnieuw.",
       "checkoutFailed": "Kan betalingssessie niet aanmaken. Probeer het opnieuw."
-    }
+    },
+    "allPlansIncludeTrial": "Alle abonnementen bevatten een gratis proefperiode van 30 dagen. Geen kosten tot het einde van de proefperiode."
   },
   "services": {
     "hebergement": "Opvang",
@@ -145,7 +142,11 @@
     "apply": "Toepassen",
     "servicesSection": "Diensten",
     "pricePerNight": "Prijs per nacht",
+    "allAnimals": "Alle dieren",
     "animalsAccepted": "Geaccepteerde dieren",
+    "optionsLabel": "Opties",
+    "allOptions": "Alle opties",
+    "selectServiceAndAnimal": "Kies dienst + dier",
     "distanceRadius": "Afstandsstraal",
     "safetyBadge": "Safety Fast",
     "safetyBadgeText": "Geverifieerde profielen met verzekering",

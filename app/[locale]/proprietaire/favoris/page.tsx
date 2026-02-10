@@ -7,6 +7,7 @@ import { useRouter, Link } from '@/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { OwnerLayout } from '@/components/layout/OwnerLayout';
 import { AuthGuard } from '@/components/auth/AuthGuard';
+import Image from 'next/image';
 import { Heart, MapPin, Star, Trash2, ExternalLink } from 'lucide-react';
 
 interface FavoriteSitter {
@@ -158,11 +159,15 @@ function FavoritesContent() {
                 <div className="relative">
                   <div className="h-32 bg-gradient-to-br from-primary-light to-primary flex items-center justify-center">
                     {favorite.sitter?.avatar ? (
-                      <img
-                        src={favorite.sitter.avatar}
-                        alt={favorite.sitter.name}
-                        className="w-24 h-24 rounded-full object-cover border-4 border-white"
-                      />
+                      <div className="relative w-24 h-24">
+                        <Image
+                          src={favorite.sitter.avatar}
+                          alt={favorite.sitter.name}
+                          fill
+                          className="rounded-full object-cover border-4 border-white"
+                          sizes="96px"
+                        />
+                      </div>
                     ) : (
                       <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center text-4xl">
                         👤

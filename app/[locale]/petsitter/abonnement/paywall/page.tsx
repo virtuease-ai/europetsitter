@@ -1,11 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthGuard } from '@/components/auth/AuthGuard';
-import { startFreeTrial } from '@/lib/stripe/actions';
 import { STRIPE_CONFIG, PlanKey } from '@/lib/stripe/config';
 import { Check, Sparkles, Crown, Zap } from 'lucide-react';
 import Image from 'next/image';
@@ -13,27 +11,9 @@ import Image from 'next/image';
 function PaywallContent() {
   const t = useTranslations('paywall');
   const locale = useLocale();
-  const router = useRouter();
-  const { user, refresh } = useAuth();
+  const { user } = useAuth();
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  const handleStartTrial = async () => {
-    if (!user) return;
-
-    setLoading('trial');
-    setError(null);
-
-    try {
-      await startFreeTrial(user.id);
-      await refresh();
-      router.push(`/${locale}/petsitter/tableau-de-bord`);
-    } catch (err: any) {
-      console.error('Error starting trial:', err);
-      setError(t('errors.trialFailed'));
-      setLoading(null);
-    }
-  };
 
   const handleSelectPlan = async (planKey: PlanKey) => {
     if (!user) return;
@@ -103,33 +83,7 @@ function PaywallContent() {
           </p>
         </div>
 
-        {/* Trial Section */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border-2 border-primary">
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/20 rounded-full mb-4">
-              <Sparkles className="w-8 h-8 text-primary-hover" />
-            </div>
-            <h2 className="text-2xl font-bold mb-2">{t('trialTitle')}</h2>
-            <p className="text-gray-600 mb-6">{t('trialDescription')}</p>
-            <button
-              onClick={handleStartTrial}
-              disabled={loading !== null}
-              className="w-full md:w-auto px-8 py-4 bg-primary hover:bg-primary-hover text-dark font-bold text-lg rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading === 'trial' ? t('loading') : t('trialButton')}
-            </button>
-            <p className="text-sm text-gray-500 mt-3">{t('trialNote')}</p>
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div className="flex items-center gap-4 mb-8">
-          <div className="flex-1 h-px bg-gray-300"></div>
-          <span className="text-gray-500 font-medium">{t('orChoosePlan')}</span>
-          <div className="flex-1 h-px bg-gray-300"></div>
-        </div>
-
-        {/* Plans */}
+        {/* Plans : 30 jours offerts inclus, 1er prélèvement dans 30 jours */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           {plans.map(({ key, icon, popular }) => {
             const plan = STRIPE_CONFIG.prices[key];
@@ -161,6 +115,9 @@ function PaywallContent() {
                     <span className="text-3xl font-bold">{plan.amount / 100}€</span>
                     <span className="text-gray-500">/{t(`periods.${key}`)}</span>
                   </div>
+                  <p className="text-sm text-primary font-semibold mt-2">
+                    {t('trialIncluded')}
+                  </p>
                   {key === 'annual' && (
                     <p className="text-sm text-green-600 font-medium mt-1">
                       {t('savings')}
@@ -194,8 +151,8 @@ function PaywallContent() {
         </div>
 
         {/* Note */}
-        <p className="text-center text-gray-500 text-sm">
-          {t('allPlansIncludeTrial')}
+        <p className="text-center text-gray-600 text-sm max-w-xl mx-auto">
+          {t('firstChargeIn30Days')}
         </p>
 
         {/* Error */}

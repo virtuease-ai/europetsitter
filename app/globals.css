@@ -57,48 +57,6 @@
   display: none;
 }
 
-/* Styles responsive pour le calendrier */
-@media screen and (max-width: 768px) {
-  .rbc-calendar {
-    min-height: 400px !important;
-  }
-  
-  .rbc-toolbar {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .rbc-toolbar-label {
-    order: -1;
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-  }
-  
-  .rbc-toolbar button {
-    padding: 6px 12px;
-    font-size: 0.875rem;
-  }
-  
-  .rbc-header {
-    padding: 8px 2px;
-    font-size: 0.75rem;
-  }
-  
-  .rbc-event {
-    font-size: 0.7rem;
-    padding: 1px 3px;
-  }
-  
-  .rbc-date-cell {
-    padding: 2px;
-    font-size: 0.8rem;
-  }
-  
-  .rbc-month-view {
-    font-size: 0.85rem;
-  }
-}
-
 /* Amélioration du touch sur mobile */
 @media (hover: none) and (pointer: coarse) {
   button,

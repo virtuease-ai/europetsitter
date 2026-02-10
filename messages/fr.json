@@ -14,13 +14,9 @@
   },
   "paywall": {
     "title": "Bienvenue sur EuroPetSitter !",
-    "subtitle": "Commencez votre aventure de petsitter avec 30 jours d'essai gratuit",
-    "trialTitle": "Essai gratuit de 30 jours",
-    "trialDescription": "Testez toutes les fonctionnalités sans engagement. Aucune carte bancaire requise.",
-    "trialButton": "Démarrer mon essai gratuit",
-    "trialNote": "Aucune carte bancaire requise",
-    "orChoosePlan": "ou choisissez un abonnement",
-    "allPlansIncludeTrial": "Tous les abonnements incluent 30 jours d'essai gratuit",
+    "subtitle": "Choisissez votre abonnement : 30 jours offerts, puis prélèvement selon le plan.",
+    "trialIncluded": "30 jours offerts · 1er prélèvement dans 30 jours",
+    "firstChargeIn30Days": "En souscrivant, vous bénéficiez de 30 jours offerts. Votre carte ne sera débitée qu'à l'issue de cette période.",
     "popular": "Populaire",
     "choosePlan": "Choisir",
     "loading": "Chargement...",
@@ -39,7 +35,8 @@
     "errors": {
       "trialFailed": "Impossible de démarrer l'essai gratuit. Veuillez réessayer.",
       "checkoutFailed": "Impossible de créer la session de paiement. Veuillez réessayer."
-    }
+    },
+    "allPlansIncludeTrial": "Tous les abonnements incluent 30 jours d'essai gratuit. Aucun prélèvement avant la fin de la période d'essai."
   },
   "services": {
     "hebergement": "Hébergement",
@@ -145,7 +142,11 @@
     "apply": "Appliquer",
     "servicesSection": "Services",
     "pricePerNight": "Prix par nuit",
+    "allAnimals": "Tous les animaux",
     "animalsAccepted": "Animaux pris en charge",
+    "optionsLabel": "Options",
+    "allOptions": "Toutes les options",
+    "selectServiceAndAnimal": "Choisir service + animal",
     "distanceRadius": "Rayon de distance",
     "safetyBadge": "Safety Fast",
     "safetyBadgeText": "Profils vérifiés avec assurance",

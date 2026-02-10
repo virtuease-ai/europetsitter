@@ -1,7 +1,5 @@
-'use client';
-
 import { Link } from '@/navigation';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Search, Calendar, MessageCircle, CheckCircle, Shield, Heart, Zap, Users } from 'lucide-react';
 
 function SectionBgAccents() {
@@ -15,8 +13,8 @@ function SectionBgAccents() {
   );
 }
 
-export default function CommentCaMarchePage() {
-  const t = useTranslations('howItWorks');
+export default async function CommentCaMarchePage() {
+  const t = await getTranslations('howItWorks');
 
   const advantages = [
     { title: t('advantages.community.title'), text: t('advantages.community.text'), icon: Users },

@@ -14,13 +14,9 @@
   },
   "paywall": {
     "title": "Welcome to EuroPetSitter!",
-    "subtitle": "Start your petsitter journey with a 30-day free trial",
-    "trialTitle": "30-day free trial",
-    "trialDescription": "Test all features with no commitment. No credit card required.",
-    "trialButton": "Start my free trial",
-    "trialNote": "No credit card required",
-    "orChoosePlan": "or choose a subscription",
-    "allPlansIncludeTrial": "All subscriptions include a 30-day free trial",
+    "subtitle": "Choose your subscription: 30 days free, then billing according to your plan.",
+    "trialIncluded": "30 days free · First charge in 30 days",
+    "firstChargeIn30Days": "When you subscribe, you get 30 days free. Your card will only be charged after this period.",
     "popular": "Popular",
     "choosePlan": "Choose",
     "loading": "Loading...",
@@ -39,7 +35,8 @@
     "errors": {
       "trialFailed": "Unable to start free trial. Please try again.",
       "checkoutFailed": "Unable to create payment session. Please try again."
-    }
+    },
+    "allPlansIncludeTrial": "All plans include a 30-day free trial. No charge until the trial period ends."
   },
   "services": {
     "hebergement": "Boarding",
@@ -145,7 +142,11 @@
     "apply": "Apply",
     "servicesSection": "Services",
     "pricePerNight": "Price per night",
+    "allAnimals": "All animals",
     "animalsAccepted": "Animals accepted",
+    "optionsLabel": "Options",
+    "allOptions": "All options",
+    "selectServiceAndAnimal": "Select service + animal",
     "distanceRadius": "Distance radius",
     "safetyBadge": "Safety Fast",
     "safetyBadgeText": "Verified profiles with insurance",

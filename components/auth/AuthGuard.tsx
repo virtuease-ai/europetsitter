@@ -18,25 +18,16 @@ export function AuthGuard({
   const router = useRouter()
   const locale = useLocale()
 
-  console.log('[AuthGuard] 🛡️ Render: loading=', loading, 'user=', user?.email || 'null', 'role=', user?.role || 'none', 'requiredRole=', requiredRole)
-
   useEffect(() => {
-    if (loading) {
-      console.log('[AuthGuard] ⏳ loading=true, en attente...')
-      return
-    }
+    if (loading) return
 
     if (!user) {
-      console.log('[AuthGuard] 🚪 Pas de user → redirect vers', `/${locale}/connexion`)
       router.replace(`/${locale}/connexion`)
       return
     }
 
     if (requiredRole && user.role !== requiredRole) {
-      console.log('[AuthGuard] ⛔ Mauvais rôle:', user.role, '!==', requiredRole, '→ redirect vers', `/${locale}`)
       router.replace(`/${locale}`)
-    } else {
-      console.log('[AuthGuard] ✅ Accès autorisé pour', user.email, 'role=', user.role)
     }
   }, [loading, user, requiredRole, router, locale])
 

@@ -7,6 +7,7 @@ import {
   useState,
   useCallback,
   useMemo,
+  useRef,
   ReactNode,
 } from 'react'
 import type { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
@@ -42,6 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [refreshKey, setRefreshKey] = useState(0)
 
   const supabase = useMemo(() => createClient(), [])
+  const lastVisibilityRefresh = useRef(0)
 
   // Enrichir le user avec les données DB (subscription, etc.)
   const enrichUser = useCallback(async (authUser: User): Promise<AuthUser> => {
@@ -53,7 +55,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .single()
 
       if (error || !data) {
-        console.warn('[Auth] enrichUser échoué:', error?.message)
         return authUser as AuthUser
       }
 
@@ -67,8 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         stripe_customer_id: data.stripe_customer_id,
         stripe_subscription_id: data.stripe_subscription_id,
       }
-    } catch (err) {
-      console.error('[Auth] enrichUser exception:', err)
+    } catch {
       return authUser as AuthUser
     }
   }, [supabase])
@@ -93,7 +93,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event: AuthChangeEvent, session: Session | null) => {
         if (!mounted) return
-        console.log('[Auth] Event:', event, session?.user?.email || 'no user')
 
         if (
           event === 'INITIAL_SESSION' ||
@@ -103,7 +102,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ) {
           if (session?.user) {
             // 1. User immédiat depuis le JWT (role + name dans user_metadata)
-            //    Aucun appel réseau, aucun verrou → instantané
             const meta = session.user.user_metadata || {}
             const quickUser: AuthUser = {
               ...session.user,
@@ -112,32 +110,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
             setUser(quickUser)
             setLoading(false)
-            console.log('[Auth] User défini depuis JWT: role=', meta.role, 'name=', meta.name)
 
             // 2. Enrichir en arrière-plan APRÈS que le verrou interne soit libéré
-            //    (setTimeout pousse vers la macrotask queue, après que _initialize() libère le lock)
             setTimeout(async () => {
               if (!mounted) return
               try {
                 const enriched = await enrichUser(session.user)
                 if (mounted) {
                   setUser(enriched)
-                  console.log('[Auth] User enrichi depuis DB: role=', enriched.role)
                 }
               } catch {
-                // Le user du JWT suffit, pas grave si l'enrichissement échoue
+                // Le user du JWT suffit
               }
             }, 0)
           } else if (event === 'INITIAL_SESSION') {
-            // Pas de session → pas connecté
             setUser(null)
             setLoading(false)
-            console.log('[Auth] Pas de session trouvée')
           }
         } else if (event === 'SIGNED_OUT') {
           setUser(null)
           setLoading(false)
-          console.log('[Auth] Déconnexion')
         }
       }
     )
@@ -148,10 +140,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [supabase, enrichUser])
 
-  // Rafraîchir quand l'onglet redevient visible
+  // Rafraîchir quand l'onglet redevient visible (debounced: max 1 refresh per 30s)
   useEffect(() => {
     const handleVisibilityChange = async () => {
       if (document.visibilityState === 'visible') {
+        const now = Date.now()
+        if (now - lastVisibilityRefresh.current < 30000) return
+        lastVisibilityRefresh.current = now
         setRefreshKey(k => k + 1)
         await refresh()
       }

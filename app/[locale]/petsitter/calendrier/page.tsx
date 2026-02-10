@@ -68,17 +68,22 @@ function CalendarContent() {
     setLoadingData(true);
     
     try {
-      // Récupérer les réservations (requête simplifiée)
-      const { data: bookingsData, error: bookingsError } = await supabase
-        .from('bookings')
-        .select('id, start_date, end_date, status, animal_name, animal_type')
-        .eq('sitter_id', user.id)
-        .in('status', ['pending', 'accepted']);
+      // Fetch bookings and availability in parallel
+      const [bookingsRes, availabilityRes] = await Promise.all([
+        supabase
+          .from('bookings')
+          .select('id, start_date, end_date, status, animal_name, animal_type')
+          .eq('sitter_id', user.id)
+          .in('status', ['pending', 'accepted']),
+        supabase
+          .from('availability')
+          .select('id, date')
+          .eq('sitter_id', user.id)
+          .eq('is_available', false),
+      ]);
 
-      if (bookingsError) {
-        console.error('Erreur bookings:', bookingsError);
-      } else if (bookingsData) {
-        const formatted = bookingsData.map((booking: any) => ({
+      if (bookingsRes.data) {
+        const formatted = bookingsRes.data.map((booking: any) => ({
           id: booking.id,
           start_date: booking.start_date,
           end_date: booking.end_date,
@@ -89,18 +94,8 @@ function CalendarContent() {
         setReservations(formatted);
       }
 
-      // Récupérer les dates indisponibles depuis la table availability
-      const { data: availabilityData, error: availabilityError } = await supabase
-        .from('availability')
-        .select('id, date')
-        .eq('sitter_id', user.id)
-        .eq('is_available', false);
-
-      if (availabilityError) {
-        console.error('Erreur availability:', availabilityError);
-      } else if (availabilityData) {
-        // Transformer en format BlockedDate
-        const blocked = availabilityData.map((item: any) => ({
+      if (availabilityRes.data) {
+        const blocked = availabilityRes.data.map((item: any) => ({
           id: item.id,
           blocked_date: item.date,
           reason: 'Indisponible',
@@ -108,7 +103,7 @@ function CalendarContent() {
         setBlockedDates(blocked);
       }
     } catch (error) {
-      console.error('Erreur chargement calendrier:', error);
+      // silently fail
     } finally {
       setLoadingData(false);
     }

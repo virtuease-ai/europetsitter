@@ -1,7 +1,5 @@
-'use client';
-
 import { Link } from '@/navigation';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 function SectionBgAccents() {
   return (
@@ -14,8 +12,8 @@ function SectionBgAccents() {
   );
 }
 
-export default function AProposPage() {
-  const t = useTranslations('about');
+export default async function AProposPage() {
+  const t = await getTranslations('about');
 
   const services = [
     t('services.boarding'),

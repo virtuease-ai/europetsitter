@@ -75,31 +75,32 @@ function ReservationsContent() {
         .eq('sitter_id', user.id)
         .order('created_at', { ascending: false });
 
-      if (error) {
-        console.error('Erreur chargement réservations:', error);
-      } else if (data) {
-        // Récupérer les noms des propriétaires
-        const ownerIds = [...new Set(data.map((b: any) => b.owner_id))];
-        
-        if (ownerIds.length > 0) {
-          const { data: owners } = await supabase
-            .from('users')
-            .select('id, name, email')
-            .in('id', ownerIds);
+      if (error || !data) {
+        setLoading(false);
+        return;
+      }
 
-          const enrichedBookings = data.map((booking: any) => ({
-            ...booking,
-            owner_name: owners?.find((o: any) => o.id === booking.owner_id)?.name || 'Propriétaire',
-            owner_email: owners?.find((o: any) => o.id === booking.owner_id)?.email || '',
-          }));
+      // Fetch owner names in parallel with setting bookings
+      const ownerIds = [...new Set(data.map((b: any) => b.owner_id))];
+      
+      if (ownerIds.length > 0) {
+        const { data: owners } = await supabase
+          .from('users')
+          .select('id, name, email')
+          .in('id', ownerIds);
 
-          setBookings(enrichedBookings);
-        } else {
-          setBookings(data);
-        }
+        const enrichedBookings = data.map((booking: any) => ({
+          ...booking,
+          owner_name: owners?.find((o: any) => o.id === booking.owner_id)?.name || 'Propriétaire',
+          owner_email: owners?.find((o: any) => o.id === booking.owner_id)?.email || '',
+        }));
+
+        setBookings(enrichedBookings);
+      } else {
+        setBookings(data);
       }
     } catch (error) {
-      console.error('Erreur:', error);
+      // silently fail
     } finally {
       setLoading(false);
     }

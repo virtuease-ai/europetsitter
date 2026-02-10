@@ -17,29 +17,20 @@ function checkSubscriptionValidity(user: {
   const { subscription_status, trial_end_date, subscription_end_date } = user;
   const now = new Date();
 
-  // No subscription status means never set up
-  if (!subscription_status) {
-    return false;
-  }
+  if (!subscription_status) return false;
 
-  // Active subscription
   if (subscription_status === 'active') {
-    // If there's an end date, check it hasn't passed
     if (subscription_end_date) {
       return new Date(subscription_end_date) > now;
     }
     return true;
   }
 
-  // Trial period
   if (subscription_status === 'trial') {
-    if (!trial_end_date) {
-      return false;
-    }
+    if (!trial_end_date) return false;
     return new Date(trial_end_date) > now;
   }
 
-  // Expired or cancelled
   return false;
 }
 
@@ -47,56 +38,46 @@ export function SubscriptionGuard({ children }: SubscriptionGuardProps) {
   const { user, loading } = useAuth();
   const router = useRouter();
   const locale = useLocale();
-  const [isChecking, setIsChecking] = useState(true);
+  const [allowed, setAllowed] = useState(false);
 
   useEffect(() => {
     if (loading) return;
 
     // If no user, let AuthGuard handle it
     if (!user) {
-      setIsChecking(false);
+      setAllowed(true); // AuthGuard will redirect
       return;
     }
 
     // Only check for sitters
     if (user.role !== 'sitter') {
-      setIsChecking(false);
+      setAllowed(true);
       return;
     }
 
-    // Check subscription validity
+    // Need enriched data (subscription_status comes from DB enrichment)
+    // If not yet enriched, wait for it
+    if (!user.subscription_status && !user.trial_end_date) {
+      // User might not be enriched yet - allow briefly to avoid flash
+      // The enrichment from AuthContext will trigger a re-render
+      return;
+    }
+
     const isValid = checkSubscriptionValidity(user);
 
     if (!isValid) {
       router.replace(`/${locale}/petsitter/abonnement/paywall`);
     } else {
-      setIsChecking(false);
+      setAllowed(true);
     }
   }, [loading, user, router, locale]);
 
-  // Show loading while checking
-  if (loading || isChecking) {
+  if (loading || !allowed) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary" />
       </div>
     );
-  }
-
-  // If no user, return null (AuthGuard will handle redirect)
-  if (!user) {
-    return null;
-  }
-
-  // For non-sitters, just render children
-  if (user.role !== 'sitter') {
-    return <>{children}</>;
-  }
-
-  // Check again before rendering (in case effect hasn't redirected yet)
-  const isValid = checkSubscriptionValidity(user);
-  if (!isValid) {
-    return null;
   }
 
   return <>{children}</>;

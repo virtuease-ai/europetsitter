@@ -1,8 +1,6 @@
-'use client';
-
 import { Euro, Calendar, Users, TrendingUp, CheckCircle } from 'lucide-react';
 import { Link } from '@/navigation';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 function SectionBgAccents() {
   return (
@@ -15,8 +13,8 @@ function SectionBgAccents() {
   );
 }
 
-export default function BecomeSitterPage() {
-  const t = useTranslations('becomeSitter');
+export default async function BecomeSitterPage() {
+  const t = await getTranslations('becomeSitter');
 
   const advantages = [
     {
